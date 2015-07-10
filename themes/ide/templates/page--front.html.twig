@@ -49,11 +49,22 @@
   	<footer id="footer" class="container">
       <div class="row">
         {% if page.footer_first or page.footer_second or page.footer_third or page.footer_fourth %}
-          <div class="site-footer__top clearfix">
-            {{ page.footer_first }}
-            {{ page.footer_second }}
-            {{ page.footer_third }}
-            {{ page.footer_fourth }}
+          <div class="3u 12u(mobile)">
+            <section>
+              <h2>{{ "Nice menu"|t }}</h2>
+              {{ page.footer_first }}
+            </section>
+          </div>
+          <div class="3u 12u(mobile)">
+            <section>
+              {{ page.footer_second }}
+            </section>
+          </div>
+          <div class="6u 12u(mobile)">
+            <section>
+              {{ page.footer_third }}
+              {{ page.footer_fourth }}
+            </section>
           </div>
         {% endif %}
         {% if page.footer_fifth %}
