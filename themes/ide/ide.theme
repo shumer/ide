@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Functions to support theming in the IDE theme.
@@ -15,6 +14,25 @@ function ide_preprocess_block(&$variables) {
 
   // Run specific preprocess function.
   $preprocess = 'ide_preprocess_block__' . $base_plugin_id;
+  if (function_exists($preprocess)) {
+    $preprocess($variables);
+  }
+}
+
+/**
+ * Preprocess node dispatcher.
+ */
+function ide_preprocess_node(&$variables) {
+  $node = &$variables['node'];
+
+  // Just in case.
+  $view_mode = !empty($variables['view_mode'])
+    ? $variables['view_mode']
+    : 'full';
+  $node->view_mode = $view_mode;
+
+  // Run specific preprocess function.
+  $preprocess = 'ide_preprocess_node__' . $node->bundle() . '__' . $view_mode;
   if (function_exists($preprocess)) {
     $preprocess($variables);
   }
