@@ -1,0 +1,6 @@
+base:
+  version: VERSION
+  css:
+    theme:
+      assets/css/main.css: {}
+      assets/css/font-awesome.min.css: {}
