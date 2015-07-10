@@ -1,0 +1,6 @@
+name: IDE site core module
+description: Core module for Ide site
+package: IDE
+type: module
+version: 1.0
+core: 8.x
