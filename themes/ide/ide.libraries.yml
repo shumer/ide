@@ -1,6 +1,19 @@
 base:
-  version: VERSION
+  version: 1.01
   css:
     theme:
       assets/css/main.css: {}
       assets/css/font-awesome.min.css: {}
+  js:
+    assets/js/util.js: {}
+    assets/js/skel.min.js: {}
+    assets/js/skel-viewport.min.js: {}
+    assets/js/jquery.dropotron.min.js: {}
+    assets/js/main.js: {}
+    assets/js/ide-custom.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal.ajax
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery.once
