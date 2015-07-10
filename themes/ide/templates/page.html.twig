@@ -1,0 +1,68 @@
+{#
+/**
+ * @file
+ * IDE's theme implementation to display a single page.
+ */
+#}
+<div id="page-wrapper">
+  <div id="header-wrapper">
+    <div class="container">
+      <header id="header">
+		    <div class="inner">
+          {{ page.header }}
+          <nav id="nav">
+            {{ page.primary_menu }}
+          </nav>
+        </div>
+      </header>
+    </div>
+  </div>
+
+  <div id="main-wrapper">
+    <div class="wrapper style1">
+		  <div class="inner">
+        <section class="container box feature1">
+        {{ page.breadcrumb }}
+        {{ title_prefix }}
+        {% if title %}
+          <h1 class="title" id="page-title">
+            {{ title }}
+          </h1>
+        {% endif %}
+        {{ title_suffix }}
+        {% if tabs %}
+          <nav class="tabs" role="navigation" aria-label="{{ 'Tabs'|t }}">
+            {{ tabs }}
+          </nav>
+        {% endif %}
+        {{ page.help }}
+        {% if action_links %}
+          <ul class="action-links">{{ action_links }}</ul>
+        {% endif %}
+        {{ page.content }}
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <div id="footer-wrapper">
+  	<footer id="footer" class="container">
+      <div class="row">
+        {% if page.footer_first or page.footer_second or page.footer_third or page.footer_fourth %}
+          <div class="site-footer__top clearfix">
+            {{ page.footer_first }}
+            {{ page.footer_second }}
+            {{ page.footer_third }}
+            {{ page.footer_fourth }}
+          </div>
+        {% endif %}
+        {% if page.footer_fifth %}
+          <div class="site-footer__bottom">
+            {{ page.footer_fifth }}
+          </div>
+        {% endif %}
+      </div>
+    </footer>
+  </div>
+
+</div>
