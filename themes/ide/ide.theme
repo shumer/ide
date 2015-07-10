@@ -6,3 +6,16 @@
  */
 
 use Drupal\Core\Template\Attribute;
+
+/**
+ * Preprocess block dispatcher.
+ */
+function ide_preprocess_block(&$variables) {
+  $base_plugin_id = $variables['base_plugin_id'];
+
+  // Run specific preprocess function.
+  $preprocess = 'ide_preprocess_block__' . $base_plugin_id;
+  if (function_exists($preprocess)) {
+    $preprocess($variables);
+  }
+}
