@@ -1,0 +1,5 @@
+{
+  "name": "drupal/ide",
+  "description": "Ide core module.",
+  "type": "drupal-module"
+}

@@ -1,0 +1,7 @@
+ide_common.content:
+  path: '/testt'
+  defaults:
+    _controller: '\Drupal\ide_common\Controller\IdeMainController::content'
+    _title: 'TTEESSTT'
+  requirements:
+    _permission: 'access content'
