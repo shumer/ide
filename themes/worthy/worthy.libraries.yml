@@ -1,0 +1,13 @@
+base:
+  version: 1.01
+  css:
+    theme:
+      bootstrap/css/bootstrap.css: {}
+  js:
+    js/worthy-custom.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal.ajax
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery.once
