@@ -11,3 +11,19 @@ function worthy_preprocess_html(&$variables) {
   $js_settings = array('path_to_theme' => $variables['directory']);
   $variables['#attached']['drupalSettings']['path']['path_to_theme'] = $variables['directory'];
 }
+
+/**
+ * Override template_preprocess.
+ */
+function worthy_preprocess_page(&$variables) {
+
+  // Get contact form.
+  $default_form = \Drupal::config('contact.settings')->get('default_form');
+  $entity = \Drupal::entityManager()->getStorage('contact_form')->load($default_form);
+  $message = \Drupal::entityManager()
+    ->getStorage('contact_message')
+    ->create(array(
+      'contact_form' => $entity->id(),
+    ));
+  $variables['contact_form'] = \Drupal::service('entity.form_builder')->getForm($message);
+}
