@@ -14,6 +14,14 @@ worthy:
       fonts/font-awesome/css/font-awesome.css: {}
       css/animations.css: {}
       css/style.css: {}
+  js:
+    plugins/modernizr.js: {}
+    plugins/isotope/isotope.pkgd.min.js: {}
+    plugins/jquery.backstretch.min.js: {}
+    plugins/jquery.appear.js: {}
+    js/template.js: {}
+  dependencies:
+    - core/jquery
 
 base:
   css:
