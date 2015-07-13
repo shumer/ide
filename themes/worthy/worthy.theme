@@ -1,0 +1,13 @@
+<?php
+/**
+ * @File
+ * Worthy theme hooks.
+ */
+
+/**
+ * Override template_preprocess_html.
+ */
+function worthy_preprocess_html(&$variables) {
+  $js_settings = array('path_to_theme' => $variables['directory']);
+  $variables['#attached']['drupalSettings']['path']['path_to_theme'] = $variables['directory'];
+}

@@ -7,7 +7,8 @@ core: '8.x'
 libraries:
   - worthy/bootstrap
   - worthy/worthy
-  - worthy/base
+  - worthy/custom
+
 regions:
   header: Header
   primary_menu: 'Primary menu'
