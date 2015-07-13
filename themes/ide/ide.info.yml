@@ -15,6 +15,7 @@ regions:
   page_bottom: 'Page bottom'
   highlighted: Highlighted
   featured_top: 'Featured top'
+  featured_top_front: 'Featured top front'
   breadcrumb: Breadcrumb
   content: Content
   sidebar_first: 'Sidebar first'

@@ -39,6 +39,8 @@ ide_custom.attach = function ($context, settings) {
 
   // Attach active links.
   ide_custom.attach_activeLinks($context, settings);
+
+  ide_custom.attach_tabs($context, settings);
 }
 
 /**
@@ -79,6 +81,12 @@ ide_custom.attach_activeLinks = function($context, settings) {
       parentNode.classList.add('current_page_item');
     }
   }
+}
+
+ide_custom.attach_tabs = function($context, settings) {
+  $(document).ready(function(){
+    $('tabs').tabs();
+  });
 }
 
 })(jQuery, Drupal, drupalSettings);

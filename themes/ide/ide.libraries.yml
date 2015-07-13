@@ -4,12 +4,15 @@ base:
     theme:
       assets/css/main.css: {}
       assets/css/font-awesome.min.css: {}
+      assets/css/form5-tabs.css: {}
   js:
+    assets/js/jquery.min.js: {}
     assets/js/util.js: {}
     assets/js/skel.min.js: {}
     assets/js/skel-viewport.min.js: {}
     assets/js/jquery.dropotron.min.js: {}
     assets/js/main.js: {}
+    assets/js/form5-tabs.min.js: {}
     assets/js/ide-custom.js: {}
   dependencies:
     - core/jquery
