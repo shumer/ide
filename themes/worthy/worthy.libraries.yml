@@ -3,7 +3,6 @@ bootstrap:
   css:
     theme:
       bootstrap/css/bootstrap.css: {}
-      bootstrap/css/bootstrap-theme.css: {}
   dependencies:
     - core/jquery
 
