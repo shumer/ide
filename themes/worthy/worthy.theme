@@ -37,3 +37,35 @@ function worthy_preprocess_input(&$variables) {
     $variables['attributes']['class'][] = 'btn-default';
   }
 }
+
+/**
+ * Implements hook_theme_suggestions_HOOK().
+ */
+function worthy_theme_suggestions_form_alter(array &$suggestions, array $variables) {
+  $form_id = $variables['element']['#form_id'];
+  $suggestions[] = 'worthy_form';
+  $suggestions[] = 'worthy_form__' . $form_id;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function worthy_theme($existing, $type, $theme, $path) {
+
+  $theme_path = drupal_get_path('theme', 'worthy');
+
+  // Meta theme for all site forms.
+  $hooks['worthy_form'] = array(
+    'render element' => 'element',
+    'path' => $theme_path . '/templates/form',
+    'template' => 'worthy-form',
+    'preprocess functions' => array(
+      'template_preprocess',
+      'template_preprocess_form'
+    ),
+  );
+
+  $hooks += drupal_find_theme_templates($hooks, '.html.twig', $path);
+
+  return $hooks;
+}
