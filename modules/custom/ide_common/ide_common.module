@@ -1,6 +1,6 @@
 <?php
 
-function ide_common_theme($existing, $type, $theme, $path) {dpm($existing);
+function ide_common_theme($existing, $type, $theme, $path) {
     return array(
       '1col__layout' => array(
         'template' => '1col__layout',
