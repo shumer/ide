@@ -5,6 +5,10 @@
  */
 
 use Drupal\Core\Template\Attribute;
+use Drupal\ide_themer\Preprocessor\NodePreprocessor;
+use Drupal\ide_themer\Preprocessor\ParagraphPreprocessor;
+use Drupal\ide_themer\Dispatcher\Dispatcher;
+
 
 /**
  * Preprocess block dispatcher.
@@ -36,4 +40,16 @@ function ide_preprocess_node(&$variables) {
   if (function_exists($preprocess)) {
     $preprocess($variables);
   }
+}
+
+/**
+ * Preprocess node dispatcher.
+ */
+function ide_preprocess_paragraph(&$variables) {
+
+  $preprocessor = new ParagraphPreprocessor($variables);
+  $dispatcher = new Dispatcher($preprocessor);
+
+  $dispatcher->dispatch();
+
 }

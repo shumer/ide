@@ -1,0 +1,6 @@
+name: IDE theme service
+description: Ide theme service handler
+package: IDE
+type: module
+version: 1.0
+core: 8.x

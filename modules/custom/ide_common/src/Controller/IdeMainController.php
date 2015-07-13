@@ -10,9 +10,19 @@ use Drupal\Core\Controller\ControllerBase;
 
 class IdeMainController extends ControllerBase {
   public function content() {
+
+    $layout = '1col__layout';
+
     return array(
-      '#type' => 'markup',
-      '#markup' => t('Hello, World!'),
+      '#type' => 'page',
+      'content' => [
+        'custom' => [
+          '#type' => 'markup',
+          '#markup' => t('Hello, World!')
+        ],
+      ],
+      '#theme' => 'page__front',
+      '#layout' => $layout,
     );
   }
 }
