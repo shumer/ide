@@ -1,0 +1,18 @@
+<?php
+
+function ide_common_theme($existing, $type, $theme, $path) {dpm($existing);
+    return array(
+      '1col__layout' => array(
+        'template' => '1col__layout',
+        'variables' => ['content' => [], 'layout' => NULL],
+      )
+    );
+}
+
+function ide_common_theme_suggestions_page_alter(array &$suggestions, array $variables) {
+  $page = $variables['page'];
+
+  if (!empty($page['#layout'])) {
+    $suggestions[] = $page['#layout'];
+  }
+}
