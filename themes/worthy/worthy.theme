@@ -8,7 +8,6 @@
  * Override template_preprocess_html.
  */
 function worthy_preprocess_html(&$variables) {
-  $js_settings = array('path_to_theme' => $variables['directory']);
   $variables['#attached']['drupalSettings']['path']['path_to_theme'] = $variables['directory'];
 }
 
@@ -26,4 +25,15 @@ function worthy_preprocess_page(&$variables) {
       'contact_form' => $entity->id(),
     ));
   $variables['contact_form'] = \Drupal::service('entity.form_builder')->getForm($message);
+}
+
+/**
+ * Override template_preprocess_input.
+ */
+function worthy_preprocess_input(&$variables) {
+  $element = &$variables['element'];
+  if ($element['#type'] == 'submit') {
+    $variables['attributes']['class'][] = 'btn';
+    $variables['attributes']['class'][] = 'btn-default';
+  }
 }
