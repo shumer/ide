@@ -5,6 +5,8 @@ package: IDE
 core: '8.x'
 
 libraries:
+  - worthy/bootstrap
+  - worthy/worthy
   - worthy/base
 regions:
   header: Header
