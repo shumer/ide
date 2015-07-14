@@ -7,22 +7,77 @@
 
 namespace Drupal\config_pages;
 
-use Drupal\user\EntityOwnerInterface;
-use Drupal\Core\Entity\EntityChangedInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
-use Drupal\user\UserInterface;
+use Drupal\Core\Entity\EntityChangedInterface;
 
 /**
- * Provides an interface defining a config_pages entity.
+ * Provides an interface defining a custom block entity.
  */
-interface ConfigPagesInterface extends ContentEntityInterface {
+interface ConfigPagesInterface extends ContentEntityInterface, EntityChangedInterface {
 
   /**
-   * Gets the config_pages title.
+   * Returns the block revision log message.
    *
    * @return string
-   *   Title of the config_pages.
+   *   The revision log message.
    */
-  public function getTitle();
+  public function getRevisionLog();
+
+  /**
+   * Sets the block description.
+   *
+   * @param string $info
+   *   The block description.
+   *
+   * @return \Drupal\config_pages\ConfigPagesInterface
+   *   The class instance that this method is called on.
+   */
+  public function setInfo($info);
+
+  /**
+   * Sets the block revision log message.
+   *
+   * @param string $revision_log
+   *   The revision log message.
+   *
+   * @return \Drupal\config_pages\ConfigPagesInterface
+   *   The class instance that this method is called on.
+   */
+  public function setRevisionLog($revision_log);
+
+  /**
+   * Sets the theme value.
+   *
+   * When creating a new block content block from the block library, the user is
+   * redirected to the configure form for that block in the given theme. The
+   * theme is stored against the block when the block content add form is shown.
+   *
+   * @param string $theme
+   *   The theme name.
+   *
+   * @return \Drupal\config_pages\ConfigPagesInterface
+   *   The class instance that this method is called on.
+   */
+  public function setTheme($theme);
+
+  /**
+   * Gets the theme value.
+   *
+   * When creating a new block content block from the block library, the user is
+   * redirected to the configure form for that block in the given theme. The
+   * theme is stored against the block when the block content add form is shown.
+   *
+   * @return string
+   *   The theme name.
+   */
+  public function getTheme();
+
+  /**
+   * Gets the configured instances of this custom block.
+   *
+   * @return array
+   *   Array of Drupal\block\Core\Plugin\Entity\Block entities.
+   */
+  public function getInstances();
 
 }

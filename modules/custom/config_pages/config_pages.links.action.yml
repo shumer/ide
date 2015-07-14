@@ -1,6 +1,14 @@
-config_pages.type_add:
+config_pages_type_add:
   route_name: config_pages.type_add
-  title: 'Add config page'
+  title: 'Add custom block type'
   appears_on:
     - entity.config_pages_type.collection
 
+config_pages_add_action:
+  route_name: config_pages.add_page
+  title: 'Add custom block'
+  appears_on:
+    - block.admin_display
+    - block.admin_display_theme
+    - entity.config_pages.collection
+  class: \Drupal\config_pages\Plugin\Menu\LocalAction\ConfigPageContentAddLocalAction

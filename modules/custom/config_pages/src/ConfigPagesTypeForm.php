@@ -8,44 +8,16 @@
 namespace Drupal\config_pages;
 
 use Drupal\Core\Entity\EntityForm;
-use Drupal\Core\Entity\EntityManagerInterface;
-use Drupal\Component\Utility\SafeMarkup;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Url;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\language\Entity\ContentLanguageSettings;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Form controller for config_pages type forms.
+ * Base form for category edit forms.
  */
 class ConfigPagesTypeForm extends EntityForm {
-
-  /**
-   * The entity manager.
-   *
-   * @var \Drupal\Core\Entity\EntityManagerInterface
-   */
-  protected $entityManager;
-
-  /**
-   * Constructs the ConfigPagesTypeForm object.
-   *
-   * @param \Drupal\Core\Entity\EntityManagerInterface $entity_manager
-   *   The entity manager
-   */
-  public function __construct(EntityManagerInterface $entity_manager) {
-    $this->entityManager = $entity_manager;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('entity.manager')
-    );
-  }
 
   /**
    * {@inheritdoc}
@@ -53,29 +25,65 @@ class ConfigPagesTypeForm extends EntityForm {
   public function form(array $form, FormStateInterface $form_state) {
     $form = parent::form($form, $form_state);
 
-    $type = $this->entity;
+    /* @var \Drupal\config_pages\ConfigPagesTypeInterface $block_type */
+    $block_type = $this->entity;
 
-    $form['name'] = array(
-      '#title' => t('Name'),
+    $form['label'] = array(
       '#type' => 'textfield',
-      '#default_value' => $type->label(),
-      '#description' => t('The human-readable name of this config page. This text will be displayed as part of the list on the <em>Add content</em> page. This name must be unique.'),
+      '#title' => t('Label'),
+      '#maxlength' => 255,
+      '#default_value' => $block_type->label(),
+      '#description' => t("Provide a label for this block type to help identify it in the administration pages."),
       '#required' => TRUE,
-      '#size' => 30,
+    );
+    $form['id'] = array(
+      '#type' => 'machine_name',
+      '#default_value' => $block_type->id(),
+      '#machine_name' => array(
+        'exists' => '\Drupal\config_pages\Entity\ConfigPagesType::load',
+      ),
+      '#maxlength' => EntityTypeInterface::BUNDLE_MAX_LENGTH,
+      '#disabled' => !$block_type->isNew(),
     );
 
-    $form['type'] = array(
-      '#type' => 'machine_name',
-      '#default_value' => $type->id(),
-      '#maxlength' => EntityTypeInterface::BUNDLE_MAX_LENGTH,
-      '#disabled' => $type->isLocked(),
-      '#machine_name' => array(
-        'exists' => ['Drupal\config_pages\Entity\ConfigPagesType', 'load'],
-        'source' => array('name'),
-      ),
-      '#description' => t('A unique machine-readable name for this config page. It must only contain lowercase letters, numbers, and underscores. This name will be used for constructing the URL of the %config_pages-add page, in which underscores will be converted into hyphens.', array(
-        '%config_pages-add' => t('Add content'),
-      )),
+    $form['description'] = array(
+      '#type' => 'textarea',
+      '#default_value' => $block_type->getDescription(),
+      '#description' => t('Enter a description for this block type.'),
+      '#title' => t('Description'),
+    );
+
+    $form['revision'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Create new revision'),
+      '#default_value' => $block_type->shouldCreateNewRevision(),
+      '#description' => t('Create a new revision by default for this block type.')
+    );
+
+    if ($this->moduleHandler->moduleExists('language')) {
+      $form['language'] = array(
+        '#type' => 'details',
+        '#title' => t('Language settings'),
+        '#group' => 'additional_settings',
+      );
+
+      $language_configuration = ContentLanguageSettings::loadByEntityTypeBundle('config_pages', $block_type->id());
+      $form['language']['language_configuration'] = array(
+        '#type' => 'language_configuration',
+        '#entity_information' => array(
+          'entity_type' => 'config_pages',
+          'bundle' => $block_type->id(),
+        ),
+        '#default_value' => $language_configuration,
+      );
+
+      $form['#submit'][] = 'language_configuration_element_submit';
+    }
+
+    $form['actions'] = array('#type' => 'actions');
+    $form['actions']['submit'] = array(
+      '#type' => 'submit',
+      '#value' => t('Save'),
     );
 
     return $form;
@@ -84,35 +92,22 @@ class ConfigPagesTypeForm extends EntityForm {
   /**
    * {@inheritdoc}
    */
-  protected function actions(array $form, FormStateInterface $form_state) {
-    $actions = parent::actions($form, $form_state);
-    $actions['submit']['#value'] = t('Save config page');
-    $actions['delete']['#value'] = t('Delete config page');
-    return $actions;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function validate(array $form, FormStateInterface $form_state) {
-    parent::validate($form, $form_state);
-
-    $id = trim($form_state->getValue('type'));
-    // '0' is invalid, since elsewhere we check it using empty().
-    if ($id == '0') {
-      $form_state->setErrorByName('type', $this->t("Invalid machine-readable name. Enter a name other than %invalid.", array('%invalid' => $id)));
-    }
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function save(array $form, FormStateInterface $form_state) {
-    $type = $this->entity;
-    $type->set('type', trim($type->id()));
-    $type->set('name', trim($type->label()));
+    $block_type = $this->entity;
+    $status = $block_type->save();
 
-    $status = $type->save();
+    $edit_link = $this->entity->link($this->t('Edit'));
+    $logger = $this->logger('config_pages');
+    if ($status == SAVED_UPDATED) {
+      drupal_set_message(t('Custom block type %label has been updated.', array('%label' => $block_type->label())));
+      $logger->notice('Custom block type %label has been updated.', array('%label' => $block_type->label(), 'link' => $edit_link));
+    }
+    else {
+      drupal_set_message(t('Custom block type %label has been added.', array('%label' => $block_type->label())));
+      $logger->notice('Custom block type %label has been added.', array('%label' => $block_type->label(), 'link' => $edit_link));
+    }
+
+    $form_state->setRedirectUrl($this->entity->urlInfo('collection'));
   }
 
 }

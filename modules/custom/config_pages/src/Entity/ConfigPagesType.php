@@ -7,164 +7,75 @@
 
 namespace Drupal\config_pages\Entity;
 
+use Drupal\Core\Config\Entity\ConfigEntityBase;
 use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\config_pages\ConfigPagesTypeInterface;
 
 /**
- * Defines the config_pages type configuration entity.
+ * Defines the custom block type entity.
  *
  * @ConfigEntityType(
  *   id = "config_pages_type",
- *   label = @Translation("Config page type"),
+ *   label = @Translation("Custom block type"),
  *   handlers = {
  *     "form" = {
+ *       "default" = "Drupal\config_pages\ConfigPagesTypeForm",
  *       "add" = "Drupal\config_pages\ConfigPagesTypeForm",
  *       "edit" = "Drupal\config_pages\ConfigPagesTypeForm",
+ *       "delete" = "Drupal\config_pages\Form\ConfigPagesTypeDeleteForm"
  *     },
- *     "list_builder" = "Drupal\config_pages\ConfigPagesTypeListBuilder",
+ *     "list_builder" = "Drupal\config_pages\ConfigPagesTypeListBuilder"
  *   },
- *   admin_permission = "administer content types",
- *   config_prefix = "config_pages_type",
+ *   admin_permission = "administer blocks",
+ *   config_prefix = "type",
  *   bundle_of = "config_pages",
  *   entity_keys = {
- *     "id" = "type",
- *     "label" = "name"
+ *     "id" = "id",
+ *     "label" = "label"
  *   },
  *   links = {
- *     "collection" = "/admin/structure/config_pages_types",
+ *     "delete-form" = "/admin/structure/config_pages/config-pages-content/manage/{config_pages_type}/delete",
+ *     "edit-form" = "/admin/structure/config_pages/config-pages-content/manage/{config_pages_type}",
+ *     "collection" = "/admin/structure/config_pages/config-pages-content/types",
  *   },
  *   config_export = {
- *     "name",
- *     "type",
+ *     "id",
+ *     "label",
+ *     "revision",
+ *     "description",
  *   }
  * )
  */
 class ConfigPagesType extends ConfigEntityBundleBase implements ConfigPagesTypeInterface {
 
   /**
-   * The machine name of this config_pages type.
+   * The custom block type ID.
    *
    * @var string
-   *
-   * @todo Rename to $id.
    */
-  protected $type;
+  protected $id;
 
   /**
-   * The human-readable name of the config_pages type.
+   * The custom block type label.
    *
    * @var string
-   *
-   * @todo Rename to $label.
    */
-  protected $name;
+  protected $label;
 
   /**
-   * A brief description of this config_pages type.
+   * The default revision setting for custom blocks of this type.
+   *
+   * @var bool
+   */
+  protected $revision;
+
+  /**
+   * The description of the block type.
    *
    * @var string
    */
   protected $description;
-
-  /**
-   * Help information shown to the user when creating a config_pages of this type.
-   *
-   * @var string
-   */
-  protected $help;
-
-  /**
-   * Default value of the 'Create new revision' checkbox of this config_pages type.
-   *
-   * @var bool
-   */
-  protected $new_revision = FALSE;
-
-  /**
-   * The preview mode.
-   *
-   * @var int
-   */
-  protected $preview_mode = DRUPAL_OPTIONAL;
-
-  /**
-   * Display setting for author and date Submitted by post information.
-   *
-   * @var bool
-   */
-  protected $display_submitted = TRUE;
-
-  /**
-   * {@inheritdoc}
-   */
-  public function id() {
-    return $this->type;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function label() {
-    return $this->name;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function isLocked() {
-    $locked = \Drupal::state()->get('config_pages.type.locked');
-    return isset($locked[$this->id()]) ? $locked[$this->id()] : FALSE;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function isNewRevision() {
-    return $this->new_revision;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setNewRevision($new_revision) {
-    $this->new_revision = $new_revision;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function displaySubmitted() {
-    return $this->display_submitted;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setDisplaySubmitted($display_submitted) {
-    $this->display_submitted = $display_submitted;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getPreviewMode() {
-    return $this->preview_mode;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setPreviewMode($preview_mode) {
-    $this->preview_mode = $preview_mode;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getHelp() {
-    return $this->help;
-  }
 
   /**
    * {@inheritdoc}
@@ -176,24 +87,8 @@ class ConfigPagesType extends ConfigEntityBundleBase implements ConfigPagesTypeI
   /**
    * {@inheritdoc}
    */
-  public function postSave(EntityStorageInterface $storage, $update = TRUE) {
-    parent::postSave($storage, $update);
-
-    if ($update) {
-      // Clear the cached field definitions as some settings affect the field
-      // definitions.
-      $this->entityManager()->clearCachedFieldDefinitions();
-    }
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function postDelete(EntityStorageInterface $storage, array $entities) {
-    parent::postDelete($storage, $entities);
-
-    // Clear the config_pages type cache to reflect the removal.
-    $storage->resetCache(array_keys($entities));
+  public function shouldCreateNewRevision() {
+    return $this->revision;
   }
 
 }

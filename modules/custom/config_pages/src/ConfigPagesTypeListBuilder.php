@@ -7,36 +7,16 @@
 
 namespace Drupal\config_pages;
 
-use Drupal\Core\Config\Entity\ConfigEntityListBuilder;
-use Drupal\Core\Url;
-use Drupal\Core\Entity\EntityInterface;
 use Drupal\Component\Utility\Xss;
+use Drupal\Core\Config\Entity\ConfigEntityListBuilder;
+use Drupal\Core\Entity\EntityInterface;
 
 /**
- * Defines a class to build a listing of config_pages type entities.
+ * Defines a class to build a listing of custom block type entities.
  *
  * @see \Drupal\config_pages\Entity\ConfigPagesType
  */
 class ConfigPagesTypeListBuilder extends ConfigEntityListBuilder {
-
-  /**
-   * {@inheritdoc}
-   */
-  public function buildHeader() {
-    $header['title'] = t('Name');
-    return $header + parent::buildHeader();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function buildRow(EntityInterface $entity) {
-    $row['title'] = array(
-      'data' => $this->getLabel($entity),
-      'class' => array('menu-label'),
-    );
-    return $row + parent::buildRow($entity);
-  }
 
   /**
    * {@inheritdoc}
@@ -54,12 +34,26 @@ class ConfigPagesTypeListBuilder extends ConfigEntityListBuilder {
   /**
    * {@inheritdoc}
    */
-  public function render() {
-    $build = parent::render();
-    $build['table']['#empty'] = $this->t('No config pages available. <a href="@link">Add config page</a>.', [
-        '@link' => Url::fromRoute('config_pages.type_add')->toString()
-      ]);
-    return $build;
+  public function buildHeader() {
+    $header['type'] = t('Block type');
+    $header['description'] = t('Description');
+    return $header + parent::buildHeader();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildRow(EntityInterface $entity) {
+    $row['type'] = $entity->link();
+    $row['description'] = Xss::filterAdmin($entity->getDescription());
+    return $row + parent::buildRow($entity);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getTitle() {
+    return $this->t('Custom block types');
   }
 
 }

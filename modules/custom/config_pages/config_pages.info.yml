@@ -1,6 +1,10 @@
-name:  Config Pages
-description: Provides entity for site configuration
-package: Entity
+name: 'Config pages'
 type: module
-version: 1.0
+description: 'Allows the creation of custom configuration entities.'
+package: Entity
+version: 0.01
 core: 8.x
+dependencies:
+  - text
+configure: entity.config_pages.collection
+
