@@ -77,47 +77,5 @@ function config_pages_schema() {
     ),
   );
 
-  $schema['config_pages_type'] = array(
-    'description' => 'Stores information about defined config_pages types.',
-    'fields' => array(
-      'id' => array(
-        'type' => 'serial',
-        'not null' => TRUE,
-        'description' => 'Primary Key: Unique config_pages type identifier.',
-      ),
-      'type' => array(
-        'description' => 'The machine-readable name of this config_pages type.',
-        'type' => 'varchar',
-        'length' => EntityTypeInterface::BUNDLE_MAX_LENGTH,
-        'not null' => TRUE,
-      ),
-      'label' => array(
-        'description' => 'The human-readable name of this config_pages type.',
-        'type' => 'varchar',
-        'length' => 255,
-        'not null' => TRUE,
-        'default' => '',
-      ),
-      'weight' => array(
-        'type' => 'int',
-        'not null' => TRUE,
-        'default' => 0,
-        'size' => 'tiny',
-        'description' => 'The weight of this config_pages type in relation to others.',
-      ),
-      'data' => array(
-        'type' => 'text',
-        'not null' => FALSE,
-        'size' => 'big',
-        'serialize' => TRUE,
-        'description' => 'A serialized array of additional data related to this config_pages type.',
-      ),
-    ),
-    'primary key' => array('id'),
-    'unique keys' => array(
-      'type' => array('type'),
-    ),
-  );
-
   return $schema;
 }
