@@ -24,10 +24,6 @@ class ConfigPagesTypeListBuilder extends ConfigEntityListBuilder {
    */
   public function buildHeader() {
     $header['title'] = t('Name');
-    $header['description'] = array(
-      'data' => t('Description'),
-      'class' => array(RESPONSIVE_PRIORITY_MEDIUM),
-    );
     return $header + parent::buildHeader();
   }
 
@@ -39,7 +35,6 @@ class ConfigPagesTypeListBuilder extends ConfigEntityListBuilder {
       'data' => $this->getLabel($entity),
       'class' => array('menu-label'),
     );
-    $row['description'] = Xss::filterAdmin($entity->getDescription());
     return $row + parent::buildRow($entity);
   }
 

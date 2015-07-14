@@ -12,3 +12,6 @@ config_pages.config_pages_type.*:
     type:
       type: string
       label: 'Machine-readable name'
+    description:
+      type: text
+      label: 'Description'
