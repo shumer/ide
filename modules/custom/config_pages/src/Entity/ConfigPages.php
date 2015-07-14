@@ -18,7 +18,7 @@ use Drupal\config_pages\ConfigPagesInterface;
 use Drupal\user\UserInterface;
 
 /**
- * Defines the node entity class.
+ * Defines the config_pages entity class.
  *
  * @ContentEntityType(
  *   id = "config_pages",

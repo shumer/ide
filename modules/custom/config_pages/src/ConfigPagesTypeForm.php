@@ -73,8 +73,8 @@ class ConfigPagesTypeForm extends EntityForm {
         'exists' => ['Drupal\config_pages\Entity\ConfigPagesType', 'load'],
         'source' => array('name'),
       ),
-      '#description' => t('A unique machine-readable name for this config page. It must only contain lowercase letters, numbers, and underscores. This name will be used for constructing the URL of the %node-add page, in which underscores will be converted into hyphens.', array(
-        '%node-add' => t('Add content'),
+      '#description' => t('A unique machine-readable name for this config page. It must only contain lowercase letters, numbers, and underscores. This name will be used for constructing the URL of the %config_pages-add page, in which underscores will be converted into hyphens.', array(
+        '%config_pages-add' => t('Add content'),
       )),
     );
 
@@ -113,28 +113,6 @@ class ConfigPagesTypeForm extends EntityForm {
     $type->set('name', trim($type->label()));
 
     $status = $type->save();
-
-    $t_args = array('%name' => $type->label());
-
-    if ($status == SAVED_UPDATED) {
-      drupal_set_message(t('The config page %name has been updated.', $t_args));
-    }
-    elseif ($status == SAVED_NEW) {
-      drupal_set_message(t('The config page %name has been added.', $t_args));
-      $context = array_merge($t_args, array('link' => $type->link($this->t('View'), 'collection')));
-      $this->logger('node')->notice('Added config page%name.', $context);
-    }
-
-    $fields = $this->entityManager->getFieldDefinitions('node', $type->id());
-    // Update title field definition.
-    $title_field = $fields['title'];
-    $title_label = $form_state->getValue('title_label');
-    if ($title_field->getLabel() != $title_label) {
-      $title_field->getConfig($type->id())->setLabel($title_label)->save();
-    }
-
-    $this->entityManager->clearCachedFieldDefinitions();
-    $form_state->setRedirectUrl($type->urlInfo('collection'));
   }
 
 }

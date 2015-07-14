@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\node\Entity\ConfigPagesType.
+ * Contains \Drupal\config_pages\Entity\ConfigPagesType.
  */
 
 namespace Drupal\config_pages\Entity;
@@ -12,7 +12,7 @@ use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\config_pages\ConfigPagesTypeInterface;
 
 /**
- * Defines the Node type configuration entity.
+ * Defines the config_pages type configuration entity.
  *
  * @ConfigEntityType(
  *   id = "config_pages_type",
@@ -43,7 +43,7 @@ use Drupal\config_pages\ConfigPagesTypeInterface;
 class ConfigPagesType extends ConfigEntityBundleBase implements ConfigPagesTypeInterface {
 
   /**
-   * The machine name of this node type.
+   * The machine name of this config_pages type.
    *
    * @var string
    *
@@ -52,7 +52,7 @@ class ConfigPagesType extends ConfigEntityBundleBase implements ConfigPagesTypeI
   protected $type;
 
   /**
-   * The human-readable name of the node type.
+   * The human-readable name of the config_pages type.
    *
    * @var string
    *
@@ -61,21 +61,21 @@ class ConfigPagesType extends ConfigEntityBundleBase implements ConfigPagesTypeI
   protected $name;
 
   /**
-   * A brief description of this node type.
+   * A brief description of this config_pages type.
    *
    * @var string
    */
   protected $description;
 
   /**
-   * Help information shown to the user when creating a Node of this type.
+   * Help information shown to the user when creating a config_pages of this type.
    *
    * @var string
    */
   protected $help;
 
   /**
-   * Default value of the 'Create new revision' checkbox of this node type.
+   * Default value of the 'Create new revision' checkbox of this config_pages type.
    *
    * @var bool
    */
@@ -113,7 +113,7 @@ class ConfigPagesType extends ConfigEntityBundleBase implements ConfigPagesTypeI
    * {@inheritdoc}
    */
   public function isLocked() {
-    $locked = \Drupal::state()->get('node.type.locked');
+    $locked = \Drupal::state()->get('config_pages.type.locked');
     return isset($locked[$this->id()]) ? $locked[$this->id()] : FALSE;
   }
 
@@ -192,7 +192,7 @@ class ConfigPagesType extends ConfigEntityBundleBase implements ConfigPagesTypeI
   public static function postDelete(EntityStorageInterface $storage, array $entities) {
     parent::postDelete($storage, $entities);
 
-    // Clear the node type cache to reflect the removal.
+    // Clear the config_pages type cache to reflect the removal.
     $storage->resetCache(array_keys($entities));
   }
 

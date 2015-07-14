@@ -10,12 +10,12 @@ namespace Drupal\config_pages;
 use Drupal\Core\Config\Entity\ConfigEntityInterface;
 
 /**
- * Provides an interface defining a node type entity.
+ * Provides an interface defining a config_pages type entity.
  */
 interface ConfigPagesTypeInterface extends ConfigEntityInterface {
 
   /**
-   * Determines whether the node type is locked.
+   * Determines whether the config_pages type is locked.
    *
    * @return string|false
    *   The module name that locks the type or FALSE.
@@ -74,7 +74,7 @@ interface ConfigPagesTypeInterface extends ConfigEntityInterface {
    * Gets the help information.
    *
    * @return string
-   *   The help information of this node type.
+   *   The help information of this config_pages type.
    */
   public function getHelp();
 
@@ -82,7 +82,7 @@ interface ConfigPagesTypeInterface extends ConfigEntityInterface {
    * Gets the description.
    *
    * @return string
-   *   The description of this node type.
+   *   The description of this config_pages type.
    */
   public function getDescription();
 }
