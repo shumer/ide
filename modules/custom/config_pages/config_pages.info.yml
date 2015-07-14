@@ -1,0 +1,6 @@
+name:  Config Pages
+description: Provides entity for site configuration
+package: Entity
+type: module
+version: 1.0
+core: 8.x

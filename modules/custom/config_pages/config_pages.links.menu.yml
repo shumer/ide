@@ -1,0 +1,6 @@
+entity.config_pages_type.collection:
+  title: 'Config pages types'
+  parent: system.admin_structure
+  description: 'Manage config pages types.'
+  route_name: entity.config_pages_type.collection
+

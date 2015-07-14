@@ -1,0 +1,11 @@
+
+config_pages.config_pages_type.*:
+  type: config_entity
+  label: 'Config page'
+  mapping:
+    label:
+      type: string
+      label: 'Name'
+    type:
+      type: string
+      label: 'Machine-readable name'
