@@ -34,7 +34,7 @@ class ConfigPagesTypeListBuilder extends ConfigEntityListBuilder {
   /**
    * {@inheritdoc}
    */
-  public function buildRow(EntityInterface $entity) {kpr($entity);
+  public function buildRow(EntityInterface $entity) {
     $row['title'] = array(
       'data' => $this->getLabel($entity),
       'class' => array('menu-label'),

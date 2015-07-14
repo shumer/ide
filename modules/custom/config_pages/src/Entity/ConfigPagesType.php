@@ -26,7 +26,7 @@ use Drupal\config_pages\ConfigPagesTypeInterface;
  *   },
  *   admin_permission = "administer content types",
  *   config_prefix = "config_pages_type",
- *   bundle_of = "node",
+ *   bundle_of = "config_pages",
  *   entity_keys = {
  *     "id" = "type",
  *     "label" = "name"

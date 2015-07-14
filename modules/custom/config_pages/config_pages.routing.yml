@@ -14,3 +14,11 @@ config_pages.type_add:
     _title: 'Add config page'
   requirements:
     _permission: 'administer content types'
+
+entity.config_pages.canonical:
+  path: '/admin/structure/config_pages/{config_pages}'
+  defaults:
+    _entity_view: 'config_pages'
+    _title: 'Config page'
+  requirements:
+    _entity_access: 'config_pages.view'

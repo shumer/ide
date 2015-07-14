@@ -110,6 +110,7 @@ class ConfigPagesTypeForm extends EntityForm {
   public function save(array $form, FormStateInterface $form_state) {
     $type = $this->entity;
     $type->set('type', trim($type->id()));
+    $type->set('name', trim($type->id()));
 
     $status = $type->save();
 
