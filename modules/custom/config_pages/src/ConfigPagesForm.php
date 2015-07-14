@@ -114,55 +114,6 @@ class ConfigPagesForm extends ContentEntityForm {
     // names.
     $form['#attributes']['class'][0] = 'config-page-' . Html::getClass($config_pages->bundle()) . '-form';
 
-    $form['advanced'] = array(
-      '#type' => 'vertical_tabs',
-      '#weight' => 99,
-    );
-
-    // Add a log field if the "Create new revision" option is checked, or if the
-    // current user has the ability to check that option.
-    $form['revision_information'] = array(
-      '#type' => 'details',
-      '#title' => $this->t('Revision information'),
-      // Open by default when "Create new revision" is checked.
-      '#open' => $config_pages->isNewRevision(),
-      '#group' => 'advanced',
-      '#attributes' => array(
-        'class' => array('config-page-content-form-revision-information'),
-      ),
-      '#attached' => array(
-        'library' => array('config_pages/drupal.config_pages'),
-      ),
-      '#weight' => 20,
-      '#access' => $config_pages->isNewRevision() || $account->hasPermission('administer blocks'),
-    );
-
-    $form['revision_information']['revision'] = array(
-      '#type' => 'checkbox',
-      '#title' => $this->t('Create new revision'),
-      '#default_value' => FALSE,
-      '#access' => FALSE,
-    );
-
-    // Check the revision log checkbox when the log textarea is filled in.
-    // This must not happen if "Create new revision" is enabled by default,
-    // since the state would auto-disable the checkbox otherwise.
-    if (!$config_pages->isNewRevision()) {
-      $form['revision_information']['revision']['#states'] = array(
-        'checked' => array(
-          'textarea[name="revision_log"]' => array('empty' => FALSE),
-        ),
-      );
-    }
-
-    $form['revision_information']['revision_log'] = array(
-      '#type' => 'textarea',
-      '#title' => $this->t('Revision log message'),
-      '#rows' => 4,
-      '#default_value' => $config_pages->getRevisionLog(),
-      '#description' => $this->t('Briefly describe the changes you have made.'),
-    );
-
     return parent::form($form, $form_state, $config_pages);
   }
 
