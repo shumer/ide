@@ -11,7 +11,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityListBuilder;
 
 /**
- * Defines a class to build a listing of custom block entities.
+ * Defines a class to build a listing of custom config_pages entities.
  *
  * @see \Drupal\config_pages\Entity\ConfigPages
  */
@@ -21,7 +21,7 @@ class ConfigPagesListBuilder extends EntityListBuilder {
    * {@inheritdoc}
    */
   public function buildHeader() {
-    $header['label'] = t('Block description');
+    $header['label'] = t('Config page description');
     return $header + parent::buildHeader();
   }
 

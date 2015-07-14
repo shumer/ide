@@ -1,13 +1,13 @@
 entity.config_pages.collection:
   title: 'Config pages'
   route_name: entity.config_pages.collection
-  base_route: block.admin_display
+  base_route: system.admin_structure
 config_pages.list_sub:
-  title: Blocks
+  title: 'Config pages'
   route_name: entity.config_pages.collection
   parent_id: entity.config_pages.collection
 entity.config_pages_type.collection:
-  title: Types
+  title: 'Config pages settings'
   route_name: entity.config_pages_type.collection
   parent_id: entity.config_pages.collection
   weight: 1

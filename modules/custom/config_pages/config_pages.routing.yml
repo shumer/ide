@@ -2,7 +2,7 @@ entity.config_pages_type.collection:
   path: '/admin/structure/config_pages/config-pages-content/types'
   defaults:
     _entity_list: 'config_pages_type'
-    _title: 'Custom block library'
+    _title: 'Config pages library'
   requirements:
     _permission: 'administer blocks'
 
@@ -83,7 +83,7 @@ entity.config_pages_type.edit_form:
 entity.config_pages.collection:
   path: '/admin/structure/config_pages/config-pages'
   defaults:
-    _title: 'Custom block library'
+    _title: 'Config pages library'
     _entity_list: 'config_pages'
   requirements:
     _permission: 'administer blocks'

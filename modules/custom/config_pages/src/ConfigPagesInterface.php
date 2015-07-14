@@ -11,12 +11,12 @@ use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityChangedInterface;
 
 /**
- * Provides an interface defining a custom block entity.
+ * Provides an interface defining a custom config page entity.
  */
 interface ConfigPagesInterface extends ContentEntityInterface, EntityChangedInterface {
 
   /**
-   * Returns the block revision log message.
+   * Returns the config page revision log message.
    *
    * @return string
    *   The revision log message.
@@ -24,10 +24,10 @@ interface ConfigPagesInterface extends ContentEntityInterface, EntityChangedInte
   public function getRevisionLog();
 
   /**
-   * Sets the block description.
+   * Sets the config page description.
    *
    * @param string $info
-   *   The block description.
+   *   The config page description.
    *
    * @return \Drupal\config_pages\ConfigPagesInterface
    *   The class instance that this method is called on.
@@ -35,7 +35,7 @@ interface ConfigPagesInterface extends ContentEntityInterface, EntityChangedInte
   public function setInfo($info);
 
   /**
-   * Sets the block revision log message.
+   * Sets the config page revision log message.
    *
    * @param string $revision_log
    *   The revision log message.
@@ -48,9 +48,9 @@ interface ConfigPagesInterface extends ContentEntityInterface, EntityChangedInte
   /**
    * Sets the theme value.
    *
-   * When creating a new block content block from the block library, the user is
-   * redirected to the configure form for that block in the given theme. The
-   * theme is stored against the block when the block content add form is shown.
+   * When creating a new config page content config page from the config page library, the user is
+   * redirected to the configure form for that config page in the given theme. The
+   * theme is stored against the config page when the config page content add form is shown.
    *
    * @param string $theme
    *   The theme name.
@@ -63,9 +63,9 @@ interface ConfigPagesInterface extends ContentEntityInterface, EntityChangedInte
   /**
    * Gets the theme value.
    *
-   * When creating a new block content block from the block library, the user is
-   * redirected to the configure form for that block in the given theme. The
-   * theme is stored against the block when the block content add form is shown.
+   * When creating a new config page content config page from the config page library, the user is
+   * redirected to the configure form for that config page in the given theme. The
+   * theme is stored against the config page when the config page content add form is shown.
    *
    * @return string
    *   The theme name.
@@ -73,10 +73,10 @@ interface ConfigPagesInterface extends ContentEntityInterface, EntityChangedInte
   public function getTheme();
 
   /**
-   * Gets the configured instances of this custom block.
+   * Gets the configured instances of this custom config page.
    *
    * @return array
-   *   Array of Drupal\block\Core\Plugin\Entity\Block entities.
+   *   Array of Drupal\config_pages\Core\Plugin\Entity\ConfigPages entities.
    */
   public function getInstances();
 

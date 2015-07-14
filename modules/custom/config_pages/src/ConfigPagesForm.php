@@ -16,19 +16,19 @@ use Drupal\Core\Language\LanguageManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Form controller for the custom block edit forms.
+ * Form controller for the custom config page edit forms.
  */
 class ConfigPagesForm extends ContentEntityForm {
 
   /**
-   * The custom block storage.
+   * The custom config page storage.
    *
    * @var \Drupal\Core\Entity\EntityStorageInterface
    */
   protected $ConfigPagesStorage;
 
   /**
-   * The custom block type storage.
+   * The custom config page type storage.
    *
    * @var \Drupal\Core\Entity\EntityStorageInterface
    */
@@ -42,7 +42,7 @@ class ConfigPagesForm extends ContentEntityForm {
   protected $languageManager;
 
   /**
-   * The block content entity.
+   * The config page content entity.
    *
    * @var \Drupal\config_pages\ConfigPagesInterface
    */
@@ -54,9 +54,9 @@ class ConfigPagesForm extends ContentEntityForm {
    * @param \Drupal\Core\Entity\EntityManagerInterface $entity_manager
    *   The entity manager.
    * @param \Drupal\Core\Entity\EntityStorageInterface $config_pages_storage
-   *   The custom block storage.
+   *   The custom config page storage.
    * @param \Drupal\Core\Entity\EntityStorageInterface $config_pages_type_storage
-   *   The custom block type storage.
+   *   The custom config page type storage.
    * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
    *   The language manager.
    */
@@ -83,36 +83,36 @@ class ConfigPagesForm extends ContentEntityForm {
   /**
    * Overrides \Drupal\Core\Entity\EntityForm::prepareEntity().
    *
-   * Prepares the custom block object.
+   * Prepares the custom config page object.
    *
    * Fills in a few default values, and then invokes
    * hook_config_pages_prepare() on all modules.
    */
   protected function prepareEntity() {
-    $block = $this->entity;
+    $config_pages = $this->entity;
     // Set up default values, if required.
-    $block_type = $this->ConfigPagesTypeStorage->load($block->bundle());
-    if (!$block->isNew()) {
-      $block->setRevisionLog(NULL);
+    $config_pages_type = $this->ConfigPagesTypeStorage->load($config_pages->bundle());
+    if (!$config_pages->isNew()) {
+      $config_pages->setRevisionLog(NULL);
     }
     // Always use the default revision setting.
-    $block->setNewRevision($block_type->shouldCreateNewRevision());
+    $config_pages->setNewRevision($config_pages_type->shouldCreateNewRevision());
   }
 
   /**
    * {@inheritdoc}
    */
   public function form(array $form, FormStateInterface $form_state) {
-    $block = $this->entity;
+    $config_pages = $this->entity;
     $account = $this->currentUser();
 
     if ($this->operation == 'edit') {
-      $form['#title'] = $this->t('Edit custom block %label', array('%label' => $block->label()));
+      $form['#title'] = $this->t('Edit custom config page %label', array('%label' => $config_pages->label()));
     }
-    // Override the default CSS class name, since the user-defined custom block
-    // type name in 'TYPE-block-form' potentially clashes with third-party class
+    // Override the default CSS class name, since the user-defined custom config page
+    // type name in 'TYPE-config-page-form' potentially clashes with third-party class
     // names.
-    $form['#attributes']['class'][0] = 'block-' . Html::getClass($block->bundle()) . '-form';
+    $form['#attributes']['class'][0] = 'config-page-' . Html::getClass($config_pages->bundle()) . '-form';
 
     $form['advanced'] = array(
       '#type' => 'vertical_tabs',
@@ -125,29 +125,29 @@ class ConfigPagesForm extends ContentEntityForm {
       '#type' => 'details',
       '#title' => $this->t('Revision information'),
       // Open by default when "Create new revision" is checked.
-      '#open' => $block->isNewRevision(),
+      '#open' => $config_pages->isNewRevision(),
       '#group' => 'advanced',
       '#attributes' => array(
-        'class' => array('block-content-form-revision-information'),
+        'class' => array('config-page-content-form-revision-information'),
       ),
       '#attached' => array(
         'library' => array('config_pages/drupal.config_pages'),
       ),
       '#weight' => 20,
-      '#access' => $block->isNewRevision() || $account->hasPermission('administer blocks'),
+      '#access' => $config_pages->isNewRevision() || $account->hasPermission('administer blocks'),
     );
 
     $form['revision_information']['revision'] = array(
       '#type' => 'checkbox',
       '#title' => $this->t('Create new revision'),
-      '#default_value' => $block->isNewRevision(),
-      '#access' => $account->hasPermission('administer blocks'),
+      '#default_value' => FALSE,
+      '#access' => FALSE,
     );
 
     // Check the revision log checkbox when the log textarea is filled in.
     // This must not happen if "Create new revision" is enabled by default,
     // since the state would auto-disable the checkbox otherwise.
-    if (!$block->isNewRevision()) {
+    if (!$config_pages->isNewRevision()) {
       $form['revision_information']['revision']['#states'] = array(
         'checked' => array(
           'textarea[name="revision_log"]' => array('empty' => FALSE),
@@ -159,30 +159,30 @@ class ConfigPagesForm extends ContentEntityForm {
       '#type' => 'textarea',
       '#title' => $this->t('Revision log message'),
       '#rows' => 4,
-      '#default_value' => $block->getRevisionLog(),
+      '#default_value' => $config_pages->getRevisionLog(),
       '#description' => $this->t('Briefly describe the changes you have made.'),
     );
 
-    return parent::form($form, $form_state, $block);
+    return parent::form($form, $form_state, $config_pages);
   }
 
   /**
    * {@inheritdoc}
    */
   public function save(array $form, FormStateInterface $form_state) {
-    $block = $this->entity;
+    $config_pages = $this->entity;
 
     // Save as a new revision if requested to do so.
     if (!$form_state->isValueEmpty('revision')) {
-      $block->setNewRevision();
+      $config_pages->setNewRevision();
     }
 
-    $insert = $block->isNew();
-    $block->save();
-    $context = array('@type' => $block->bundle(), '%info' => $block->label());
+    $insert = $config_pages->isNew();
+    $config_pages->save();
+    $context = array('@type' => $config_pages->bundle(), '%info' => $config_pages->label());
     $logger = $this->logger('config_pages');
-    $block_type = $this->ConfigPagesTypeStorage->load($block->bundle());
-    $t_args = array('@type' => $block_type->label(), '%info' => $block->label());
+    $config_pages_type = $this->ConfigPagesTypeStorage->load($config_pages->bundle());
+    $t_args = array('@type' => $config_pages_type->label(), '%info' => $config_pages->label());
 
     if ($insert) {
       $logger->notice('@type: added %info.', $context);
@@ -193,29 +193,29 @@ class ConfigPagesForm extends ContentEntityForm {
       drupal_set_message($this->t('@type %info has been updated.', $t_args));
     }
 
-    if ($block->id()) {
-      $form_state->setValue('id', $block->id());
-      $form_state->set('id', $block->id());
+    if ($config_pages->id()) {
+      $form_state->setValue('id', $config_pages->id());
+      $form_state->set('id', $config_pages->id());
       if ($insert) {
-        if (!$theme = $block->getTheme()) {
+        if (!$theme = $config_pages->getTheme()) {
           $theme = $this->config('system.theme')->get('default');
         }
         $form_state->setRedirect(
           'block.admin_add',
           array(
-            'plugin_id' => 'config_pages:' . $block->uuid(),
+            'plugin_id' => 'config_pages:' . $config_pages->uuid(),
             'theme' => $theme,
           )
         );
       }
       else {
-        $form_state->setRedirectUrl($block->urlInfo('collection'));
+        $form_state->setRedirectUrl($config_pages->urlInfo('collection'));
       }
     }
     else {
-      // In the unlikely case something went wrong on save, the block will be
-      // rebuilt and block form redisplayed.
-      drupal_set_message($this->t('The block could not be saved.'), 'error');
+      // In the unlikely case something went wrong on save, the config page will be
+      // rebuilt and config page form redisplayed.
+      drupal_set_message($this->t('The config page could not be saved.'), 'error');
       $form_state->setRebuild();
     }
   }
@@ -227,7 +227,7 @@ class ConfigPagesForm extends ContentEntityForm {
     if ($this->entity->isNew()) {
       $exists = $this->ConfigPagesStorage->loadByProperties(array('info' => $form_state->getValue(['info', 0, 'value'])));
       if (!empty($exists)) {
-        $form_state->setErrorByName('info', $this->t('A block with description %name already exists.', array(
+        $form_state->setErrorByName('info', $this->t('A config page with description %name already exists.', array(
           '%name' => $form_state->getValue(array('info', 0, 'value')),
         )));
       }

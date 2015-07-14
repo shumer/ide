@@ -12,7 +12,7 @@ use Drupal\Core\Config\Entity\ConfigEntityListBuilder;
 use Drupal\Core\Entity\EntityInterface;
 
 /**
- * Defines a class to build a listing of custom block type entities.
+ * Defines a class to build a listing of custom config page type entities.
  *
  * @see \Drupal\config_pages\Entity\ConfigPagesType
  */
@@ -35,7 +35,7 @@ class ConfigPagesTypeListBuilder extends ConfigEntityListBuilder {
    * {@inheritdoc}
    */
   public function buildHeader() {
-    $header['type'] = t('Block type');
+    $header['type'] = t('Config page type');
     $header['description'] = t('Description');
     return $header + parent::buildHeader();
   }
@@ -53,7 +53,7 @@ class ConfigPagesTypeListBuilder extends ConfigEntityListBuilder {
    * {@inheritdoc}
    */
   protected function getTitle() {
-    return $this->t('Custom block types');
+    return $this->t('Config page types');
   }
 
 }
