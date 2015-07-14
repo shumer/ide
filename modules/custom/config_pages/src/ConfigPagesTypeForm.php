@@ -70,7 +70,7 @@ class ConfigPagesTypeForm extends EntityForm {
       '#maxlength' => EntityTypeInterface::BUNDLE_MAX_LENGTH,
       '#disabled' => $type->isLocked(),
       '#machine_name' => array(
-        'exists' => ['Drupal\node\Entity\NodeType', 'load'],
+        'exists' => ['Drupal\config_pages\Entity\ConfigPagesType', 'load'],
         'source' => array('name'),
       ),
       '#description' => t('A unique machine-readable name for this config page. It must only contain lowercase letters, numbers, and underscores. This name will be used for constructing the URL of the %node-add page, in which underscores will be converted into hyphens.', array(
