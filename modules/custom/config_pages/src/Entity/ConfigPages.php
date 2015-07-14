@@ -27,6 +27,11 @@ use Drupal\user\UserInterface;
  *   handlers = {
  *     "list_builder" = "Drupal\config_pages\ConfigPagesListBuilder",
  *   },
+ *   base_table = "config_pages",
+ *   field_ui_base_route = "entity.config_pages_type.edit_form",
+ *   bundle_entity_type = "config_pages_type",
+ *   common_reference_target = TRUE,
+ *   permission_granularity = "bundle",
  * )
  */
 class ConfigPages extends ContentEntityBase implements ConfigPagesInterface {
