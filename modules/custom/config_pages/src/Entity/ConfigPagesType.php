@@ -31,6 +31,13 @@ use Drupal\config_pages\ConfigPagesTypeInterface;
  *     "id" = "type",
  *     "label" = "name"
  *   },
+ *   links = {
+ *     "collection" = "/admin/structure/config_pages_types",
+ *   },
+ *   config_export = {
+ *     "name",
+ *     "type",
+ *   }
  * )
  */
 class ConfigPagesType extends ConfigEntityBundleBase implements ConfigPagesTypeInterface {
