@@ -7,17 +7,17 @@ entity.config_pages_type.collection:
     _permission: 'administer blocks'
 
 config_pages.add_page:
-  path: '/config_pages/add'
+  path: '/admin/structure/config_pages/add'
   defaults:
     _controller: '\Drupal\config_pages\Controller\ConfigPagesController::add'
-    _title: 'Add custom block'
+    _title: 'Add config page'
   options:
     _admin_route: TRUE
   requirements:
     _permission: 'administer blocks'
 
 config_pages.add_form:
-  path: '/config_pages/add/{config_pages_type}'
+  path: '/admin/structure/config_pages/add/{config_pages_type}'
   defaults:
     _controller: '\Drupal\config_pages\Controller\ConfigPagesController::addForm'
     _title_callback: 'Drupal\config_pages\Controller\ConfigPagesController::getAddFormTitle'
@@ -37,7 +37,7 @@ entity.config_pages_type.delete_form:
     _admin_route: TRUE
 
 entity.config_pages.canonical:
-  path: '/config_pages/{config_pages}'
+  path: '/admin/structure/config_pages/{config_pages}'
   defaults:
     _entity_form: 'config_pages.edit'
   options:
@@ -46,7 +46,7 @@ entity.config_pages.canonical:
     _entity_access: 'config_pages.update'
 
 entity.config_pages.edit_form:
-  path: '/config_pages/{config_pages}'
+  path: '/admin/structure/config_pages/{config_pages}'
   defaults:
     _entity_form: 'config_pages.edit'
   options:
@@ -55,7 +55,7 @@ entity.config_pages.edit_form:
     _entity_access: 'config_pages.update'
 
 entity.config_pages.delete_form:
-  path: '/config_pages/{config_pages}/delete'
+  path: '/admin/structure/config_pages/{config_pages}/delete'
   defaults:
     _entity_form: 'config_pages.delete'
     _title: 'Delete'

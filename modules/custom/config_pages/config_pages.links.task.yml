@@ -21,7 +21,7 @@ entity.config_pages.delete_form:
   route_name: entity.config_pages.delete_form
   base_route: entity.config_pages.canonical
 
-# Default tab for custom block type editing.
+# Default tab for config page type editing.
 entity.config_pages_type.edit_form:
   title: 'Edit'
   route_name: entity.config_pages_type.edit_form

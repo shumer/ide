@@ -201,7 +201,7 @@ class ConfigPagesForm extends ContentEntityForm {
           $theme = $this->config('system.theme')->get('default');
         }
         $form_state->setRedirect(
-          'block.admin_add',
+          'entity.config_pages.edit_form',
           array(
             'plugin_id' => 'config_pages:' . $config_pages->uuid(),
             'theme' => $theme,

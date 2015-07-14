@@ -13,11 +13,11 @@ use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\config_pages\ConfigPagesTypeInterface;
 
 /**
- * Defines the custom block type entity.
+ * Defines the config page type entity.
  *
  * @ConfigEntityType(
  *   id = "config_pages_type",
- *   label = @Translation("Custom block type"),
+ *   label = @Translation("Config page type"),
  *   handlers = {
  *     "form" = {
  *       "default" = "Drupal\config_pages\ConfigPagesTypeForm",
@@ -50,21 +50,21 @@ use Drupal\config_pages\ConfigPagesTypeInterface;
 class ConfigPagesType extends ConfigEntityBundleBase implements ConfigPagesTypeInterface {
 
   /**
-   * The custom block type ID.
+   * The config page type ID.
    *
    * @var string
    */
   protected $id;
 
   /**
-   * The custom block type label.
+   * The config page type label.
    *
    * @var string
    */
   protected $label;
 
   /**
-   * The default revision setting for custom blocks of this type.
+   * The default revision setting for config pages of this type.
    *
    * @var bool
    */

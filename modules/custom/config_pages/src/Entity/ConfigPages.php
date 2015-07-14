@@ -15,12 +15,12 @@ use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\config_pages\ConfigPagesInterface;
 
 /**
- * Defines the custom block entity class.
+ * Defines the config page entity class.
  *
  * @ContentEntityType(
  *   id = "config_pages",
- *   label = @Translation("Custom block"),
- *   bundle_label = @Translation("Custom block type"),
+ *   label = @Translation("Config page"),
+ *   bundle_label = @Translation("Config page type"),
  *   handlers = {
  *     "storage" = "Drupal\Core\Entity\Sql\SqlContentEntityStorage",
  *     "access" = "Drupal\config_pages\ConfigPagesAccessControlHandler",
@@ -71,9 +71,9 @@ class ConfigPages extends ContentEntityBase implements ConfigPagesInterface {
   /**
    * The theme the block is being created in.
    *
-   * When creating a new custom block from the block library, the user is
+   * When creating a new config page from the block library, the user is
    * redirected to the configure form for that block in the given theme. The
-   * theme is stored against the block when the custom block add form is shown.
+   * theme is stored against the block when the config page add form is shown.
    *
    * @var string
    */
@@ -110,7 +110,7 @@ class ConfigPages extends ContentEntityBase implements ConfigPagesInterface {
   public function postSave(EntityStorageInterface $storage, $update = TRUE) {
     parent::postSave($storage, $update);
 
-    // Invalidate the block cache to update custom block-based derivatives.
+    // Invalidate the block cache to update config page-based derivatives.
     \Drupal::service('plugin.manager.block')->clearCachedDefinitions();
   }
 
@@ -150,14 +150,14 @@ class ConfigPages extends ContentEntityBase implements ConfigPagesInterface {
    */
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
     $fields['id'] = BaseFieldDefinition::create('integer')
-      ->setLabel(t('Custom block ID'))
-      ->setDescription(t('The custom block ID.'))
+      ->setLabel(t('Config page ID'))
+      ->setDescription(t('The config page ID.'))
       ->setReadOnly(TRUE)
       ->setSetting('unsigned', TRUE);
 
     $fields['uuid'] = BaseFieldDefinition::create('uuid')
       ->setLabel(t('UUID'))
-      ->setDescription(t('The custom block UUID.'))
+      ->setDescription(t('The config page UUID.'))
       ->setReadOnly(TRUE);
 
     $fields['revision_id'] = BaseFieldDefinition::create('integer')
@@ -168,7 +168,7 @@ class ConfigPages extends ContentEntityBase implements ConfigPagesInterface {
 
     $fields['langcode'] = BaseFieldDefinition::create('language')
       ->setLabel(t('Language'))
-      ->setDescription(t('The custom block language code.'))
+      ->setDescription(t('The config page language code.'))
       ->setTranslatable(TRUE)
       ->setRevisionable(TRUE)
       ->setDisplayOptions('view', array(
@@ -203,7 +203,7 @@ class ConfigPages extends ContentEntityBase implements ConfigPagesInterface {
 
     $fields['changed'] = BaseFieldDefinition::create('changed')
       ->setLabel(t('Changed'))
-      ->setDescription(t('The time that the custom block was last edited.'))
+      ->setDescription(t('The time that the config page was last edited.'))
       ->setTranslatable(TRUE)
       ->setRevisionable(TRUE);
 
