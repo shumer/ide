@@ -1,0 +1,9 @@
+
+site_common.default_controller_hello:
+  path: '/site_common/hello/{name}'
+  defaults:
+    _controller: '\Drupal\site_common\Controller\DefaultController::hello'
+    _title: 'site_common Title'
+  requirements:
+    _permission: 'access content'
+

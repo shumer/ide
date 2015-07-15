@@ -1,0 +1,14 @@
+{
+  "name": "drupal/site_common",
+  "type": "drupal-module",
+  "description": "Site common module",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "http://drupal.org/project/site_common",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "http://drupal.org/project/issues/site_common",
+    "source": "http://cgit.drupalcode.org/site_common"
+  },
+  "require": { }
+}

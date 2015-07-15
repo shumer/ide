@@ -1,5 +1,5 @@
 <?php
-namespace Drupal\ide_common\Plugin\Field\FieldFormatter;
+namespace Drupal\site_common\Plugin\Field\FieldFormatter;
 
 use  Drupal\image\Plugin\Field\FieldFormatter\ImageFormatter;
 use Drupal\Core\Form\FormStateInterface;
@@ -17,8 +17,8 @@ use Drupal\Core\Cache\Cache;
  * Plugin implementation of the 'ide_common_image' formatter.
  *
  * @FieldFormatter(
- *   id = "ide_common_image",
- *   label = @Translation("Ide Common Image"),
+ *   id = "site_common_image",
+ *   label = @Translation("Site Common Image"),
  *   field_types = {
  *     "image",
  *   },
@@ -27,7 +27,7 @@ use Drupal\Core\Cache\Cache;
  *   }
  * )
  */
-class IdeImageFormatter extends ImageFormatter {
+class SiteCommonImageFormatter extends ImageFormatter {
 
   /**
    * Constructs an ImageFormatter object.
@@ -53,10 +53,6 @@ class IdeImageFormatter extends ImageFormatter {
    */
   public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, $label, $view_mode, array $third_party_settings, AccountInterface $current_user, LinkGeneratorInterface $link_generator, EntityStorageInterface $image_style_storage) {
     parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $label, $view_mode, $third_party_settings, $current_user, $link_generator, $image_style_storage);
-
-    //$image_style = $this->_ide_common_field_formatter_image_field_default_preset($instance, $view_mode);
-
-    //$this->setSetting('image_style', $image_style);
   }
 
   /**
