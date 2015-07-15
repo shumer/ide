@@ -44,19 +44,4 @@ class ConfigPagesTypeDeleteForm extends EntityDeleteForm {
     );
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function buildForm(array $form, FormStateInterface $form_state) {
-    $blocks = $this->queryFactory->get('config_pages')->condition('type', $this->entity->id())->execute();
-    if (!empty($blocks)) {
-      $caption = '<p>' . $this->formatPlural(count($blocks), '%label is used by 1 custom block on your site. You can not remove this block type until you have removed all of the %label blocks.', '%label is used by @count custom blocks on your site. You may not remove %label until you have removed all of the %label custom blocks.', array('%label' => $this->entity->label())) . '</p>';
-      $form['description'] = array('#markup' => $caption);
-      return $form;
-    }
-    else {
-      return parent::buildForm($form, $form_state);
-    }
-  }
-
 }

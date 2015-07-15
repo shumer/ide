@@ -30,7 +30,6 @@ use Drupal\config_pages\ConfigPagesInterface;
  *     "form" = {
  *       "add" = "Drupal\config_pages\ConfigPagesForm",
  *       "edit" = "Drupal\config_pages\ConfigPagesForm",
- *       "delete" = "Drupal\Core\Entity\ContentEntityDeleteForm",
  *       "default" = "Drupal\config_pages\ConfigPagesForm"
  *     },
  *     "translation" = "Drupal\config_pages\ConfigPagesTranslationHandler"
@@ -41,7 +40,6 @@ use Drupal\config_pages\ConfigPagesInterface;
  *   data_table = "config_pages_field_data",
  *   links = {
  *     "canonical" = "/config_pages/{config_pages}",
- *     "delete-form" = "/config_pages/{config_pages}/delete",
  *     "edit-form" = "/config_pages/{config_pages}",
  *     "collection" = "/admin/structure/config_pages/config-pages-content",
  *   },
@@ -226,6 +224,12 @@ class ConfigPages extends ContentEntityBase implements ConfigPagesInterface {
   public function setRevisionLog($revision_log) {
     $this->set('revision_log', $revision_log);
     return $this;
+  }
+
+  public static function create(array $values = []) {
+    return \Drupal::entityManager()
+      ->getStorage('config_pages')
+      ->create($values);
   }
 
 }
