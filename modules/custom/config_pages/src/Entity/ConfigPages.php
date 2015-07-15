@@ -161,12 +161,10 @@ class ConfigPages extends ContentEntityBase implements ConfigPagesInterface {
     $fields['info'] = BaseFieldDefinition::create('string')
       ->setLabel(t('ConfigPage description'))
       ->setDescription(t('A brief description of your config page.'))
-      ->setRevisionable(TRUE)
-      ->setTranslatable(TRUE)
-      ->setRequired(TRUE)
-      ->setDisplayOptions('form', array(
-        'type' => 'string_textfield',
-        'weight' => -5,
+      ->setRevisionable(FALSE)
+      ->setTranslatable(FALSE)
+      ->setDisplayOptions('view', array(
+        'type' => 'hidden',
       ))
       ->setDisplayConfigurable('form', TRUE);
 
