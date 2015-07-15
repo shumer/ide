@@ -2,27 +2,26 @@
 namespace Drupal\ide_themer\Preprocessor;
 
 
-class ParagraphPreprocessor implements PreprocessorInterface{
+class BlockPreprocessor implements PreprocessorInterface{
 
   const ENTITY_TYPE = 'paragraph';
 
-  protected $paragraph;
+  protected $block;
   public $content;
   public $viewMode;
   public $_data;
 
   public function __construct(&$variables) {
 
-    $this->paragraph = &$variables['paragraph'];
+    $this->block = &$variables['block'];
     $this->content = &$variables['content'];
     $this->viewMode = &$variables['view_mode'];
     $this->_data = &$variables['_data'];
-    $this->vars = &$variables;
 
   }
 
   public function getEntity() {
-    return $this->paragraph;
+    return $this->block;
   }
 
   public function getEntityType( ){
@@ -33,8 +32,8 @@ class ParagraphPreprocessor implements PreprocessorInterface{
     return self::ENTITY_TYPE;
   }
 
-  public function preprocess_paragraph__service_item__default() {
-    dpm($this->vars);
+  public function preprocess_block__worthyservices__default() {
+
   }
 
 } 

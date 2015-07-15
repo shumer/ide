@@ -1,3 +1,0 @@
-services:
-    ide_themer.dispatcher:
-        class: Drupal\ide_themer\Dispatcher\Dispatcher

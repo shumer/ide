@@ -69,3 +69,19 @@ function worthy_theme($existing, $type, $theme, $path) {
 
   return $hooks;
 }
+
+/**
+ * Override template_preprocess_input.
+ */
+function worthy_preprocess_paragraph(&$variables) {
+  $preprocessor = new \Drupal\ide_themer\Preprocessor\ParagraphPreprocessor($variables);
+  $dispatcher = new \Drupal\ide_themer\Dispatcher\Dispatcher($preprocessor);
+  $dispatcher->dispatch();
+}
+
+/**
+ * Override template_preprocess_html.
+ */
+function worthy_preprocess_block(&$variables) {
+
+}

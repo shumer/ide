@@ -1,0 +1,22 @@
+{#
+/**
+ * @file m_k_s_custom_entity.html.twig
+ * Default theme implementation to present MKSCustomEntity data.
+ *
+ * This template is used when viewing a m_k_s_custom_entity entity's page,
+ *
+ *
+ * Available variables:
+ * - content: A list of content items. Use 'content' to print all content, or
+ * - attributes: HTML attributes for the container element.
+ *
+ * @see template_preprocess_m_k_s_custom_entity()
+ *
+ * @ingroup themeable
+ */
+#}
+<div{{ attributes.addClass('m_k_s_custom_entity') }}>
+  {% if content %}
+    {{- content -}}
+  {% endif %}
+</div>

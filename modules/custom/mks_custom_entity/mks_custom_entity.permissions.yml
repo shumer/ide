@@ -1,0 +1,16 @@
+
+view MKSCustomEntity entity:
+  title: 'View MKSCustomEntity entity'
+  description: 'Allow view my MKSCustomEntity'
+
+edit MKSCustomEntity entity:
+  title: 'Edit MKSCustomEntity entity'
+  description: 'Allow edit my MKSCustomEntity'
+
+delete MKSCustomEntity entity:
+  title: 'Delete MKSCustomEntity entity'
+  description: 'Allow delete my MKSCustomEntity'
+
+administer MKSCustomEntity entity:
+  title: 'Adminster MKSCustomEntity entity'
+  description: 'Allow administer my MKSCustomEntity'

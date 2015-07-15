@@ -1,0 +1,6 @@
+name: mks_custom_entity
+type: module
+description: MKS custom entity
+core: 8.x
+package: MKS
+

@@ -1,0 +1,14 @@
+{
+  "name": "drupal/mks_custom_entity",
+  "type": "drupal-module",
+  "description": "MKS custom entity",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "http://drupal.org/project/mks_custom_entity",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "http://drupal.org/project/issues/mks_custom_entity",
+    "source": "http://cgit.drupalcode.org/mks_custom_entity"
+  },
+  "require": { }
+}

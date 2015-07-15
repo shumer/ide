@@ -1,0 +1,50 @@
+
+# MKSCustomEntity routing definition
+entity.m_k_s_custom_entity.canonical:
+  path: '/admin/m_k_s_custom_entity/{m_k_s_custom_entity}'
+  defaults:
+    _entity_view: 'm_k_s_custom_entity'
+    _title: 'MKSCustomEntity Content'
+  requirements:
+    _entity_access: 'm_k_s_custom_entity.view'
+
+entity.m_k_s_custom_entity.collection:
+  path: '/admin/m_k_s_custom_entity'
+  defaults:
+    _entity_list: 'm_k_s_custom_entity'
+    _title: 'MKSCustomEntity List'
+  requirements:
+    _permission: 'view MKSCustomEntity entity'
+
+entity.m_k_s_custom_entity.add_form:
+  path: '/admin/m_k_s_custom_entity/add'
+  defaults:
+    _entity_form: m_k_s_custom_entity.add
+    _title: 'Add MKSCustomEntity'
+  requirements:
+    _entity_create_access: 'm_k_s_custom_entity'
+
+entity.m_k_s_custom_entity.edit_form:
+  path: '/admin/m_k_s_custom_entity/{m_k_s_custom_entity}/edit'
+  defaults:
+    _entity_form: m_k_s_custom_entity.edit
+    _title: 'Edit MKSCustomEntity'
+  requirements:
+    _entity_access: 'm_k_s_custom_entity.edit'
+
+entity.m_k_s_custom_entity.delete_form:
+  path: '/admin/m_k_s_custom_entity/{m_k_s_custom_entity}/delete'
+  defaults:
+    _entity_form: m_k_s_custom_entity.delete
+    _title: 'Delete MKSCustomEntity'
+  requirements:
+    _entity_access: 'm_k_s_custom_entity.delete'
+
+m_k_s_custom_entity.settings:
+  path: 'admin/structure/m_k_s_custom_entity'
+  defaults:
+   _form: '\Drupal\mks_custom_entity\Entity\Form\MKSCustomEntitySettingsForm'
+   _title: 'MKSCustomEntity Settings'
+  requirements:
+    _permission: 'administer MKSCustomEntity entity'
+
