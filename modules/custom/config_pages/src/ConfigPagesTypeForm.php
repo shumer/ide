@@ -105,15 +105,6 @@ class ConfigPagesTypeForm extends EntityForm {
       $logger->notice('Custom config page type %label has been updated.', array('%label' => $config_pages_type->label(), 'link' => $edit_link));
     }
     else {
-
-      $cp= ConfigPages::create([
-        'id' => NULL,
-        'revision_id' => NULL,
-        'type' => $config_pages_type->id(),
-        'info' => $config_pages_type->label(),
-        'langcode' => 'en',
-      ])->save();
-
       drupal_set_message(t('Custom config page type %label has been added.', array('%label' => $config_pages_type->label())));
       $logger->notice('Custom config page type %label has been added.', array('%label' => $config_pages_type->label(), 'link' => $edit_link));
     }

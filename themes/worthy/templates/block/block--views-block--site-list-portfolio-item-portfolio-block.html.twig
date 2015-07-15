@@ -1,0 +1,18 @@
+<div class="section">
+    <div class="container">
+        {% if label %}
+            <h1 class="text-center title" id="portfolio">{{ label }}</h1>
+        {% endif %}
+        <br>
+        <div class="row object-non-visible" data-animation-effect="fadeIn">
+            <div class="col-md-12">
+
+                <div class="isotope-container row grid-space-20">
+                    {% block content %}
+                        {{ content }}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

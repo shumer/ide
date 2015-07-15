@@ -3,7 +3,7 @@ namespace Drupal\site_common\Helpers;
 
 use Drupal\node\Entity\Node;
 
-class HNode {
+class SiteCommonNode {
 
   /**
    *  Load node with access check
