@@ -4,7 +4,7 @@ entity.config_pages_type.collection:
     _entity_list: 'config_pages_type'
     _title: 'Config pages library'
   requirements:
-    _permission: 'administer blocks'
+    _permission: 'administer ConfigPages entity'
 
 config_pages.add_form:
   path: '/admin/structure/config_pages/add/{config_pages_type}'
@@ -14,7 +14,7 @@ config_pages.add_form:
   options:
     _admin_route: TRUE
   requirements:
-    _permission: 'administer blocks'
+    _permission: 'administer ConfigPages entity'
 
 entity.config_pages_type.delete_form:
   path: '/admin/structure/config_pages/config-pages-content/manage/{config_pages_type}/delete'
@@ -50,7 +50,7 @@ config_pages.type_add:
     _entity_form: 'config_pages_type.add'
     _title: 'Add'
   requirements:
-    _permission: 'administer blocks'
+    _permission: 'administer ConfigPages entity'
 
 entity.config_pages_type.edit_form:
   path: '/admin/structure/config_pages/config0pages-content/manage/{config_pages_type}'
@@ -66,4 +66,4 @@ entity.config_pages.collection:
     _title: 'Config pages library'
     _entity_list: 'config_pages'
   requirements:
-    _permission: 'administer blocks'
+    _permission: 'administer ConfigPages entity'
