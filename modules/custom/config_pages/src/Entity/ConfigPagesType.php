@@ -91,4 +91,16 @@ class ConfigPagesType extends ConfigEntityBundleBase implements ConfigPagesTypeI
     return $this->revision;
   }
 
+  public static function postDelete(EntityStorageInterface $storage, array $entities) {
+    $query = \Drupal::entityQuery('config_pages');
+
+    $type = array_shift($entities);
+
+    $label = $type->label();
+    $config_page_id = $query->condition('info', $label)->execute();
+    $config_page_id = array_shift($config_page_id);
+    $config_page = ConfigPages::load($config_page_id);
+    $config_page->delete();
+  }
+
 }
