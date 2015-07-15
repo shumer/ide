@@ -13,6 +13,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\language\Entity\ContentLanguageSettings;
+use Drupal\config_pages\Entity\ConfigPages;
 
 /**
  * Base form for category edit forms.
