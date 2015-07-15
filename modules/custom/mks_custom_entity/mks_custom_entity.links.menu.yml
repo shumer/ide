@@ -1,0 +1,12 @@
+# MKSCustomEntity menu items definition
+entity.m_k_s_custom_entity.collection:
+  title: 'MKSCustomEntity: Listing'
+  route_name: entity.m_k_s_custom_entity.collection
+  description: 'List MKSCustomEntity'
+
+m_k_s_custom_entity.admin.structure.settings:
+  title: MKSCustomEntity Settings
+  description: 'Configure MKSCustomEntity entity'
+  route_name: m_k_s_custom_entity.settings
+  parent: system.admin_structure
+

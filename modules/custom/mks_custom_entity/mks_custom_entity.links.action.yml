@@ -1,0 +1,7 @@
+entity.m_k_s_custom_entity.add_form:
+  route_name: entity.m_k_s_custom_entity.add_form
+  title: 'Add MKSCustomEntity'
+  appears_on:
+    - entity.m_k_s_custom_entity.collection
+    - entity.m_k_s_custom_entity.canonical
+
