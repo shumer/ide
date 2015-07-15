@@ -30,7 +30,7 @@ use Drupal\config_pages\ConfigPagesInterface;
  *     "form" = {
  *       "add" = "Drupal\config_pages\ConfigPagesForm",
  *       "edit" = "Drupal\config_pages\ConfigPagesForm",
- *       "delete" = "Drupal\config_pages\Form\ConfigPagesDeleteForm",
+ *       "delete" = "Drupal\Core\Entity\ContentEntityDeleteForm",
  *       "default" = "Drupal\config_pages\ConfigPagesForm"
  *     },
  *     "translation" = "Drupal\config_pages\ConfigPagesTranslationHandler"
@@ -115,13 +115,6 @@ class ConfigPages extends ContentEntityBase implements ConfigPagesInterface {
   /**
    * {@inheritdoc}
    */
-  public function getInstances() {
-    return entity_load_multiple_by_properties('config_pages', array('plugin' => 'config_pages:' . $this->uuid()));
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function preSaveRevision(EntityStorageInterface $storage, \stdClass $record) {
     parent::preSaveRevision($storage, $record);
 
@@ -131,16 +124,6 @@ class ConfigPages extends ContentEntityBase implements ConfigPagesInterface {
       // one.
       $record->revision_log = $this->original->getRevisionLog();
     }
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function delete() {
-    foreach ($this->getInstances() as $instance) {
-      $instance->delete();
-    }
-    parent::delete();
   }
 
   /**
