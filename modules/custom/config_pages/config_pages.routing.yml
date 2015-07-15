@@ -6,16 +6,6 @@ entity.config_pages_type.collection:
   requirements:
     _permission: 'administer blocks'
 
-config_pages.add_page:
-  path: '/admin/structure/config_pages/add'
-  defaults:
-    _controller: '\Drupal\config_pages\Controller\ConfigPagesController::add'
-    _title: 'Add config page'
-  options:
-    _admin_route: TRUE
-  requirements:
-    _permission: 'administer blocks'
-
 config_pages.add_form:
   path: '/admin/structure/config_pages/add/{config_pages_type}'
   defaults:
@@ -53,16 +43,6 @@ entity.config_pages.edit_form:
     _admin_route: TRUE
   requirements:
     _entity_access: 'config_pages.update'
-
-entity.config_pages.delete_form:
-  path: '/admin/structure/config_pages/{config_pages}/delete'
-  defaults:
-    _entity_form: 'config_pages.delete'
-    _title: 'Delete'
-  options:
-    _admin_route: TRUE
-  requirements:
-    _entity_access: 'config_pages.delete'
 
 config_pages.type_add:
   path: '/admin/structure/config_pages/config-pages-content/types/add'

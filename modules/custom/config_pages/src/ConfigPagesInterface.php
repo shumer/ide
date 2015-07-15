@@ -72,12 +72,4 @@ interface ConfigPagesInterface extends ContentEntityInterface, EntityChangedInte
    */
   public function getTheme();
 
-  /**
-   * Gets the configured instances of this custom config page.
-   *
-   * @return array
-   *   Array of Drupal\config_pages\Core\Plugin\Entity\ConfigPages entities.
-   */
-  public function getInstances();
-
 }

@@ -30,12 +30,12 @@ use Drupal\config_pages\ConfigPagesInterface;
  *     "form" = {
  *       "add" = "Drupal\config_pages\ConfigPagesForm",
  *       "edit" = "Drupal\config_pages\ConfigPagesForm",
- *       "delete" = "Drupal\config_pages\Form\ConfigPagesDeleteForm",
+ *       "delete" = "Drupal\Core\Entity\ContentEntityDeleteForm",
  *       "default" = "Drupal\config_pages\ConfigPagesForm"
  *     },
  *     "translation" = "Drupal\config_pages\ConfigPagesTranslationHandler"
  *   },
- *   admin_permission = "administer blocks",
+ *   admin_permission = "administer config pages",
  *   base_table = "config_pages",
  *   revision_table = "config_pages_revision",
  *   data_table = "config_pages_field_data",
@@ -60,7 +60,7 @@ use Drupal\config_pages\ConfigPagesInterface;
  * )
  *
  * Note that render caching of config_pages entities is disabled because they
- * are always rendered as blocks, and blocks already have their own render
+ * are always rendered as config pages, and config pages already have their own render
  * caching.
  * See https://www.drupal.org/node/2284917#comment-9132521 for more information.
  */
@@ -69,11 +69,11 @@ class ConfigPages extends ContentEntityBase implements ConfigPagesInterface {
   use EntityChangedTrait;
 
   /**
-   * The theme the block is being created in.
+   * The theme the config page is being created in.
    *
-   * When creating a new config page from the block library, the user is
-   * redirected to the configure form for that block in the given theme. The
-   * theme is stored against the block when the config page add form is shown.
+   * When creating a new config page from the config page library, the user is
+   * redirected to the configure form for that config page in the given theme. The
+   * theme is stored against the config page when the config page add form is shown.
    *
    * @var string
    */
@@ -110,15 +110,6 @@ class ConfigPages extends ContentEntityBase implements ConfigPagesInterface {
   public function postSave(EntityStorageInterface $storage, $update = TRUE) {
     parent::postSave($storage, $update);
 
-    // Invalidate the block cache to update config page-based derivatives.
-    \Drupal::service('plugin.manager.block')->clearCachedDefinitions();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getInstances() {
-    return entity_load_multiple_by_properties('block', array('plugin' => 'config_pages:' . $this->uuid()));
   }
 
   /**
@@ -133,16 +124,6 @@ class ConfigPages extends ContentEntityBase implements ConfigPagesInterface {
       // one.
       $record->revision_log = $this->original->getRevisionLog();
     }
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function delete() {
-    foreach ($this->getInstances() as $instance) {
-      $instance->delete();
-    }
-    parent::delete();
   }
 
   /**
@@ -180,8 +161,8 @@ class ConfigPages extends ContentEntityBase implements ConfigPagesInterface {
       ));
 
     $fields['info'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Block description'))
-      ->setDescription(t('A brief description of your block.'))
+      ->setLabel(t('ConfigPage description'))
+      ->setDescription(t('A brief description of your config page.'))
       ->setRevisionable(TRUE)
       ->setTranslatable(TRUE)
       ->setRequired(TRUE)
@@ -192,8 +173,8 @@ class ConfigPages extends ContentEntityBase implements ConfigPagesInterface {
       ->setDisplayConfigurable('form', TRUE);
 
     $fields['type'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Block type'))
-      ->setDescription(t('The block type.'))
+      ->setLabel(t('ConfigPage type'))
+      ->setDescription(t('The config page type.'))
       ->setSetting('target_type', 'config_pages_type');
 
     $fields['revision_log'] = BaseFieldDefinition::create('string_long')
