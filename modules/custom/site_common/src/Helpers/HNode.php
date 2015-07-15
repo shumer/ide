@@ -8,7 +8,7 @@ class HNode {
   /**
    *  Load node with access check
    */
-  public static function nodeLoad($nid) {
+  public static function load($nid) {
 
     if (!is_numeric($nid)) {
       return;
