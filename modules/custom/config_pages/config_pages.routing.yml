@@ -1,5 +1,5 @@
 entity.config_pages_type.collection:
-  path: '/admin/structure/config_pages/config-pages-content/types'
+  path: '/admin/structure/config_pages/types'
   defaults:
     _entity_list: 'config_pages_type'
     _title: 'Config pages library'
@@ -17,7 +17,7 @@ config_pages.add_form:
     _permission: 'administer ConfigPages entity'
 
 entity.config_pages_type.delete_form:
-  path: '/admin/structure/config_pages/config-pages-content/manage/{config_pages_type}/delete'
+  path: '/admin/structure/config_pages/types/manage/{config_pages_type}/delete'
   defaults:
     _entity_form: 'config_pages_type.delete'
     _title: 'Delete'
@@ -30,22 +30,24 @@ entity.config_pages.canonical:
   path: '/admin/structure/config_pages/{config_pages}'
   defaults:
     _entity_form: 'config_pages.edit'
+    _title: 'Config pages'
   options:
     _admin_route: TRUE
   requirements:
     _entity_access: 'config_pages.update'
 
 entity.config_pages.edit_form:
-  path: '/admin/structure/config_pages/{config_pages}'
+  path: '/admin/structure/config_pages/{config_pages}/edit'
   defaults:
     _entity_form: 'config_pages.edit'
+    _title: 'Edit'
   options:
     _admin_route: TRUE
   requirements:
     _entity_access: 'config_pages.update'
 
 config_pages.type_add:
-  path: '/admin/structure/config_pages/config-pages-content/types/add'
+  path: '/admin/structure/config_pages/types/add'
   defaults:
     _entity_form: 'config_pages_type.add'
     _title: 'Add'
@@ -53,7 +55,7 @@ config_pages.type_add:
     _permission: 'administer ConfigPages entity'
 
 entity.config_pages_type.edit_form:
-  path: '/admin/structure/config_pages/config0pages-content/manage/{config_pages_type}'
+  path: '/admin/structure/config_pages/types/manage/{config_pages_type}'
   defaults:
     _entity_form: 'config_pages_type.edit'
     _title: 'Edit'
@@ -61,9 +63,10 @@ entity.config_pages_type.edit_form:
     _entity_access: 'config_pages_type.update'
 
 entity.config_pages.collection:
-  path: '/admin/structure/config_pages/config-pages'
+  path: '/admin/structure/config_pages'
   defaults:
     _title: 'Config pages library'
     _entity_list: 'config_pages'
+    _title: 'Config pages'
   requirements:
     _permission: 'administer ConfigPages entity'

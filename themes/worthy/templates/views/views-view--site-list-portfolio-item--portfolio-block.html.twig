@@ -32,32 +32,23 @@
  * @ingroup themeable
  */
 #}
-{%
-  set classes = [
-    dom_id ? 'js-view-dom-id-' ~ dom_id,
-  ]
-%}
 
-  {{ title_prefix }}
   {% if title %}
     {{ title }}
   {% endif %}
-  {{ title_suffix }}
+
   {% if header %}
     <div>
       {{ header }}
     </div>
   {% endif %}
+
   {% if exposed %}
     <div>
       {{ exposed }}
     </div>
   {% endif %}
-  {% if attachment_before %}
-    <div>
-      {{ attachment_before }}
-    </div>
-  {% endif %}
+
 
   {% if rows %}
 
@@ -72,11 +63,7 @@
   {% if pager %}
     {{ pager }}
   {% endif %}
-  {% if attachment_after %}
-    <div>
-      {{ attachment_after }}
-    </div>
-  {% endif %}
+
   {% if more %}
     {{ more }}
   {% endif %}
@@ -85,9 +72,5 @@
       {{ footer }}
     </div>
   {% endif %}
-  {% if feed_icons %}
-    <div>
-      {{ feed_icons }}
-    </div>
-  {% endif %}
+
 
