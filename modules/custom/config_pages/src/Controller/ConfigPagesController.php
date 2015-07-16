@@ -107,16 +107,16 @@ class ConfigPagesController extends ControllerBase {
    *   A form array as expected by drupal_render().
    */
   public function addForm(ConfigPagesTypeInterface $config_pages_type, Request $request) {
-    $block = $this->ConfigPagesStorage->create(array(
+    $config_page = $this->ConfigPagesStorage->create(array(
       'type' => $config_pages_type->id()
     ));
     if (($theme = $request->query->get('theme')) && in_array($theme, array_keys($this->themeHandler->listInfo()))) {
       // We have navigated to this page from the block library and will keep track
       // of the theme for redirecting the user to the configuration page for the
       // newly created block in the given theme.
-      $block->setTheme($theme);
+      $config_page->setTheme($theme);
     }
-    return $this->entityFormBuilder()->getForm($block);
+    return $this->entityFormBuilder()->getForm($config_page);
   }
 
   /**

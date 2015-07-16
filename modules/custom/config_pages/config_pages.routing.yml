@@ -70,3 +70,6 @@ entity.config_pages.collection:
     _title: 'Config pages'
   requirements:
     _permission: 'administer ConfigPages entity'
+
+route_callbacks:
+  - '\Drupal\config_pages\Routing\ConfigPagesRoutes::routes'
