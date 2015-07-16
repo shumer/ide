@@ -32,7 +32,8 @@ use Drupal\config_pages\ConfigPagesTypeInterface;
  *   bundle_of = "config_pages",
  *   entity_keys = {
  *     "id" = "id",
- *     "label" = "label"
+ *     "label" = "label",
+ *     "data" = "data"
  *   },
  *   links = {
  *     "delete-form" = "/admin/structure/config_pages/config-pages-content/manage/{config_pages_type}/delete",
@@ -42,8 +43,7 @@ use Drupal\config_pages\ConfigPagesTypeInterface;
  *   config_export = {
  *     "id",
  *     "label",
- *     "revision",
- *     "description",
+ *     "data",
  *   }
  * )
  */
@@ -62,34 +62,6 @@ class ConfigPagesType extends ConfigEntityBundleBase implements ConfigPagesTypeI
    * @var string
    */
   protected $label;
-
-  /**
-   * The default revision setting for config pages of this type.
-   *
-   * @var bool
-   */
-  protected $revision;
-
-  /**
-   * The description of the block type.
-   *
-   * @var string
-   */
-  protected $description;
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getDescription() {
-    return $this->description;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function shouldCreateNewRevision() {
-    return $this->revision;
-  }
 
   public static function postDelete(EntityStorageInterface $storage, array $entities) {
     $query = \Drupal::entityQuery('config_pages');

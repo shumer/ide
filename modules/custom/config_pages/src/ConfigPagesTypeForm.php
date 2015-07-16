@@ -47,41 +47,6 @@ class ConfigPagesTypeForm extends EntityForm {
       '#disabled' => !$config_pages_type->isNew(),
     );
 
-    $form['description'] = array(
-      '#type' => 'textarea',
-      '#default_value' => $config_pages_type->getDescription(),
-      '#description' => t('Enter a description for this config page type.'),
-      '#title' => t('Description'),
-    );
-
-    $form['revision'] = array(
-      '#type' => 'checkbox',
-      '#title' => t('Create new revision'),
-      '#default_value' => FALSE,
-      '#access' => False,
-      '#description' => t('Create a new revision by default for this config page type.')
-    );
-
-    if ($this->moduleHandler->moduleExists('language')) {
-      $form['language'] = array(
-        '#type' => 'details',
-        '#title' => t('Language settings'),
-        '#group' => 'additional_settings',
-      );
-
-      $language_configuration = ContentLanguageSettings::loadByEntityTypeBundle('config_pages', $config_pages_type->id());
-      $form['language']['language_configuration'] = array(
-        '#type' => 'language_configuration',
-        '#entity_information' => array(
-          'entity_type' => 'config_pages',
-          'bundle' => $config_pages_type->id(),
-        ),
-        '#default_value' => $language_configuration,
-      );
-
-      $form['#submit'][] = 'language_configuration_element_submit';
-    }
-
     $form['actions'] = array('#type' => 'actions');
     $form['actions']['submit'] = array(
       '#type' => 'submit',
