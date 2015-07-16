@@ -43,13 +43,12 @@ use Drupal\config_pages\ConfigPagesInterface;
  *     "edit-form" = "/config_pages/{config_pages}",
  *     "collection" = "/admin/structure/config_pages/config-pages-content",
  *   },
- *   translatable = TRUE,
+ *   translatable = FALSE,
  *   entity_keys = {
  *     "id" = "id",
  *     "revision" = "revision_id",
  *     "bundle" = "type",
  *     "label" = "info",
- *     "langcode" = "langcode",
  *     "uuid" = "uuid"
  *   },
  *   bundle_entity_type = "config_pages_type",
@@ -144,19 +143,6 @@ class ConfigPages extends ContentEntityBase implements ConfigPagesInterface {
       ->setDescription(t('The revision ID.'))
       ->setReadOnly(TRUE)
       ->setSetting('unsigned', TRUE);
-
-    $fields['langcode'] = BaseFieldDefinition::create('language')
-      ->setLabel(t('Language'))
-      ->setDescription(t('The config page language code.'))
-      ->setTranslatable(TRUE)
-      ->setRevisionable(TRUE)
-      ->setDisplayOptions('view', array(
-        'type' => 'hidden',
-      ))
-      ->setDisplayOptions('form', array(
-        'type' => 'language_select',
-        'weight' => 2,
-      ));
 
     $fields['info'] = BaseFieldDefinition::create('string')
       ->setLabel(t('ConfigPage description'))

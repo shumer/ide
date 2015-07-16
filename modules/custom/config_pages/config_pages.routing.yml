@@ -2,7 +2,7 @@ entity.config_pages_type.collection:
   path: '/admin/structure/config_pages/types'
   defaults:
     _entity_list: 'config_pages_type'
-    _title: 'Config pages library'
+    _title: 'Config Pages Types'
   requirements:
     _permission: 'administer ConfigPages entity'
 
@@ -30,7 +30,7 @@ entity.config_pages.canonical:
   path: '/admin/structure/config_pages/{config_pages}'
   defaults:
     _entity_form: 'config_pages.edit'
-    _title: 'Config pages'
+    _title: 'Config Pages'
   options:
     _admin_route: TRUE
   requirements:
@@ -50,7 +50,7 @@ config_pages.type_add:
   path: '/admin/structure/config_pages/types/add'
   defaults:
     _entity_form: 'config_pages_type.add'
-    _title: 'Add'
+    _title: 'Add Config Page type'
   requirements:
     _permission: 'administer ConfigPages entity'
 
