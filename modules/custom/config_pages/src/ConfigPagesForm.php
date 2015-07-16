@@ -90,13 +90,9 @@ class ConfigPagesForm extends ContentEntityForm {
    */
   protected function prepareEntity() {
     $config_pages = $this->entity;
+
     // Set up default values, if required.
     $config_pages_type = $this->ConfigPagesTypeStorage->load($config_pages->bundle());
-    if (!$config_pages->isNew()) {
-      $config_pages->setRevisionLog(NULL);
-    }
-    // Always use the default revision setting.
-    $config_pages->setNewRevision($config_pages_type->shouldCreateNewRevision());
   }
 
   /**

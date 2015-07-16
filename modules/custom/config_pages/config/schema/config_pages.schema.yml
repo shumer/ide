@@ -10,9 +10,6 @@ config_pages.type.*:
     label:
       type: label
       label: 'Label'
-    revision:
-      type: integer
-      label: 'Create new revision'
     description:
       type: text
       label: 'Description'

@@ -16,14 +16,6 @@ use Drupal\Core\Entity\EntityChangedInterface;
 interface ConfigPagesInterface extends ContentEntityInterface, EntityChangedInterface {
 
   /**
-   * Returns the config page revision log message.
-   *
-   * @return string
-   *   The revision log message.
-   */
-  public function getRevisionLog();
-
-  /**
    * Sets the config page description.
    *
    * @param string $info
@@ -33,17 +25,6 @@ interface ConfigPagesInterface extends ContentEntityInterface, EntityChangedInte
    *   The class instance that this method is called on.
    */
   public function setInfo($info);
-
-  /**
-   * Sets the config page revision log message.
-   *
-   * @param string $revision_log
-   *   The revision log message.
-   *
-   * @return \Drupal\config_pages\ConfigPagesInterface
-   *   The class instance that this method is called on.
-   */
-  public function setRevisionLog($revision_log);
 
   /**
    * Sets the theme value.
