@@ -1,5 +1,11 @@
 <?php
-define('CONFIG_PAGES_ENTITY_TYPE', 'config_pages');
+/**
+ * @file
+ * Module hooks.
+ */
+
+// Define const for ConfigPage entity type.
+const CONFIG_PAGES_ENTITY_TYPE = 'config_pages_type';
 
 use Drupal\config_pages\Entity\ConfigPages;
 
@@ -9,13 +15,12 @@ use Drupal\config_pages\Entity\ConfigPages;
  * Implements hook_entity_insert
  */
 function config_pages_entity_insert(\Drupal\Core\Entity\EntityInterface $entity) {
-  if (CONFIG_PAGES_ENTITY_TYPE == $entity->getEntityTypeId()){
-    $configPage= ConfigPages::create([
+  if (CONFIG_PAGES_ENTITY_TYPE == $entity->getEntityTypeId()) {
+    $config_page = ConfigPages::create([
       'id' => NULL,
-      'revision_id' => NULL,
       'type' => $entity->id(),
-      'info' => $entity->label(),
-      'langcode' => 'en',
+      'label' => $entity->label(),
+      'context' => 'context',
     ])->save();
   }
 }

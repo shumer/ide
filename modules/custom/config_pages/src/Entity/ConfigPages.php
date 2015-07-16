@@ -36,7 +36,6 @@ use Drupal\config_pages\ConfigPagesInterface;
  *   },
  *   admin_permission = "administer config pages",
  *   base_table = "config_pages",
- *   revision_table = "config_pages_revision",
  *   data_table = "config_pages_field_data",
  *   links = {
  *     "canonical" = "/config_pages/{config_pages}",
@@ -46,9 +45,9 @@ use Drupal\config_pages\ConfigPagesInterface;
  *   translatable = FALSE,
  *   entity_keys = {
  *     "id" = "id",
- *     "revision" = "revision_id",
  *     "bundle" = "type",
- *     "label" = "info",
+ *     "label" = "label",
+ *     "context" = "context",
  *     "uuid" = "uuid"
  *   },
  *   bundle_entity_type = "config_pages_type",
@@ -112,20 +111,6 @@ class ConfigPages extends ContentEntityBase implements ConfigPagesInterface {
   /**
    * {@inheritdoc}
    */
-  public function preSaveRevision(EntityStorageInterface $storage, \stdClass $record) {
-    parent::preSaveRevision($storage, $record);
-
-    if (!$this->isNewRevision() && isset($this->original) && (!isset($record->revision_log) || $record->revision_log === '')) {
-      // If we are updating an existing config_pages without adding a new
-      // revision and the user did not supply a revision log, keep the existing
-      // one.
-      $record->revision_log = $this->original->getRevisionLog();
-    }
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
     $fields['id'] = BaseFieldDefinition::create('integer')
       ->setLabel(t('Config page ID'))
@@ -138,13 +123,7 @@ class ConfigPages extends ContentEntityBase implements ConfigPagesInterface {
       ->setDescription(t('The config page UUID.'))
       ->setReadOnly(TRUE);
 
-    $fields['revision_id'] = BaseFieldDefinition::create('integer')
-      ->setLabel(t('Revision ID'))
-      ->setDescription(t('The revision ID.'))
-      ->setReadOnly(TRUE)
-      ->setSetting('unsigned', TRUE);
-
-    $fields['info'] = BaseFieldDefinition::create('string')
+    $fields['label'] = BaseFieldDefinition::create('string')
       ->setLabel(t('ConfigPage description'))
       ->setDescription(t('A brief description of your config page.'))
       ->setRevisionable(FALSE)
@@ -159,10 +138,10 @@ class ConfigPages extends ContentEntityBase implements ConfigPagesInterface {
       ->setDescription(t('The config page type.'))
       ->setSetting('target_type', 'config_pages_type');
 
-    $fields['revision_log'] = BaseFieldDefinition::create('string_long')
-      ->setLabel(t('Revision log message'))
-      ->setDescription(t('The log entry explaining the changes in this revision.'))
-      ->setRevisionable(TRUE);
+    $fields['context'] = BaseFieldDefinition::create('string_long')
+      ->setLabel(t('Context'))
+      ->setDescription(t('The Config Page context.'))
+      ->setRevisionable(FALSE);
 
     $fields['changed'] = BaseFieldDefinition::create('changed')
       ->setLabel(t('Changed'))
@@ -170,12 +149,6 @@ class ConfigPages extends ContentEntityBase implements ConfigPagesInterface {
       ->setTranslatable(TRUE)
       ->setRevisionable(TRUE);
 
-    $fields['revision_translation_affected'] = BaseFieldDefinition::create('boolean')
-      ->setLabel(t('Revision translation affected'))
-      ->setDescription(t('Indicates if the last edit of a translation belongs to current revision.'))
-      ->setReadOnly(TRUE)
-      ->setRevisionable(TRUE)
-      ->setTranslatable(TRUE);
 
     return $fields;
   }
@@ -190,23 +163,8 @@ class ConfigPages extends ContentEntityBase implements ConfigPagesInterface {
   /**
    * {@inheritdoc}
    */
-  public function getRevisionLog() {
-    return $this->get('revision_log')->value;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function setInfo($info) {
     $this->set('info', $info);
-    return $this;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setRevisionLog($revision_log) {
-    $this->set('revision_log', $revision_log);
     return $this;
   }
 
