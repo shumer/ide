@@ -79,9 +79,21 @@ function worthy_preprocess_paragraph(&$variables) {
   $dispatcher->dispatch();
 }
 
+function worthy_preprocess_node(&$variables) {
+  $preprocessor = new \Drupal\ide_themer\Preprocessor\NodePreprocessor($variables);
+  $dispatcher = new \Drupal\ide_themer\Dispatcher\Dispatcher($preprocessor);
+  $dispatcher->dispatch();
+}
+
 /**
  * Override template_preprocess_html.
  */
 function worthy_preprocess_block(&$variables) {
-
+  $preprocessor = new \Drupal\ide_themer\Preprocessor\BlockPreprocessor($variables);
+  $preprocessor->preprocess();
+  /*
+  $preprocessor = new \Drupal\ide_themer\Preprocessor\BlockPreprocessor($variables);
+  $dispatcher = new \Drupal\ide_themer\Dispatcher\Dispatcher($preprocessor);
+  $dispatcher->dispatch();
+  */
 }

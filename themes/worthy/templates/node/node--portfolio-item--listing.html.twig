@@ -1,20 +1,20 @@
-<div class="col-sm-6 col-md-3 isotope-item web-design">
+<div class="col-sm-6 col-md-3 isotope-item type-{{ content.field_project_type[0] }}">
     <div class="image-box">
         <div class="overlay-container">
             {{ content.field_project_image }}
-            <a class="overlay" data-toggle="modal" data-target="#project-1">
+            <a class="overlay" data-toggle="modal" data-target="#project-{{ node.id }}">
                 <i class="fa fa-search-plus"></i>
                 <span>{{ content.field_project_type }}</span>
             </a>
         </div>
         <a class="btn btn-default btn-block" data-toggle="modal" data-target="#project-1">{{ content.field_title }}</a>
     </div>
-    <div class="modal fade" id="project-1" tabindex="-1" role="dialog" aria-labelledby="project-1-label" aria-hidden="true">
+    <div class="modal fade" id="project-{{ node.id }}" tabindex="-1" role="dialog" aria-labelledby="project-{{ node.id }}-label" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title" id="project-1-label">{{ content.field_title }}</h4>
+                    <h4 class="modal-title" id="project-{{ node.id }}-label">{{ content.field_title }}</h4>
                 </div>
                 <div class="modal-body">
                     <h3>Project Description</h3>
