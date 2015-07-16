@@ -36,7 +36,6 @@ class ConfigPagesTypeListBuilder extends ConfigEntityListBuilder {
    */
   public function buildHeader() {
     $header['type'] = t('Config page type');
-    $header['description'] = t('Description');
     return $header + parent::buildHeader();
   }
 
@@ -45,7 +44,6 @@ class ConfigPagesTypeListBuilder extends ConfigEntityListBuilder {
    */
   public function buildRow(EntityInterface $entity) {
     $row['type'] = $entity->link();
-    $row['description'] = Xss::filterAdmin($entity->getDescription());
     return $row + parent::buildRow($entity);
   }
 
