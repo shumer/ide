@@ -97,7 +97,7 @@ class ConfigPagesType extends ConfigEntityBundleBase implements ConfigPagesTypeI
     $type = array_shift($entities);
 
     $label = $type->label();
-    $config_page_id = $query->condition('info', $label)->execute();
+    $config_page_id = $query->condition('label', $label)->execute();
     $config_page_id = array_shift($config_page_id);
     $config_page = ConfigPages::load($config_page_id);
     $config_page->delete();

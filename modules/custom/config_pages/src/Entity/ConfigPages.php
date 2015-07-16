@@ -163,8 +163,8 @@ class ConfigPages extends ContentEntityBase implements ConfigPagesInterface {
   /**
    * {@inheritdoc}
    */
-  public function setInfo($info) {
-    $this->set('info', $info);
+  public function setLabel($label) {
+    $this->set('label', $label);
     return $this;
   }
 

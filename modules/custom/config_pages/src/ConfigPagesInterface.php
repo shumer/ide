@@ -24,7 +24,7 @@ interface ConfigPagesInterface extends ContentEntityInterface, EntityChangedInte
    * @return \Drupal\config_pages\ConfigPagesInterface
    *   The class instance that this method is called on.
    */
-  public function setInfo($info);
+  public function setLabel($label);
 
   /**
    * Sets the theme value.
