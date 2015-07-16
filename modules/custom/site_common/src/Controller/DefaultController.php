@@ -8,6 +8,7 @@
 namespace Drupal\site_common\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\node\Entity\Node;
 
 /**
  * Class DefaultController.
@@ -26,6 +27,10 @@ class DefaultController extends ControllerBase {
         '#type' => 'markup',
         '#markup' => $this->t('Hello @name!', ['@name' => $name])
     ];
+  }
+
+  public function ajaxGetNode($nid) {
+    Node::load($nid);
   }
 
 }
