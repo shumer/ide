@@ -8,6 +8,7 @@
 const CONFIG_PAGES_ENTITY_TYPE = 'config_pages_type';
 
 use Drupal\config_pages\Entity\ConfigPages;
+use Drupal\config_pages\Entity\ConfigPagesType;
 
 /**
  * @param \Drupal\Core\Entity\EntityInterface $entity
@@ -36,4 +37,20 @@ function config_pages_entity_insert(\Drupal\Core\Entity\EntityInterface $entity)
       'context' => $contexts,
     ])->save();
   }
+}
+/**
+ * @param string
+ *  config_page type to get context.
+ *
+ * @return array
+ *  Return current context based on groups.
+ */
+function config_pages_context_get($type) {
+  $context = [];
+  $type = ConfigPagesType::getTypes(array($type));
+  if (!$type) {
+    return $context;
+  }
+
+  return $context;
 }
