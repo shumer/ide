@@ -22,7 +22,8 @@ class ConfigPagesListBuilder extends EntityListBuilder {
    * {@inheritdoc}
    */
   public function buildHeader() {
-    $header['label'] = t('Config page description');
+    $header['label'] = t('Name');
+    $header['context'] = t('Context');
     return $header + parent::buildHeader();
   }
 
@@ -31,6 +32,18 @@ class ConfigPagesListBuilder extends EntityListBuilder {
    */
   public function buildRow(EntityInterface $entity) {
     $row['label'] = $this->getLabel($entity);
+
+    // Used context.
+    if (!empty($entity->context['group'])) {
+      foreach ($entity->context['group'] as $context_id => $context_enabled) {
+        if ($context_enabled) {
+          $item = \Drupal::service('plugin.manager.config_pages_context')->getDefinition($context_id);
+          $context_value = $item['label'];
+          $contextData[] = $context_value;
+        }
+      }
+    }
+    $row['context'] = implode(', ', $contextData);
     return $row + parent::buildRow($entity);
   }
 
