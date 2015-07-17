@@ -11,35 +11,6 @@ use Drupal\config_pages\Entity\ConfigPages;
 use Drupal\config_pages\Entity\ConfigPagesType;
 
 /**
- * @param \Drupal\Core\Entity\EntityInterface $entity
- *
- * Implements hook_entity_insert
- */
-function config_pages_entity_insert(\Drupal\Core\Entity\EntityInterface $entity) {
-
-/*
-  if (CONFIG_PAGES_ENTITY_TYPE == $entity->getEntityTypeId()) {
-
-    $contexts = [];
-    foreach($entity->data['context'] as $context_id => $context) {
-      if($context) {
-        $item = \Drupal::service('plugin.manager.config_pages_context')->getDefinition($context_id);
-        $context_value = $item['class']::getValue();
-        $contexts[] = [$context_id => $context_value];
-      }
-    }
-    $contexts = serialize($contexts);
-
-    $config_page = ConfigPages::create([
-      'id' => NULL,
-      'type' => $entity->id(),
-      'label' => $entity->label(),
-      'context' => $contexts,
-    ])->save();
-  }
-*/
-}
-/**
  * @param string
  *  config_page type to get context.
  *
@@ -52,6 +23,8 @@ function config_pages_context_get($type) {
   if (!$type) {
     return $context;
   }
-dpm($type);
+
+  $context = $type->getContextData();
+
   return $context;
 }

@@ -187,8 +187,8 @@ class ConfigPages extends ContentEntityBase implements ConfigPagesInterface {
       $conditions['type'] = $type;
 
       // Get current context if NULL.
-      if ($context === NULL) {
-        $context = config_pages_context_get($type);
+      if ($context == NULL) {
+        $conditions['context'] = config_pages_context_get($type);
       }
       else {
         $conditions['context'] = $context;
