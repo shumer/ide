@@ -48,10 +48,10 @@ function config_pages_entity_insert(\Drupal\Core\Entity\EntityInterface $entity)
  */
 function config_pages_context_get($type) {
   $context = [];
-  $type = ConfigPagesType::getTypes(array($type));
+  $type = ConfigPagesType::getTypes($type);
   if (!$type) {
     return $context;
   }
-
+dpm($type);
   return $context;
 }
