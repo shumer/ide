@@ -49,14 +49,25 @@ class ConfigPagesListBuilder extends EntityListBuilder {
    * {@inheritdoc}
    */
   public function getOperations(EntityInterface $entity) {
+    $operations = [];
+
+    // Use user entry path if available for edit/add form page.
     $path = $entity->menu['path'];
     if (!empty($path)) {
-      $operations = [];
       $operations['edit'] = [
         'title' => t('Edit'),
         'weight' => 10,
         'query' => [],
         'url' => Url::fromUserInput('/' . $path),
+      ];
+    }
+    else {
+      // Use default config page path in another case.
+      $operations['edit'] = [
+        'title' => t('Edit'),
+        'weight' => 10,
+        'query' => [],
+        'url' => Url::fromRoute('config_pages.add_form', ['config_pages_type' => $entity->id()]),
       ];
     }
     uasort($operations, '\Drupal\Component\Utility\SortArray::sortByWeightElement');

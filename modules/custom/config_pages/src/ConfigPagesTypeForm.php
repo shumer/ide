@@ -77,7 +77,7 @@ class ConfigPagesTypeForm extends EntityForm {
 
     $form['menu']['path'] = array(
       '#type' => 'textfield',
-      '#description' => t('Consider following context for this configuration'),
+      '#description' => t('Menu path which will be used for form display.'),
       '#default_value' => !empty($config_pages_type->menu['path']) ? $config_pages_type->menu['path'] : array(),
       '#required' => FALSE,
     );
@@ -109,11 +109,14 @@ class ConfigPagesTypeForm extends EntityForm {
     \Drupal::service('form_validator')->executeValidateHandlers($form, $form_state);
 
     $new_menu_path = $form_state->getValue('menu')['path'];
+    $old_menu_path = NULL;
 
     // Load unchanged entity.
     $config_pages_type = $this->entity;
     $config_pages_type_unchanged = $config_pages_type->load($config_pages_type->id());
-    $old_menu_path = $config_pages_type_unchanged->menu['path'];
+    if (is_object($config_pages_type_unchanged)) {
+      $old_menu_path = $config_pages_type_unchanged->menu['path'];
+    }
 
     // If menu path was changed check if it's a valid Drupal path.
     if (!empty($new_menu_path) && $new_menu_path != $old_menu_path) {

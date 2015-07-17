@@ -7,9 +7,9 @@ entity.config_pages_type.collection:
     _permission: 'administer ConfigPages entity'
 
 config_pages.add_form:
-  path: '/admin/structure/config_pages/add/{config_pages_type}'
+  path: '/admin/structure/config_pages/{config_pages_type}/edit'
   defaults:
-    _controller: '\Drupal\config_pages\Controller\ConfigPagesController::addForm'
+    _controller: '\Drupal\config_pages\Controller\ConfigPagesController::classInit'
     _title_callback: 'Drupal\config_pages\Controller\ConfigPagesController::getAddFormTitle'
   options:
     _admin_route: TRUE

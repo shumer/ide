@@ -38,7 +38,7 @@ class ConfigPagesRoutes {
         array(
           '_controller' => '\Drupal\config_pages\Controller\ConfigPagesController::classInit',
           '_title' => "Edit config page $label",
-          'type' => $bundle,
+          'config_pages_type' => $bundle,
         ),
         // Route requirements:
         array(

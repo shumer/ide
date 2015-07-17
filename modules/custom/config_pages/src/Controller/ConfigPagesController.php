@@ -130,19 +130,20 @@ class ConfigPagesController extends ControllerBase {
    * @return string
    *   The page title.
    */
-  public function getAddFormTitle(ConfigPagesTypeInterface $config_pages_type) {
+  public function getAddFormTitle($config_pages_type) {
+    $config_pages_type = ConfigPagesType::getTypes($config_pages_type);
     return $this->t('Add %type config page', array('%type' => $config_pages_type->label()));
   }
 
-  public function classInit($type = '') {
+  public function classInit($config_pages_type = '') {
 
     $contextData = '';
 
     $types = ConfigPagesType::getTypes();
 
     $contexts = [];
-    if (!empty($types[$type])) {
-      $typeEntity = $types[$type];
+    if (!empty($types[$config_pages_type])) {
+      $typeEntity = $types[$config_pages_type];
       $contextData = $typeEntity->getContextData();
     }
 
@@ -155,7 +156,7 @@ class ConfigPagesController extends ControllerBase {
     }
     else {
       $config_page = $this->ConfigPagesStorage->create(array(
-        'type' => $type
+        'type' => $config_pages_type
       ));
     }
     return $this->entityFormBuilder()->getForm($config_page);
