@@ -99,6 +99,7 @@ class ConfigPagesForm extends ContentEntityForm {
    * {@inheritdoc}
    */
   public function form(array $form, FormStateInterface $form_state) {
+
     $config_pages = $this->entity;
     $account = $this->currentUser();
 

@@ -44,4 +44,20 @@ worthy_custom.attach_main_menu = function ($context, settings) {
   $(".header .navbar ul").first().addClass('nav navbar-nav navbar-right');
 }
 
+  $('.modal').on('show.bs.modal', function (event) {
+    var el = $(event.relatedTarget);
+    var nid = el.data('nid');
+    var data;
+    var modal = $(this);
+    $.get('/site_common/ajax/node/' + nid, function(resp, status) {
+      console.log(status, resp);
+      data = resp;
+
+      //modal.find('.modal-title').text(data.title);
+      modal.find('.modal-body-text').html(data)
+    });
+
+
+  })
+
 })(jQuery, Drupal, drupalSettings);

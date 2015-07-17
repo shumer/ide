@@ -26,4 +26,13 @@ class SiteCommonNode {
     return $node;
   }
 
+  /**
+   *  Load node with access check
+   */
+  public static function deleteAllByType($type = '') {
+    if(!$type) {
+      return;
+    }
+  }
+
 }

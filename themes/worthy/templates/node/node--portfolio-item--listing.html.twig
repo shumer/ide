@@ -1,8 +1,8 @@
-<div class="col-sm-6 col-md-3 isotope-item type-{{ content.field_project_type[0] }}">
+<div class="col-sm-6 col-md-3 isotope-item type-{{ content.field_project_type }}">
     <div class="image-box">
         <div class="overlay-container">
             {{ content.field_project_image }}
-            <a class="overlay" data-toggle="modal" data-target="#project-{{ node.id }}">
+            <a class="overlay" data-toggle="modal" data-target="#project-{{ node.id }}" data-nid="{{ node.id }}">
                 <i class="fa fa-search-plus"></i>
                 <span>{{ content.field_project_type }}</span>
             </a>
@@ -14,13 +14,13 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title" id="project-{{ node.id }}-label">{{ content.field_title }}</h4>
+                    <h4 class="modal-title" id="project-{{ node.id }}-label"></h4>
                 </div>
                 <div class="modal-body">
                     <h3>Project Description</h3>
                     <div class="row">
-                        <div class="col-md-6">
-                            {{ content.body }}
+                        <div class="col-md-6 modal-body-text">
+
                         </div>
                         <div class="col-md-6">
                             {{ content.field_project_image }}

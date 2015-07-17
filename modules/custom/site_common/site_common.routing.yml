@@ -7,7 +7,7 @@ site_common.default_controller_hello:
   requirements:
     _permission: 'access content'
 
-site_common.default_controller_hello:
+site_common.default_controller_ajax:
    path: '/site_common/ajax/node/{nid}'
    defaults:
      _controller: '\Drupal\site_common\Controller\DefaultController::ajaxGetNode'

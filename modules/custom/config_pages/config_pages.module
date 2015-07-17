@@ -15,12 +15,25 @@ use Drupal\config_pages\Entity\ConfigPages;
  * Implements hook_entity_insert
  */
 function config_pages_entity_insert(\Drupal\Core\Entity\EntityInterface $entity) {
+
+
   if (CONFIG_PAGES_ENTITY_TYPE == $entity->getEntityTypeId()) {
+
+    $contexts = [];
+    foreach($entity->data['context'] as $context_id => $context) {
+      if($context) {
+        $item = \Drupal::service('plugin.manager.config_pages_context')->getDefinition($context_id);
+        $context_value = $item['class']::getValue();
+        $contexts[] = [$context_id => $context_value];
+      }
+    }
+    $contexts = serialize($contexts);
+
     $config_page = ConfigPages::create([
       'id' => NULL,
       'type' => $entity->id(),
       'label' => $entity->label(),
-      'context' => 'context',
+      'context' => $contexts,
     ])->save();
   }
 }
