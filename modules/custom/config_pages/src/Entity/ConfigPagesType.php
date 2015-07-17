@@ -92,7 +92,7 @@ class ConfigPagesType extends ConfigEntityBundleBase implements ConfigPagesTypeI
    * @return array
    *   The array of types.
    */
-  public function getTypes() {
+  public static function getTypes() {
     $storage = \Drupal::entityManager()->getStorage('config_pages_type');
     $types = $storage->loadMultipleOverrideFree();
     return $types;
