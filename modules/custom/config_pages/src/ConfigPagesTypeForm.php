@@ -21,6 +21,13 @@ use Drupal\config_pages\Entity\ConfigPages;
 class ConfigPagesTypeForm extends EntityForm {
 
   /**
+   * Required routes rebuild.
+   *
+   * @var string
+   */
+  protected $routesRebuildRequired = FALSE;
+
+  /**
    * {@inheritdoc}
    */
   public function form(array $form, FormStateInterface $form_state) {
@@ -114,6 +121,7 @@ class ConfigPagesTypeForm extends EntityForm {
       if ($path_exists) {
         $form_state->setErrorByName('menu', $this->t('This menu path is already exists, please provide another one.'));
       }
+      $this->routesRebuildRequired = TRUE;
     }
   }
 
@@ -134,6 +142,11 @@ class ConfigPagesTypeForm extends EntityForm {
     else {
       drupal_set_message(t('Custom config page type %label has been added.', array('%label' => $config_pages_type->label())));
       $logger->notice('Custom config page type %label has been added.', array('%label' => $config_pages_type->label(), 'link' => $edit_link));
+    }
+
+    // Check if we need to rebuild routes.
+    if ($this->routesRebuildRequired) {
+      \Drupal::service('router.builder')->rebuild();
     }
 
     $form_state->setRedirectUrl($this->entity->urlInfo('collection'));
