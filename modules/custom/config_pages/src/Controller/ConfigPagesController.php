@@ -15,6 +15,7 @@ use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Drupal\config_pages\Entity\ConfigPagesType;
 
 class ConfigPagesController extends ControllerBase {
 
@@ -132,4 +133,12 @@ class ConfigPagesController extends ControllerBase {
     return $this->t('Add %type config page', array('%type' => $config_pages_type->label()));
   }
 
+  public function classInit($type = '') {
+
+    dpm(ConfigPagesType::getTypes());
+    $config_page = $this->ConfigPagesStorage->create(array(
+      'type' => $type
+    ));
+    return $this->entityFormBuilder()->getForm($config_page);
+  }
 }

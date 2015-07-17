@@ -63,6 +63,15 @@ class ConfigPagesType extends ConfigEntityBundleBase implements ConfigPagesTypeI
    */
   protected $label;
 
+  /**
+   * Provides the list of config_pages types.
+   *
+   * @param \Drupal\Core\Entity\EntityStorageInterface $storage
+   *   Storage interface.
+   *
+   * @param array
+   *   Array of entities.
+   */
   public static function postDelete(EntityStorageInterface $storage, array $entities) {
     $query = \Drupal::entityQuery('config_pages');
 
@@ -75,4 +84,15 @@ class ConfigPagesType extends ConfigEntityBundleBase implements ConfigPagesTypeI
     $config_page->delete();
   }
 
+  /**
+   * Provides the list of config_pages types.
+   *
+   * @return array
+   *   The array of types.
+   */
+  public function getTypes() {
+    $storage = \Drupal::entityManager()->getStorage('config_pages_type');
+    $types = $storage->loadMultipleOverrideFree();
+    return $types;
+  }
 }

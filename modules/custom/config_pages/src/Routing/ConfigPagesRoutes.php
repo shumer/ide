@@ -24,8 +24,9 @@ class ConfigPagesRoutes {
       '/admin/content/config_page/{config_pages_type}',
       // Route defaults:
       array(
-        '_controller' => '\Drupal\config_pages\Controller\ConfigPagesController::addForm',
-        '_title' => 'Hello'
+        '_controller' => '\Drupal\config_pages\Controller\ConfigPagesController::classInit',
+        '_title' => 'Hello',
+        'type' => 'new',
       ),
       // Route requirements:
       array(
