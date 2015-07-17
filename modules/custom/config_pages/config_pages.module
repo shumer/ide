@@ -4,9 +4,6 @@
  * Module hooks.
  */
 
-// Define const for ConfigPage entity type.
-const CONFIG_PAGES_ENTITY_TYPE = 'config_pages_type';
-
 use Drupal\config_pages\Entity\ConfigPages;
 use Drupal\config_pages\Entity\ConfigPagesType;
 
