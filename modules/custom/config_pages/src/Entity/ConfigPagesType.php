@@ -33,7 +33,8 @@ use Drupal\config_pages\ConfigPagesTypeInterface;
  *   entity_keys = {
  *     "id" = "id",
  *     "label" = "label",
- *     "data" = "data"
+ *     "context" = "context",
+ *     "menu" = "menu"
  *   },
  *   links = {
  *     "delete-form" = "/admin/structure/config_pages/config-pages-content/manage/{config_pages_type}/delete",
@@ -43,7 +44,8 @@ use Drupal\config_pages\ConfigPagesTypeInterface;
  *   config_export = {
  *     "id",
  *     "label",
- *     "data",
+ *     "context",
+ *     "menu"
  *   }
  * )
  */

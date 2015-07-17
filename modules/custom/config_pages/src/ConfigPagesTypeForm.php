@@ -60,20 +60,33 @@ class ConfigPagesTypeForm extends EntityForm {
       $options[$plugin_id] = $item['label'];
     }
 
-    // Context.
-    $form['data'] = array(
-      '#type' => 'fieldset',
-      '#title' => t('Context'),
-      '#tree' => TRUE,
-      '#collapsible' => TRUE,
-      '#collapsed' => TRUE,
+    // Menu.
+    $form['menu'] = array(
+      '#type' => 'details',
+      '#title' => t('Menu'),
+      '#open' => TRUE,
     );
 
-    $form['data']['context'] = array(
+    $form['menu']['path'] = array(
+      '#type' => 'textfield',
+      '#description' => t('Consider following context for this configuration'),
+      '#default_value' => !empty($config_pages_type->menu['path']) ? $config_pages_type->menu['path'] : array(),
+      '#required' => FALSE,
+    );
+
+    // Context.
+    $form['context'] = array(
+      '#type' => 'details',
+      '#title' => t('Context'),
+      '#tree' => TRUE,
+      '#open' => FALSE,
+    );
+
+    $form['context']['group'] = array(
       '#type' => 'checkboxes',
       '#description' => t('Consider following context for this configuration'),
       '#options' => $options,
-      '#default_value' => !empty($config_pages_type->data['context']) ? $config_pages_type->data['context'] : array(),
+      '#default_value' => !empty($config_pages_type->context['group']) ? $config_pages_type->context['group'] : array(),
       '#required' => FALSE,
     );
 
@@ -86,7 +99,6 @@ class ConfigPagesTypeForm extends EntityForm {
   public function save(array $form, FormStateInterface $form_state) {
 
     $config_pages_type = $this->entity;
-
     $status = $config_pages_type->save();
 
     $edit_link = $this->entity->link($this->t('Edit'));
