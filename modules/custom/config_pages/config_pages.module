@@ -11,7 +11,7 @@ use Drupal\config_pages\Entity\ConfigPages;
 use Drupal\config_pages\Entity\ConfigPagesType;
 
 /**
- * @param string
+ * @param string $type
  *  config_page type to get context.
  *
  * @return array
@@ -27,4 +27,22 @@ function config_pages_context_get($type) {
   $context = $type->getContextData();
 
   return $context;
+}
+
+/**
+ *
+ * Helper function.
+ * Returns config page entity.
+ *
+ * @param string $type
+ *   Config page type to load.
+ *
+ * @param string $context
+ *   Context which should be used to load entity,
+ *
+ * @retun \Drupal\config_pages\Entity\ConfigPages.
+ */
+function config_pages_config($type, $context = NULL) {
+  $config_page = ConfigPages::config($type, $context);
+  return $config_page;
 }
