@@ -52,13 +52,8 @@ use Drupal\config_pages\ConfigPagesInterface;
  *   },
  *   bundle_entity_type = "config_pages_type",
  *   field_ui_base_route = "entity.config_pages_type.edit_form",
- *   render_cache = FALSE,
+ *   render_cache = TRUE,
  * )
- *
- * Note that render caching of config_pages entities is disabled because they
- * are always rendered as config pages, and config pages already have their own render
- * caching.
- * See https://www.drupal.org/node/2284917#comment-9132521 for more information.
  */
 class ConfigPages extends ContentEntityBase implements ConfigPagesInterface {
 
