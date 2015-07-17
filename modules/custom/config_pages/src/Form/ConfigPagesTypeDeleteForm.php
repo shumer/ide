@@ -14,7 +14,7 @@ use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Provides a confirmation form for deleting a custom block type entity.
+ * Provides a confirmation form for deleting a config page type entity.
  */
 class ConfigPagesTypeDeleteForm extends EntityDeleteForm {
 
