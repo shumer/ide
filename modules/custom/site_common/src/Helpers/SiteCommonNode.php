@@ -27,12 +27,14 @@ class SiteCommonNode {
   }
 
   /**
-   *  Load node with access check
+   *  Delete node by bundle.
    */
   public static function deleteAllByType($type = '') {
     if(!$type) {
       return;
     }
+
+    SiteCommonEntity::deleteAllByType('node', $type);
   }
 
 }

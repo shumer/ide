@@ -8,6 +8,8 @@
 namespace Drupal\config_pages;
 
 use Drupal\Component\Utility\Html;
+use Drupal\config_pages\Entity\ConfigPages;
+use Drupal\config_pages\Entity\ConfigPagesType;
 use Drupal\Core\Entity\ContentEntityForm;
 use Drupal\Core\Entity\EntityManagerInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
@@ -120,6 +122,16 @@ class ConfigPagesForm extends ContentEntityForm {
   public function save(array $form, FormStateInterface $form_state) {
     $config_pages = $this->entity;
 
+    $types = ConfigPagesType::getTypes();
+
+    $type = $types[$config_pages->bundle()];
+
+    if(!$config_pages->label()) {
+      $config_pages->setLabel($type->label());
+    }
+
+    $config_pages->context = $type->getContextData();
+
     // Save as a new revision if requested to do so.
     if (!$form_state->isValueEmpty('revision')) {
       $config_pages->setNewRevision();
@@ -144,41 +156,12 @@ class ConfigPagesForm extends ContentEntityForm {
     if ($config_pages->id()) {
       $form_state->setValue('id', $config_pages->id());
       $form_state->set('id', $config_pages->id());
-      if ($insert) {
-        if (!$theme = $config_pages->getTheme()) {
-          $theme = $this->config('system.theme')->get('default');
-        }
-        $form_state->setRedirect(
-          'entity.config_pages.edit_form',
-          array(
-            'plugin_id' => 'config_pages:' . $config_pages->uuid(),
-            'theme' => $theme,
-          )
-        );
-      }
-      else {
-        $form_state->setRedirectUrl($config_pages->urlInfo('collection'));
-      }
     }
     else {
       // In the unlikely case something went wrong on save, the config page will be
       // rebuilt and config page form redisplayed.
       drupal_set_message($this->t('The config page could not be saved.'), 'error');
       $form_state->setRebuild();
-    }
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function validateForm(array &$form, FormStateInterface $form_state) {
-    if ($this->entity->isNew()) {
-      $exists = $this->ConfigPagesStorage->loadByProperties(array('label' => $form_state->getValue(['label', 0, 'value'])));
-      if (!empty($exists)) {
-        $form_state->setErrorByName('label', $this->t('A config page with description %name already exists.', array(
-          '%name' => $form_state->getValue(array('label', 0, 'value')),
-        )));
-      }
     }
   }
 

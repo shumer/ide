@@ -8,6 +8,7 @@
 namespace Drupal\config_pages\Controller;
 
 use Drupal\Component\Plugin\PluginManagerInterface;
+use Drupal\config_pages\Entity\ConfigPages;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\config_pages\ConfigPagesTypeInterface;
@@ -135,10 +136,28 @@ class ConfigPagesController extends ControllerBase {
 
   public function classInit($type = '') {
 
-    dpm(ConfigPagesType::getTypes());
-    $config_page = $this->ConfigPagesStorage->create(array(
-      'type' => $type
-    ));
+    $contextData = '';
+
+    $types = ConfigPagesType::getTypes();
+
+    $contexts = [];
+    if (!empty($types[$type])) {
+      $typeEntity = $types[$type];
+      $contextData = $typeEntity->getContextData();
+    }
+
+    $config_page_ids = \Drupal::entityQuery('config_pages')->condition('context', $contextData)->execute();
+
+    if (!empty($config_page_ids)) {
+      $config_page_id = array_shift($config_page_ids);
+      $entityStorage = \Drupal::entityManager()->getStorage('config_pages');
+      $config_page = $entityStorage->load($config_page_id);
+    }
+    else {
+      $config_page = $this->ConfigPagesStorage->create(array(
+        'type' => $type
+      ));
+    }
     return $this->entityFormBuilder()->getForm($config_page);
   }
 }

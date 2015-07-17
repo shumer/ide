@@ -83,7 +83,9 @@ class ConfigPagesType extends ConfigEntityBundleBase implements ConfigPagesTypeI
     $config_page_id = $query->condition('label', $label)->execute();
     $config_page_id = array_shift($config_page_id);
     $config_page = ConfigPages::load($config_page_id);
-    $config_page->delete();
+    if (!empty($config_page)){
+      $config_page->delete();
+    }
   }
 
   /**
@@ -97,4 +99,24 @@ class ConfigPagesType extends ConfigEntityBundleBase implements ConfigPagesTypeI
     $types = $storage->loadMultipleOverrideFree($type);
     return !empty($type) ? reset($types) : $types;
   }
+
+  /**
+   * Provides the serialized context data.
+   *
+   * @return string
+   */
+  public function getContextData() {
+    $contextData = [];
+    if (!empty($this->context['group'])) {
+      foreach ($this->context['group'] as $context_id => $context_enabled) {
+        if ($context_enabled) {
+          $item = \Drupal::service('plugin.manager.config_pages_context')->getDefinition($context_id);
+          $context_value = $item['class']::getValue();
+          $contextData[] = [$context_id => $context_value];
+        }
+      }
+    }
+    return serialize($contextData);
+  }
+
 }
