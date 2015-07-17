@@ -16,7 +16,7 @@ use Drupal\config_pages\Entity\ConfigPages;
  */
 function config_pages_entity_insert(\Drupal\Core\Entity\EntityInterface $entity) {
 
-
+/*
   if (CONFIG_PAGES_ENTITY_TYPE == $entity->getEntityTypeId()) {
 
     $contexts = [];
@@ -36,4 +36,5 @@ function config_pages_entity_insert(\Drupal\Core\Entity\EntityInterface $entity)
       'context' => $contexts,
     ])->save();
   }
+*/
 }
