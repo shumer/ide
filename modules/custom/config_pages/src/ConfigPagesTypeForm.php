@@ -64,6 +64,7 @@ class ConfigPagesTypeForm extends EntityForm {
     $form['menu'] = array(
       '#type' => 'details',
       '#title' => t('Menu'),
+      '#tree' => TRUE,
       '#open' => TRUE,
     );
 
@@ -91,6 +92,29 @@ class ConfigPagesTypeForm extends EntityForm {
     );
 
     return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function validate(array $form, FormStateInterface $form_state) {
+    $form_state->setValidateHandlers([]);
+    \Drupal::service('form_validator')->executeValidateHandlers($form, $form_state);
+
+    $new_menu_path = $form_state->getValue('menu')['path'];
+
+    // Load unchanged entity.
+    $config_pages_type = $this->entity;
+    $config_pages_type_unchanged = $config_pages_type->load($config_pages_type->id());
+    $old_menu_path = $config_pages_type_unchanged->menu['path'];
+
+    // If menu path was changed check if it's a valid Drupal path.
+    if (!empty($new_menu_path) && $new_menu_path != $old_menu_path) {
+      $path_exists = \Drupal::service('path.validator')->isValid($new_menu_path);
+      if ($path_exists) {
+        $form_state->setErrorByName('menu', $this->t('This menu path is already exists, please provide another one.'));
+      }
+    }
   }
 
   /**
