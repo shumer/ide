@@ -1,4 +1,10 @@
 <?php
+
+/**
+ * @file
+ * Contains \Drupal\config_pages\Annotation\ConfigPagesContext.
+ */
+
 namespace Drupal\config_pages\Annotation;
 
 use Drupal\Component\Annotation\Plugin;
@@ -30,6 +36,5 @@ class ConfigPagesContext extends Plugin {
    * @ingroup plugin_translatable
    */
   public $label;
-
 
 }
