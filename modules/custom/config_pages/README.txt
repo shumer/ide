@@ -42,4 +42,14 @@ Install this module as any other module
 
 Generic workflow
 -------------------------------
-TODO: write workflow
+1. After module installed you can navigate to "admin/structure/config_pages/types" and click on "Add config page"
+2. Enter config page title and mount point, for example "admin/config/mysettings" and page type
+3. Choose context if you need (if for example you want to have different settings for different languages) and save config page
+4. Go to "admin/structure/config_pages/types" and find your config page there, you can add desired fields as you do for any other entity.
+5. If this config page is expected to be rendered (for exmaple if this is homepage config) manage display for your config page as you do for any other entity
+6. At this point you can find you page using the path from pt2. (admin/config/mysettings)
+7. Give appropriate user roles access to config page you created.
+8. List of all created config page forms also can be found at "admin/structure/config_pages"
+
+9. How can i access my settings?
+9.1 If this config page is used to store settings then you should use config_pages_config() function.
