@@ -13,3 +13,7 @@ delete ConfigPages entity:
 administer ConfigPages entity:
   title: 'Adminster ConfigPages entity'
   description: 'Allow administer my ConfigPages'
+
+administer config_pages types:
+  title: 'Administer Config Pages'
+  description: 'Create and delete fields for Config Pages.'

@@ -27,7 +27,7 @@ use Drupal\config_pages\ConfigPagesTypeInterface;
  *     },
  *     "list_builder" = "Drupal\config_pages\ConfigPagesTypeListBuilder"
  *   },
- *   admin_permission = "administer blocks",
+ *   admin_permission = "administer config_pages types",
  *   config_prefix = "type",
  *   bundle_of = "config_pages",
  *   entity_keys = {

@@ -70,34 +70,6 @@ class ConfigPagesController extends ControllerBase {
   }
 
   /**
-   * Displays add config page links for available types.
-   *
-   * @param \Symfony\Component\HttpFoundation\Request $request
-   *   The current request object.
-   *
-   * @return array
-   *   A render array for a list of the config page types that can be added or
-   *   if there is only one config page type defined for the site, the function
-   *   returns the config page add page for that config page type.
-   */
-  public function add(Request $request) {
-    $types = $this->ConfigPagesTypeStorage->loadMultiple();
-    if ($types && count($types) == 1) {
-      $type = reset($types);
-      return $this->addForm($type, $request);
-    }
-    if (count($types) === 0) {
-      return array(
-        '#markup' => $this->t('You have not created any block types yet. Go to the <a href="!url">block type creation page</a> to add a new block type.', [
-          '!url' => Url::fromRoute('config_pages.type_add')->toString(),
-        ]),
-      );
-    }
-
-    return array('#theme' => 'config_pages_add_list', '#content' => $types);
-  }
-
-  /**
    * Presents the config page creation form.
    *
    * @param \Drupal\config_pages\ConfigPagesTypeInterface $config_pages_type
