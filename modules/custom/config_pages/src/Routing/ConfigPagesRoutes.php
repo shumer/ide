@@ -32,21 +32,17 @@ class ConfigPagesRoutes {
         continue;
       }
       $routes['config_pages.test_content'] = new Route(
-        // Path to attach this route to:
         $path,
-        // Route defaults:
         array(
           '_controller' => '\Drupal\config_pages\Controller\ConfigPagesController::classInit',
           '_title' => "Edit config page $label",
           'config_pages_type' => $bundle,
         ),
-        // Route requirements:
         array(
-          '_permission'  => 'access content',
+          '_permission'  => 'administer ConfigPages entity',
         )
       );
     }
     return $routes;
   }
 }
-?>

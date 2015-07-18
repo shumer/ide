@@ -129,6 +129,15 @@ class ConfigPagesController extends ControllerBase {
     return $this->t('Add %type config page', array('%type' => $config_pages_type->label()));
   }
 
+  /**
+   * Presents the config page creation/edit form.
+   *
+   * @param \Drupal\config_pages\ConfigPagesTypeInterface $config_pages_type
+   *   The config page type to add.
+   *
+   * @return array
+   *   A form array as expected by drupal_render().
+   */
   public function classInit($config_pages_type = '') {
 
     $contextData = '';

@@ -1,4 +1,10 @@
 <?php
+
+/**
+ * @file
+ * Contains \Drupal\config_pages\Plugin\ConfigPagesContextBase.
+ */
+
 namespace Drupal\config_pages\Plugin\ConfigPagesContext;
 
 use Drupal\config_pages\ConfigPagesContextBase;
