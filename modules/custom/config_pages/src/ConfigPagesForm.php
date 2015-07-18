@@ -104,6 +104,15 @@ class ConfigPagesForm extends ContentEntityForm {
 
     $config_pages = $this->entity;
     $account = $this->currentUser();
+    $config_pages_type = $this->ConfigPagesTypeStorage->load($config_pages->bundle());
+
+    // Show context message.
+    if (!empty($config_pages->context) && empty($_POST)) {
+      $label = $config_pages_type->getContextLabel();
+      drupal_set_message($this->t('Please note that this Page is context sensitive, current context is %label', array(
+        '%label' => $label,
+      )), 'warning');
+    }
 
     if ($this->operation == 'edit') {
       $form['#title'] = $this->t('Edit custom config page %label', array('%label' => $config_pages->label()));

@@ -124,4 +124,22 @@ class ConfigPagesType extends ConfigEntityBundleBase implements ConfigPagesTypeI
     return serialize($contextData);
   }
 
+  /**
+   * Provides the context labels.
+   *
+   * @return string
+   */
+  public function getContextLabel() {
+    $contextData = [];
+    if (!empty($this->context['group'])) {
+      foreach ($this->context['group'] as $context_id => $context_enabled) {
+        if ($context_enabled) {
+          $item = \Drupal::service('plugin.manager.config_pages_context')->getDefinition($context_id);
+          $context_value = $item['label'];
+          $contextData[] = $context_value;
+        }
+      }
+    }
+    return implode(', ', $contextData);
+  }
 }
