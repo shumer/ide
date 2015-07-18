@@ -1,4 +1,10 @@
 <?php
+
+/**
+ * @file
+ * Contains \Drupal\config_pages\ConfigPagesContextInterface.
+ */
+
 namespace Drupal\config_pages;
 
 use Drupal\Component\Plugin\PluginInspectionInterface;

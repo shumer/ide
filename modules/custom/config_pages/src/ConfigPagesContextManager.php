@@ -1,4 +1,10 @@
 <?php
+
+/**
+ * @file
+ * Contains \Drupal\config_pages\ConfigPagesContextManager.
+ */
+
 namespace Drupal\config_pages;
 
 use Drupal\Core\Plugin\DefaultPluginManager;
