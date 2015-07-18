@@ -39,7 +39,7 @@ class ConfigPagesRoutes {
           'config_pages_type' => $bundle,
         ),
         array(
-          '_permission'  => 'administer ConfigPages entity',
+          '_permission'  => 'edit config_pages entity',
         )
       );
     }

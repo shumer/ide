@@ -4,7 +4,7 @@ entity.config_pages_type.collection:
     _entity_list: 'config_pages_type'
     _title: 'Config Pages Types'
   requirements:
-    _permission: 'administer ConfigPages entity'
+    _permission: 'administer config_pages entity'
 
 config_pages.add_form:
   path: '/admin/structure/config_pages/{config_pages_type}/edit'
@@ -14,7 +14,7 @@ config_pages.add_form:
   options:
     _admin_route: TRUE
   requirements:
-    _permission: 'administer ConfigPages entity'
+    _permission: 'edit config_pages entity'
 
 entity.config_pages_type.delete_form:
   path: '/admin/structure/config_pages/types/manage/{config_pages_type}/delete'
@@ -52,7 +52,7 @@ config_pages.type_add:
     _entity_form: 'config_pages_type.add'
     _title: 'Add Config Page type'
   requirements:
-    _permission: 'administer ConfigPages entity'
+    _permission: 'administer config_pages entity'
 
 entity.config_pages_type.edit_form:
   path: '/admin/structure/config_pages/types/manage/{config_pages_type}'
@@ -69,7 +69,7 @@ entity.config_pages.collection:
     _entity_list: 'config_pages'
     _title: 'Config pages'
   requirements:
-    _permission: 'administer ConfigPages entity'
+    _permission: 'administer config_pages entity'
 
 route_callbacks:
   - '\Drupal\config_pages\Routing\ConfigPagesRoutes::routes'
