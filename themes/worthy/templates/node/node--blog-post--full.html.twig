@@ -1,25 +1,19 @@
-<div class="col-sm-8">
-  <article{{ attributes }}>
+<article{{ attributes }}>
+  <h2{{ title_attributes }}>{{ label }}</h2>
 
-    {{ title_prefix }}
-      <h2{{ title_attributes }}>
-        <a href="{{ url }}" rel="bookmark">{{ label }}</a>
-      </h2>
-    {{ title_suffix }}
-
-    {% if display_submitted %}
-      <footer>
+  {% if display_submitted %}
+    <div class="panel panel-default">
+      <div class="panel-body">
         {{ author_picture }}
         <div{{ author_attributes }}>
-          {% trans %}Submitted by {{ author_name }} on {{ date }}{% endtrans %}
+          {% trans %}Submitted by {{ author_name }} on {{ date|date("m/d/Y") }}{% endtrans %}
           {{ metadata }}
         </div>
-      </footer>
-    {% endif %}
-
-    <div{{ content_attributes }}>
-      {{ content }}
+      </div>
     </div>
+  {% endif %}
 
-  </article>
-</div>
+  <div{{ content_attributes }}>
+    {{ content }}
+  </div>
+</article>
