@@ -4,6 +4,10 @@ description: 'Main theme for company site'
 package: IDE
 core: '8.x'
 
+# Remove a CSS file:
+stylesheets-remove:
+  - system.theme.css
+
 libraries:
   - worthy/bootstrap
   - worthy/worthy
@@ -22,4 +26,3 @@ regions:
   featured_bottom_second: 'Featured bottom second'
   featured_bottom_third: 'Featured bottom third'
   footer: 'Footer first'
-

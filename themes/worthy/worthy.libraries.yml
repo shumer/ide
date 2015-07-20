@@ -23,6 +23,8 @@ worthy:
     js/template.js: {}
   dependencies:
     - core/jquery
+  stylesheets-remove:
+    - system.theme.css
 
 custom:
   version: 1.01
