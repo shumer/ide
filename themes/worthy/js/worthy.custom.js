@@ -37,6 +37,10 @@
 
     // Attach frontpage.
     worthy_custom.attach_frontpage($context, settings);
+
+    $('pre code').each(function(i, block) {
+      hljs.highlightBlock(block);
+    });
   }
 
   worthy_custom.attach_home_page_banner = function ($context, settings) {
