@@ -20,4 +20,14 @@ class ConfigPagesContextBase extends PluginBase implements ConfigPagesContextInt
     return $this->pluginDefinition['label'];
   }
 
+  /**
+   * Return the value of the context.
+   * Needs to be overriden for concrete context.
+   *
+   * @return mixed
+   */
+  public static function getValue() {
+    return '';
+  }
+
 }

@@ -106,6 +106,13 @@ class ConfigPagesForm extends ContentEntityForm {
     $account = $this->currentUser();
     $config_pages_type = $this->ConfigPagesTypeStorage->load($config_pages->bundle());
 
+
+    $conditions['type'] = $config_pages->bundle();
+
+    $list = \Drupal::entityManager()
+      ->getStorage('config_pages')
+      ->loadByProperties($conditions);
+
     // Show context message.
     if (!empty($config_pages->context) && empty($_POST)) {
       $label = $config_pages_type->getContextLabel();
@@ -122,13 +129,69 @@ class ConfigPagesForm extends ContentEntityForm {
     // names.
     $form['#attributes']['class'][0] = 'config-page-' . Html::getClass($config_pages->bundle()) . '-form';
 
+    $form['other_context'] = [
+      '#type' => 'fieldset',
+      '#tree' => TRUE,
+      '#title' => t('Import'),
+    ];
+
+    if (!$this->entity->get('context')->isEmpty()) {
+      $options = [];
+      foreach ($list as $id => $item) {
+
+        if ($config_pages->id() != $id) {
+          $value = $item->get('context')->first()->getValue();
+          $params = array_shift(unserialize($value['value']));
+          $string = '';
+          foreach ($params as $name => $val) {
+            $string .= $name . ' - ' . $val . ';';
+          }
+
+          $options[$id] = $string;
+        }
+      }
+
+      $form['other_context']['list'] = [
+        '#type' => 'select',
+        '#options' => $options,
+      ];
+
+      $form['other_context']['submit'] = [
+        '#type' => 'submit',
+        '#value' => t('Import'),
+        '#submit' => array('::configPagesImportValues'),
+      ];
+    }
     return parent::form($form, $form_state, $config_pages);
+  }
+
+  /**
+   * Form submit.
+   * Import other context submit callback.
+   */
+  public function configPagesImportValues(array $form, FormStateInterface $form_state) {
+
+    $entity = $this->entity;
+
+    if ($imported_entity_id = $form_state->getValue('other_context')['list']) {
+      $entityStorage = \Drupal::entityManager()->getStorage('config_pages');
+      $imported_entity = $entityStorage->load($imported_entity_id);
+
+      foreach ($entity as $name => &$value) {
+        if ($entity->get($name)->isEmpty()) {
+          $entity->set($name, $imported_entity->get($name)->getValue());
+        }
+      }
+
+      $entity->save();
+    }
   }
 
   /**
    * {@inheritdoc}
    */
   public function save(array $form, FormStateInterface $form_state) {
+
     $config_pages = $this->entity;
 
     $types = ConfigPagesType::getTypes();

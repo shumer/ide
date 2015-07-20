@@ -18,4 +18,11 @@ interface ConfigPagesContextInterface extends PluginInspectionInterface {
    */
   public function getLabel();
 
+  /**
+   * Return the value of the context.
+   *
+   * @return mixed
+   */
+  public static function getValue();
+
 }
