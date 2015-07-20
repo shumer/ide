@@ -1,0 +1,55 @@
+{#
+/**
+ * @file
+ * Worthy's theme implementation to display a single page.
+ */
+#}
+<div class="scrollToTop">
+  <i class="icon-up-open-big"></i>
+</div>
+<header class="header fixed clearfix navbar navbar-fixed-top">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        {{ page.header }}
+      </div>
+      <div class="col-md-8">
+        <div class="header-right clearfix">
+          <div class="main-navigation animated">
+            <nav class="navbar navbar-default" role="navigation">
+              <div class="container-fluid">
+                <div class="navbar-header">
+                    <button data-target="#navbar-collapse-1" data-toggle="collapse" class="navbar-toggle" type="button">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div id="navbar-collapse-1" class="collapse navbar-collapse scrollspy smooth-scroll">
+                  {{ page.primary_menu }}
+                </div>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  {{ page.content }}
+</div>
+
+<footer id="footer">
+  <div class="subfooter">
+    <div class="container">
+    	<div class="row">
+    		<div class="col-md-12">
+    			<p class="text-center">{{ "Copyright &copy; 2015 by Webteam group"|t }}</p>
+    		</div>
+    	</div>
+    </div>
+  </div>
+</footer>
