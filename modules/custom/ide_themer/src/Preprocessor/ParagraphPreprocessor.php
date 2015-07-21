@@ -35,7 +35,7 @@ class ParagraphPreprocessor implements PreprocessorInterface{
   }
 
   public function preprocess_paragraph__service_item__default() {
-    dpm($this->vars);
+
   }
 
   public function preprocess_paragraph__code__default() {
