@@ -21,7 +21,7 @@ class ConfigPagesRoutes {
     $routes = array();
 
     // Declare dinamic routes for config pages entities.
-    $types = ConfigPagesType::getTypes();
+    $types = ConfigPagesType::loadMultiple();
     foreach ($types as $cp_type) {
       $bundle = $cp_type->id();
       $label = $cp_type->get('label');

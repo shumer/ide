@@ -97,7 +97,8 @@ class ConfigPagesController extends ControllerBase {
    *   The page title.
    */
   public function getAddFormTitle($config_pages_type) {
-    $config_pages_type = ConfigPagesType::getTypes($config_pages_type);
+    $config_pages_types = ConfigPagesType::loadMultiple();
+    $config_pages_type = $config_pages_types[$config_pages_type];
     return $this->t('Add %type config page', array('%type' => $config_pages_type->label()));
   }
 
@@ -114,7 +115,7 @@ class ConfigPagesController extends ControllerBase {
 
     $contextData = '';
 
-    $types = ConfigPagesType::getTypes();
+    $types = ConfigPagesType::loadMultiple();
 
     $contexts = [];
     if (!empty($types[$config_pages_type])) {

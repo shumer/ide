@@ -16,7 +16,8 @@ use Drupal\config_pages\Entity\ConfigPagesType;
  */
 function config_pages_context_get($type) {
   $context = [];
-  $type = ConfigPagesType::getTypes($type);
+  $types = ConfigPagesType::loadMultiple();
+  $type = $types[$type];
   if (!$type) {
     return $context;
   }

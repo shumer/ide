@@ -173,13 +173,6 @@ class ConfigPagesForm extends ContentEntityForm {
       }
     }
 
-    $form['reset'] = [
-      '#type' => 'submit',
-      '#value' => t('Clear values'),
-      '#submit' => array('::configPagesClearValues'),
-      '#button_type' => "submit",
-
-    ];
     return $form;
   }
 
@@ -226,7 +219,7 @@ class ConfigPagesForm extends ContentEntityForm {
   public function save(array $form, FormStateInterface $form_state) {
     $config_pages = $this->entity;
 
-    $types = ConfigPagesType::getTypes();
+    $types = ConfigPagesType::loadMultiple();
 
     $type = $types[$config_pages->bundle()];
 
@@ -269,4 +262,49 @@ class ConfigPagesForm extends ContentEntityForm {
     }
   }
 
+  /**
+   * Returns an array of supported actions for the current entity form.
+   *
+   * @todo Consider introducing a 'preview' action here, since it is used by
+   *   many entity types.
+   */
+  protected function actions(array $form, FormStateInterface $form_state) {
+    // @todo Consider renaming the action key from submit to save. The impacts
+    //   are hard to predict. For example, see
+    //   \Drupal\language\Element\LanguageConfiguration::processLanguageConfiguration().
+    $actions['submit'] = array(
+      '#type' => 'submit',
+      '#value' => $this->t('Save'),
+      '#validate' => array('::validate'),
+      '#submit' => array('::submitForm', '::save'),
+    );
+
+    // Add button to reset values.
+    $actions['reset'] = array(
+      '#type' => 'submit',
+      '#value' => t('Clear values'),
+      '#submit' => array('::configPagesClearValues'),
+      '#button_type' => "submit",
+    );
+
+    if (!$this->entity->isNew() && $this->entity->hasLinkTemplate('delete-form')) {
+      $route_info = $this->entity->urlInfo('delete-form');
+      if ($this->getRequest()->query->has('destination')) {
+        $query = $route_info->getOption('query');
+        $query['destination'] = $this->getRequest()->query->get('destination');
+        $route_info->setOption('query', $query);
+      }
+      $actions['delete'] = array(
+        '#type' => 'link',
+        '#title' => $this->t('Delete'),
+        '#access' => $this->entity->access('delete'),
+        '#attributes' => array(
+          'class' => array('button', 'button--danger'),
+        ),
+      );
+      $actions['delete']['#url'] = $route_info;
+    }
+
+    return $actions;
+  }
 }
