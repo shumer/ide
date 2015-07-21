@@ -1,6 +1,7 @@
 <?php
 namespace Drupal\ide_themer\Preprocessor;
 
+use Drupal\Component\Utility\SafeMarkup;
 
 class ParagraphPreprocessor implements PreprocessorInterface{
 
@@ -37,4 +38,7 @@ class ParagraphPreprocessor implements PreprocessorInterface{
     dpm($this->vars);
   }
 
-} 
+  public function preprocess_paragraph__code__default() {
+    $this->_data['class'] = SafeMarkup::checkPlain($this->paragraph->field_paragraph_code_lang->value);
+  }
+}
