@@ -1,3 +1,9 @@
+{#
+/**
+ * @file
+ *   Blog post node in full view mode.
+ */
+#}
 <article{{ attributes }}>
   <h2{{ title_attributes }}>{{ label }}</h2>
 
@@ -7,13 +13,13 @@
         {{ author_picture }}
         <div{{ author_attributes }}>
           {% trans %}Submitted by {{ author_name }} on {{ date|date("m/d/Y") }}{% endtrans %}
-          {{ metadata }}
+          {{ metadata }}<span class="pull-right">{{ content.field_blog_post_category }}</span>
         </div>
       </div>
     </div>
   {% endif %}
 
   <div{{ content_attributes }}>
-    {{ content }}
+    {{ content.field_blog_post_paragraph }}
   </div>
 </article>
