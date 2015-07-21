@@ -168,6 +168,8 @@ class ConfigPagesForm extends ContentEntityForm {
         $form['other_context']['submit'] = [
           '#type' => 'submit',
           '#value' => t('Import'),
+          '#prefix' => '<div class="imort-form-actions">',
+          '#suffix' => '</div>',
           '#submit' => array('::configPagesImportValues'),
         ];
       }
