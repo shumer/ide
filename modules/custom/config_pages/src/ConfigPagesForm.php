@@ -269,9 +269,8 @@ class ConfigPagesForm extends ContentEntityForm {
    *   many entity types.
    */
   protected function actions(array $form, FormStateInterface $form_state) {
-    // @todo Consider renaming the action key from submit to save. The impacts
-    //   are hard to predict. For example, see
-    //   \Drupal\language\Element\LanguageConfiguration::processLanguageConfiguration().
+
+    // Save ConfigPage entity.
     $actions['submit'] = array(
       '#type' => 'submit',
       '#value' => $this->t('Save'),
@@ -286,24 +285,6 @@ class ConfigPagesForm extends ContentEntityForm {
       '#submit' => array('::configPagesClearValues'),
       '#button_type' => "submit",
     );
-
-    if (!$this->entity->isNew() && $this->entity->hasLinkTemplate('delete-form')) {
-      $route_info = $this->entity->urlInfo('delete-form');
-      if ($this->getRequest()->query->has('destination')) {
-        $query = $route_info->getOption('query');
-        $query['destination'] = $this->getRequest()->query->get('destination');
-        $route_info->setOption('query', $query);
-      }
-      $actions['delete'] = array(
-        '#type' => 'link',
-        '#title' => $this->t('Delete'),
-        '#access' => $this->entity->access('delete'),
-        '#attributes' => array(
-          'class' => array('button', 'button--danger'),
-        ),
-      );
-      $actions['delete']['#url'] = $route_info;
-    }
 
     return $actions;
   }
