@@ -16,6 +16,9 @@ use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Field\FieldConfigInterface;
 
 /**
  * Form controller for the custom config page edit forms.
@@ -106,6 +109,7 @@ class ConfigPagesForm extends ContentEntityForm {
     $account = $this->currentUser();
     $config_pages_type = $this->ConfigPagesTypeStorage->load($config_pages->bundle());
 
+    $form = parent::form($form, $form_state, $config_pages);
 
     $conditions['type'] = $config_pages->bundle();
 
@@ -129,11 +133,7 @@ class ConfigPagesForm extends ContentEntityForm {
     // names.
     $form['#attributes']['class'][0] = 'config-page-' . Html::getClass($config_pages->bundle()) . '-form';
 
-    $form['other_context'] = [
-      '#type' => 'fieldset',
-      '#tree' => TRUE,
-      '#title' => t('Import'),
-    ];
+
 
     if (!$this->entity->get('context')->isEmpty()) {
       $options = [];
@@ -141,7 +141,8 @@ class ConfigPagesForm extends ContentEntityForm {
 
         if ($config_pages->id() != $id) {
           $value = $item->get('context')->first()->getValue();
-          $params = array_shift(unserialize($value['value']));
+          $params = unserialize($value['value']);
+          $params = array_shift($params);
           $string = '';
           foreach ($params as $name => $val) {
             $string .= $name . ' - ' . $val . ';';
@@ -150,19 +151,50 @@ class ConfigPagesForm extends ContentEntityForm {
           $options[$id] = $string;
         }
       }
+      if (!empty($options)) {
+        $form['other_context'] = [
+          '#type' => 'details',
+          '#tree' => TRUE,
+          '#title' => t('Import'),
+        ];
 
-      $form['other_context']['list'] = [
-        '#type' => 'select',
-        '#options' => $options,
-      ];
+        $form['other_context']['list'] = [
+          '#type' => 'select',
+          '#options' => $options,
+        ];
 
-      $form['other_context']['submit'] = [
-        '#type' => 'submit',
-        '#value' => t('Import'),
-        '#submit' => array('::configPagesImportValues'),
-      ];
+        $form['other_context']['submit'] = [
+          '#type' => 'submit',
+          '#value' => t('Import'),
+          '#submit' => array('::configPagesImportValues'),
+        ];
+      }
     }
-    return parent::form($form, $form_state, $config_pages);
+
+    $form['reset'] = [
+      '#type' => 'submit',
+      '#value' => t('Clear values'),
+      '#submit' => array('::configPagesClearValues'),
+      '#button_type' => "submit",
+
+    ];
+    return $form;
+  }
+
+  /**
+   * Form submit.
+   * Clear field values submit callback.
+   */
+  public function configPagesClearValues(array $form, FormStateInterface $form_state) {
+
+    $entity = $this->entity;
+    $fields = $entity->getFieldDefinitions();
+    foreach ($fields as $name => $field) {
+      if ($field instanceof FieldConfigInterface) {
+        $entity->set($name, '');
+      }
+    }
+    $entity->save();
   }
 
   /**
@@ -170,7 +202,7 @@ class ConfigPagesForm extends ContentEntityForm {
    * Import other context submit callback.
    */
   public function configPagesImportValues(array $form, FormStateInterface $form_state) {
-
+dpm($form_state);
     $entity = $this->entity;
 
     if ($imported_entity_id = $form_state->getValue('other_context')['list']) {
@@ -191,7 +223,7 @@ class ConfigPagesForm extends ContentEntityForm {
    * {@inheritdoc}
    */
   public function save(array $form, FormStateInterface $form_state) {
-
+    dpm($form);
     $config_pages = $this->entity;
 
     $types = ConfigPagesType::getTypes();
