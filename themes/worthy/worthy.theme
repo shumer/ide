@@ -79,6 +79,9 @@ function worthy_preprocess_paragraph(&$variables) {
   $dispatcher->dispatch();
 }
 
+/**
+ * Override template_preprocess_node.
+ */
 function worthy_preprocess_node(&$variables) {
   $preprocessor = new \Drupal\ide_themer\Preprocessor\NodePreprocessor($variables);
   $dispatcher = new \Drupal\ide_themer\Dispatcher\Dispatcher($preprocessor);
@@ -104,5 +107,8 @@ function worthy_preprocess_block(&$variables) {
 function worthy_theme_suggestions_page_alter(array &$suggestions, array $variables) {
   if ($node = \Drupal::routeMatch()->getParameter('node')) {
     $suggestions[] = 'page__node__' . $node->getType();
+  }
+  if ($term = \Drupal::routeMatch()->getParameter('taxonomy_term')) {
+    $suggestions[] = 'page__term__' . $term->getVocabularyId();
   }
 }
