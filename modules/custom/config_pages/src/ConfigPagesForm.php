@@ -133,12 +133,12 @@ class ConfigPagesForm extends ContentEntityForm {
     // names.
     $form['#attributes']['class'][0] = 'config-page-' . Html::getClass($config_pages->bundle()) . '-form';
 
-
-
+    // Add context import fieldset if any CP exists at this moment.
     if (!$this->entity->get('context')->isEmpty()) {
       $options = [];
       foreach ($list as $id => $item) {
 
+        // Build options list.
         if ($config_pages->id() != $id) {
           $value = $item->get('context')->first()->getValue();
           $params = unserialize($value['value']);
@@ -151,6 +151,8 @@ class ConfigPagesForm extends ContentEntityForm {
           $options[$id] = $string;
         }
       }
+
+      // Show form if any data available.
       if (!empty($options)) {
         $form['other_context'] = [
           '#type' => 'details',
@@ -202,7 +204,6 @@ class ConfigPagesForm extends ContentEntityForm {
    * Import other context submit callback.
    */
   public function configPagesImportValues(array $form, FormStateInterface $form_state) {
-dpm($form_state);
     $entity = $this->entity;
 
     if ($imported_entity_id = $form_state->getValue('other_context')['list']) {
@@ -223,7 +224,6 @@ dpm($form_state);
    * {@inheritdoc}
    */
   public function save(array $form, FormStateInterface $form_state) {
-    dpm($form);
     $config_pages = $this->entity;
 
     $types = ConfigPagesType::getTypes();
