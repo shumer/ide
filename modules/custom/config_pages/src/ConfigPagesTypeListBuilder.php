@@ -35,7 +35,8 @@ class ConfigPagesTypeListBuilder extends ConfigEntityListBuilder {
    * {@inheritdoc}
    */
   public function buildHeader() {
-    $header['type'] = t('Config page type');
+    $header['type'] = t('Typeype');
+    $header['context'] = t('Context');
     return $header + parent::buildHeader();
   }
 
@@ -44,6 +45,18 @@ class ConfigPagesTypeListBuilder extends ConfigEntityListBuilder {
    */
   public function buildRow(EntityInterface $entity) {
     $row['type'] = $entity->link();
+
+    // Used context.
+    if (!empty($entity->context['group'])) {
+      foreach ($entity->context['group'] as $context_id => $context_enabled) {
+        if ($context_enabled) {
+          $item = \Drupal::service('plugin.manager.config_pages_context')->getDefinition($context_id);
+          $context_value = $item['label'];
+          $contextData[] = $context_value;
+        }
+      }
+    }
+    $row['context'] = implode(', ', $contextData);
     return $row + parent::buildRow($entity);
   }
 

@@ -4,23 +4,59 @@
  * Module hooks.
  */
 
-// Define const for ConfigPage entity type.
-const CONFIG_PAGES_ENTITY_TYPE = 'config_pages_type';
-
 use Drupal\config_pages\Entity\ConfigPages;
+use Drupal\config_pages\Entity\ConfigPagesType;
 
 /**
- * @param \Drupal\Core\Entity\EntityInterface $entity
+ * @param string $type
+ *  config_page type to get context.
  *
- * Implements hook_entity_insert
+ * @return array
+ *  Return current context based on groups.
  */
-function config_pages_entity_insert(\Drupal\Core\Entity\EntityInterface $entity) {
-  if (CONFIG_PAGES_ENTITY_TYPE == $entity->getEntityTypeId()) {
-    $config_page = ConfigPages::create([
-      'id' => NULL,
-      'type' => $entity->id(),
-      'label' => $entity->label(),
-      'context' => 'context',
-    ])->save();
+function config_pages_context_get($type) {
+  $context = [];
+
+  $type = ConfigPagesType::load($type);
+
+  if (!$type) {
+    return $context;
+  }
+
+  $context = $type->getContextData();
+
+  return $context;
+}
+
+/**
+ *
+ * Helper function.
+ * Returns config page entity.
+ *
+ * @param string $type
+ *   Config page type to load.
+ *
+ * @param string $context
+ *   Context which should be used to load entity,
+ *
+ * @retun \Drupal\config_pages\Entity\ConfigPages.
+ */
+function config_pages_config($type, $context = NULL) {
+  $config_page = ConfigPages::config($type, $context);
+  return $config_page;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter.
+ */
+function config_pages_form_field_storage_config_edit_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+
+  // Config pages is a specific type of entity so we want to remove it from select.
+  $element = &$form['settings']['target_type'];
+
+  // Category title.
+  $category = t('Content', array(), array('context' => 'Entity type group'));
+  if (isset($element['#options'][$category]['config_pages'])) {
+    unset($element['#options'][$category]['config_pages']);
   }
 }

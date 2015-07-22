@@ -26,4 +26,15 @@ class SiteCommonNode {
     return $node;
   }
 
+  /**
+   *  Delete node by bundle.
+   */
+  public static function deleteAllByType($type = '') {
+    if(!$type) {
+      return;
+    }
+
+    SiteCommonEntity::deleteAllByType('node', $type);
+  }
+
 }

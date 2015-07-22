@@ -15,14 +15,18 @@ worthy:
       fonts/font-awesome/css/font-awesome.css: {}
       css/animations.css: {}
       css/style.css: {}
+      css/monokai_sublime.css: {}
   js:
     plugins/modernizr.js: {}
     plugins/isotope/isotope.pkgd.min.js: {}
     plugins/jquery.backstretch.min.js: {}
     plugins/jquery.appear.js: {}
     js/template.js: {}
+    js/highlight.pack.js: {}
   dependencies:
     - core/jquery
+  stylesheets-remove:
+    - system.theme.css
 
 custom:
   version: 1.01

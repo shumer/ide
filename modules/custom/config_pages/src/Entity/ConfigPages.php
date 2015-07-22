@@ -14,6 +14,8 @@ use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\config_pages\ConfigPagesInterface;
 
+use Drupal\Core\Url;
+
 /**
  * Defines the config page entity class.
  *
@@ -52,13 +54,8 @@ use Drupal\config_pages\ConfigPagesInterface;
  *   },
  *   bundle_entity_type = "config_pages_type",
  *   field_ui_base_route = "entity.config_pages_type.edit_form",
- *   render_cache = FALSE,
+ *   render_cache = TRUE,
  * )
- *
- * Note that render caching of config_pages entities is disabled because they
- * are always rendered as config pages, and config pages already have their own render
- * caching.
- * See https://www.drupal.org/node/2284917#comment-9132521 for more information.
  */
 class ConfigPages extends ContentEntityBase implements ConfigPagesInterface {
 
@@ -168,10 +165,49 @@ class ConfigPages extends ContentEntityBase implements ConfigPagesInterface {
     return $this;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public static function create(array $values = []) {
     return \Drupal::entityManager()
       ->getStorage('config_pages')
       ->create($values);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function config($type, $context = NULL) {
+
+    // Build conditions.
+    if (!empty($type)) {
+      $conditions['type'] = $type;
+
+      // Get current context if NULL.
+      if ($context == NULL) {
+        $conditions['context'] = config_pages_context_get($type);
+      }
+      else {
+        $conditions['context'] = $context;
+      }
+
+      $list = \Drupal::entityManager()
+        ->getStorage('config_pages')
+        ->loadByProperties($conditions);
+    }
+
+    return $list ? current($list) : NULL;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function urlInfo($rel = 'canonical', array $options = []) {
+    $config_pages_type = ConfigPagesType::load($this->bundle());
+    $menu = $config_pages_type->get('menu');
+    $path = isset($menu['path']) ? $menu['path'] : '';
+
+    return $path ? Url::fromUserInput($path) : Url::fromRoute('entity.config_pages.canonical', $this->id());
   }
 
 }

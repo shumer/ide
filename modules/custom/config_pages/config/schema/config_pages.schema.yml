@@ -10,6 +10,3 @@ config_pages.type.*:
     label:
       type: label
       label: 'Label'
-    description:
-      type: text
-      label: 'Description'

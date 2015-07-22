@@ -5,6 +5,8 @@
  */
 
 namespace Drupal\config_pages\Routing;
+
+use Drupal\config_pages\Entity\ConfigPagesType;
 use Symfony\Component\Routing\Route;
 
 /**
@@ -17,23 +19,30 @@ class ConfigPagesRoutes {
    */
   public function routes() {
     $routes = array();
-    // Declares a single route under the name 'example.content'.
-    // Returns an array of Route objects.
-    $routes['config_pages.test_content'] = new Route(
-      // Path to attach this route to:
-      '/admin/content/config_page/{config_pages_type}',
-      // Route defaults:
-      array(
-        '_controller' => '\Drupal\config_pages\Controller\ConfigPagesController::addForm',
-        '_title' => 'Hello'
-      ),
-      // Route requirements:
-      array(
-        '_permission'  => 'access content',
-      )
-    );
+
+    // Declare dinamic routes for config pages entities.
+    $types = ConfigPagesType::loadMultiple();
+    foreach ($types as $cp_type) {
+      $bundle = $cp_type->id();
+      $label = $cp_type->get('label');
+      $menu = $cp_type->get('menu');
+      $path = isset($menu['path']) ? $menu['path'] : '';
+
+      if (!$path) {
+        continue;
+      }
+      $routes['config_pages.test_content'] = new Route(
+        $path,
+        array(
+          '_controller' => '\Drupal\config_pages\Controller\ConfigPagesController::classInit',
+          '_title' => "Edit config page $label",
+          'config_pages_type' => $bundle,
+        ),
+        array(
+          '_permission'  => 'edit config_pages entity',
+        )
+      );
+    }
     return $routes;
   }
-
 }
-?>

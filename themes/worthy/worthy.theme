@@ -30,11 +30,22 @@ function worthy_preprocess_page(&$variables) {
 /**
  * Override template_preprocess_input.
  */
+function worthy_preprocess_textarea(&$variables) {
+  $element = &$variables['element'];
+  $variables['attributes']['class'][] = 'form-control';
+}
+
+/**
+ * Override template_preprocess_input.
+ */
 function worthy_preprocess_input(&$variables) {
   $element = &$variables['element'];
   if ($element['#type'] == 'submit') {
-    $variables['attributes']['class'][] = 'btn';
+    $variables['attributes']['class'] = ['btn'];
     $variables['attributes']['class'][] = 'btn-default';
+  }
+  else {
+    $variables['attributes']['class'][] = 'form-control';
   }
 }
 
@@ -80,8 +91,35 @@ function worthy_preprocess_paragraph(&$variables) {
 }
 
 /**
+ * Override template_preprocess_node.
+ */
+function worthy_preprocess_node(&$variables) {
+  $preprocessor = new \Drupal\ide_themer\Preprocessor\NodePreprocessor($variables);
+  $dispatcher = new \Drupal\ide_themer\Dispatcher\Dispatcher($preprocessor);
+  $dispatcher->dispatch();
+}
+
+/**
  * Override template_preprocess_html.
  */
 function worthy_preprocess_block(&$variables) {
+  $preprocessor = new \Drupal\ide_themer\Preprocessor\BlockPreprocessor($variables);
+  $preprocessor->preprocess();
+  /*
+  $preprocessor = new \Drupal\ide_themer\Preprocessor\BlockPreprocessor($variables);
+  $dispatcher = new \Drupal\ide_themer\Dispatcher\Dispatcher($preprocessor);
+  $dispatcher->dispatch();
+  */
+}
 
+/**
+ * Implements hook_theme_suggestions_HOOK().
+ */
+function worthy_theme_suggestions_page_alter(array &$suggestions, array $variables) {
+  if ($node = \Drupal::routeMatch()->getParameter('node')) {
+    $suggestions[] = 'page__node__' . $node->getType();
+  }
+  if ($term = \Drupal::routeMatch()->getParameter('taxonomy_term')) {
+    $suggestions[] = 'page__term__' . $term->getVocabularyId();
+  }
 }

@@ -8,12 +8,18 @@
 namespace Drupal\config_pages;
 
 use Drupal\Component\Utility\Html;
+use Drupal\config_pages\Entity\ConfigPages;
+use Drupal\config_pages\Entity\ConfigPagesType;
 use Drupal\Core\Entity\ContentEntityForm;
 use Drupal\Core\Entity\EntityManagerInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Field\FieldConfigInterface;
+use Drupal\Core\Url;
 
 /**
  * Form controller for the custom config page edit forms.
@@ -99,8 +105,26 @@ class ConfigPagesForm extends ContentEntityForm {
    * {@inheritdoc}
    */
   public function form(array $form, FormStateInterface $form_state) {
+
     $config_pages = $this->entity;
     $account = $this->currentUser();
+    $config_pages_type = $this->ConfigPagesTypeStorage->load($config_pages->bundle());
+
+    $form = parent::form($form, $form_state, $config_pages);
+
+    $conditions['type'] = $config_pages->bundle();
+
+    $list = \Drupal::entityManager()
+      ->getStorage('config_pages')
+      ->loadByProperties($conditions);
+
+    // Show context message.
+    if (!empty($config_pages->context) && empty($_POST)) {
+      $label = $config_pages_type->getContextLabel();
+      drupal_set_message($this->t('Please note that this Page is context sensitive, current context is %label', array(
+        '%label' => $label,
+      )), 'warning');
+    }
 
     if ($this->operation == 'edit') {
       $form['#title'] = $this->t('Edit custom config page %label', array('%label' => $config_pages->label()));
@@ -110,7 +134,84 @@ class ConfigPagesForm extends ContentEntityForm {
     // names.
     $form['#attributes']['class'][0] = 'config-page-' . Html::getClass($config_pages->bundle()) . '-form';
 
-    return parent::form($form, $form_state, $config_pages);
+    // Add context import fieldset if any CP exists at this moment.
+    if (!$this->entity->get('context')->isEmpty()) {
+      $options = [];
+      foreach ($list as $id => $item) {
+
+        // Build options list.
+        if ($config_pages->id() != $id) {
+          $value = $item->get('context')->first()->getValue();
+          $params = unserialize($value['value']);
+          $params = array_shift($params);
+          $string = '';
+          foreach ($params as $name => $val) {
+            $string .= $name . ' - ' . $val . ';';
+          }
+
+          $options[$id] = $string;
+        }
+      }
+
+      // Show form if any data available.
+      if (!empty($options)) {
+        $form['other_context'] = [
+          '#type' => 'details',
+          '#tree' => TRUE,
+          '#title' => t('Import'),
+        ];
+
+        $form['other_context']['list'] = [
+          '#type' => 'select',
+          '#options' => $options,
+        ];
+
+        $form['other_context']['submit'] = [
+          '#type' => 'submit',
+          '#value' => t('Import'),
+          '#prefix' => '<div class="imort-form-actions">',
+          '#suffix' => '</div>',
+          '#submit' => array('::configPagesImportValues'),
+        ];
+      }
+    }
+
+    return $form;
+  }
+
+  /**
+   * Form submit.
+   * Clear field values submit callback.
+   */
+  public function configPagesClearValues(array $form, FormStateInterface $form_state) {
+
+    $entity = $this->entity;
+
+    $form_state->setRedirectUrl(Url::fromRoute('entity.config_pages.clear_confirmation', array('config_pages' => $entity->id())));
+
+  }
+
+  /**
+   * Form submit.
+   * Import other context submit callback.
+   */
+  public function configPagesImportValues(array $form, FormStateInterface $form_state) {
+    $entity = $this->entity;
+
+    if ($imported_entity_id = $form_state->getValue('other_context')['list']) {
+      $entityStorage = \Drupal::entityManager()->getStorage('config_pages');
+      $imported_entity = $entityStorage->load($imported_entity_id);
+
+      foreach ($entity as $name => &$value) {
+
+        // Process only fields added from BO.
+        if ($value->getFieldDefinition() instanceof FieldConfigInterface) {
+          $entity->set($name, $imported_entity->get($name)->getValue());
+        }
+      }
+
+      $entity->save();
+    }
   }
 
   /**
@@ -118,6 +219,14 @@ class ConfigPagesForm extends ContentEntityForm {
    */
   public function save(array $form, FormStateInterface $form_state) {
     $config_pages = $this->entity;
+
+    $type = ConfigPagesType::load($config_pages->bundle());
+
+    if(!$config_pages->label()) {
+      $config_pages->setLabel($type->label());
+    }
+
+    $config_pages->context = $type->getContextData();
 
     // Save as a new revision if requested to do so.
     if (!$form_state->isValueEmpty('revision')) {
@@ -143,21 +252,6 @@ class ConfigPagesForm extends ContentEntityForm {
     if ($config_pages->id()) {
       $form_state->setValue('id', $config_pages->id());
       $form_state->set('id', $config_pages->id());
-      if ($insert) {
-        if (!$theme = $config_pages->getTheme()) {
-          $theme = $this->config('system.theme')->get('default');
-        }
-        $form_state->setRedirect(
-          'entity.config_pages.edit_form',
-          array(
-            'plugin_id' => 'config_pages:' . $config_pages->uuid(),
-            'theme' => $theme,
-          )
-        );
-      }
-      else {
-        $form_state->setRedirectUrl($config_pages->urlInfo('collection'));
-      }
     }
     else {
       // In the unlikely case something went wrong on save, the config page will be
@@ -168,17 +262,29 @@ class ConfigPagesForm extends ContentEntityForm {
   }
 
   /**
-   * {@inheritdoc}
+   * Returns an array of supported actions for the current entity form.
+   *
+   * @todo Consider introducing a 'preview' action here, since it is used by
+   *   many entity types.
    */
-  public function validateForm(array &$form, FormStateInterface $form_state) {
-    if ($this->entity->isNew()) {
-      $exists = $this->ConfigPagesStorage->loadByProperties(array('label' => $form_state->getValue(['label', 0, 'value'])));
-      if (!empty($exists)) {
-        $form_state->setErrorByName('label', $this->t('A config page with description %name already exists.', array(
-          '%name' => $form_state->getValue(array('label', 0, 'value')),
-        )));
-      }
-    }
-  }
+  protected function actions(array $form, FormStateInterface $form_state) {
 
+    // Save ConfigPage entity.
+    $actions['submit'] = array(
+      '#type' => 'submit',
+      '#value' => $this->t('Save'),
+      '#validate' => array('::validate'),
+      '#submit' => array('::submitForm', '::save'),
+    );
+
+    // Add button to reset values.
+    $actions['reset'] = array(
+      '#type' => 'submit',
+      '#value' => t('Clear values'),
+      '#submit' => array('::configPagesClearValues'),
+      '#button_type' => "submit",
+    );
+
+    return $actions;
+  }
 }

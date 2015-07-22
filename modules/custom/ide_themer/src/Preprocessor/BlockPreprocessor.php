@@ -2,38 +2,41 @@
 namespace Drupal\ide_themer\Preprocessor;
 
 
-class BlockPreprocessor implements PreprocessorInterface{
+class BlockPreprocessor {
 
-  const ENTITY_TYPE = 'paragraph';
+  const ENTITY_TYPE = 'block';
 
-  protected $block;
   public $content;
-  public $viewMode;
   public $_data;
+  public $elements;
 
   public function __construct(&$variables) {
 
-    $this->block = &$variables['block'];
+    $this->elements = &$variables['elements'];
     $this->content = &$variables['content'];
-    $this->viewMode = &$variables['view_mode'];
     $this->_data = &$variables['_data'];
 
   }
 
-  public function getEntity() {
-    return $this->block;
+
+  public function preprocess() {
+    $method = 'preprocess_block__' . $this->elements['#id'];
+    if (method_exists($this, $method)) {
+      $this->{$method}();
+    }
   }
 
-  public function getEntityType( ){
-    return self::ENTITY_TYPE;
-  }
+  public function preprocess_block__views_block__site_list_portfolio_item_portfolio_block() {
 
-  public function getEntityBundle() {
-    return self::ENTITY_TYPE;
-  }
+    $types = [];
+    $results = views_get_view_result('site_query_project_types_with_content');
+    foreach($results as $item) {
+      $type['name'] = $item->_entity->getName();
+      $type['id'] = $item->_entity->id();
 
-  public function preprocess_block__worthyservices__default() {
-
+      $types[] = $type;
+    }
+    $this->_data['types'] = $types;
   }
 
 } 

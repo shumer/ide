@@ -1,15 +1,15 @@
-view ConfigPages entity:
+view config_pages entity:
   title: 'View ConfigPages entity'
   description: 'Allow view my ConfigPages'
 
-edit ConfigPages entity:
+edit config_pages entity:
   title: 'Edit ConfigPages entity'
   description: 'Allow edit my ConfigPages'
 
-delete ConfigPages entity:
+delete config_pages entity:
   title: 'Delete ConfigPages entity'
   description: 'Allow delete my ConfigPages'
 
-administer ConfigPages entity:
-  title: 'Adminster ConfigPages entity'
-  description: 'Allow administer my ConfigPages'
+administer config_pages types:
+  title: 'Administer Config Pages'
+  description: 'Create and delete fields for Config Pages.'
