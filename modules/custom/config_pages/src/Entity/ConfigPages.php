@@ -14,6 +14,8 @@ use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\config_pages\ConfigPagesInterface;
 
+use Drupal\Core\Url;
+
 /**
  * Defines the config page entity class.
  *
@@ -196,4 +198,16 @@ class ConfigPages extends ContentEntityBase implements ConfigPagesInterface {
 
     return $list ? current($list) : NULL;
   }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function urlInfo($rel = 'canonical', array $options = []) {
+    $config_pages_type = ConfigPagesType::load($this->bundle());
+    $menu = $config_pages_type->get('menu');
+    $path = isset($menu['path']) ? $menu['path'] : '';
+
+    return $path ? Url::fromUserInput($path) : Url::fromRoute('entity.config_pages.canonical', $this->id());
+  }
+
 }

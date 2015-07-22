@@ -30,11 +30,22 @@ function worthy_preprocess_page(&$variables) {
 /**
  * Override template_preprocess_input.
  */
+function worthy_preprocess_textarea(&$variables) {
+  $element = &$variables['element'];
+  $variables['attributes']['class'][] = 'form-control';
+}
+
+/**
+ * Override template_preprocess_input.
+ */
 function worthy_preprocess_input(&$variables) {
   $element = &$variables['element'];
   if ($element['#type'] == 'submit') {
-    $variables['attributes']['class'][] = 'btn';
+    $variables['attributes']['class'] = ['btn'];
     $variables['attributes']['class'][] = 'btn-default';
+  }
+  else {
+    $variables['attributes']['class'][] = 'form-control';
   }
 }
 

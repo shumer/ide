@@ -73,3 +73,11 @@ entity.config_pages.collection:
 
 route_callbacks:
   - '\Drupal\config_pages\Routing\ConfigPagesRoutes::routes'
+
+entity.config_pages.clear_confirmation:
+  path: '/admin/structure/config_pages/confirmPurge/{config_pages}'
+  defaults:
+    _controller: '\Drupal\config_pages\Controller\ConfigPagesController::clearConfirmation'
+    _title: 'Purge all config page values'
+  requirements:
+    _permission: 'administer config_pages entity'

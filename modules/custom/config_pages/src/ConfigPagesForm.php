@@ -19,6 +19,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Field\FieldConfigInterface;
+use Drupal\Core\Url;
 
 /**
  * Form controller for the custom config page edit forms.
@@ -185,13 +186,9 @@ class ConfigPagesForm extends ContentEntityForm {
   public function configPagesClearValues(array $form, FormStateInterface $form_state) {
 
     $entity = $this->entity;
-    $fields = $entity->getFieldDefinitions();
-    foreach ($fields as $name => $field) {
-      if ($field instanceof FieldConfigInterface) {
-        $entity->set($name, '');
-      }
-    }
-    $entity->save();
+
+    $form_state->setRedirectUrl(Url::fromRoute('entity.config_pages.clear_confirmation', array('config_pages' => $entity->id())));
+
   }
 
   /**
@@ -206,7 +203,9 @@ class ConfigPagesForm extends ContentEntityForm {
       $imported_entity = $entityStorage->load($imported_entity_id);
 
       foreach ($entity as $name => &$value) {
-        if ($entity->get($name)->isEmpty()) {
+
+        // Process only fields added from BO.
+        if ($value->getFieldDefinition() instanceof FieldConfigInterface) {
           $entity->set($name, $imported_entity->get($name)->getValue());
         }
       }
@@ -221,9 +220,7 @@ class ConfigPagesForm extends ContentEntityForm {
   public function save(array $form, FormStateInterface $form_state) {
     $config_pages = $this->entity;
 
-    $types = ConfigPagesType::loadMultiple();
-
-    $type = $types[$config_pages->bundle()];
+    $type = ConfigPagesType::load($config_pages->bundle());
 
     if(!$config_pages->label()) {
       $config_pages->setLabel($type->label());

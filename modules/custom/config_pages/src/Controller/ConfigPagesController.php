@@ -17,6 +17,8 @@ use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Drupal\config_pages\Entity\ConfigPagesType;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ConfigPagesController extends ControllerBase {
 
@@ -113,15 +115,13 @@ class ConfigPagesController extends ControllerBase {
    */
   public function classInit($config_pages_type = '') {
 
-    $contextData = '';
+    $typeEntity = ConfigPagesType::load($config_pages_type);
 
-    $types = ConfigPagesType::loadMultiple();
-
-    $contexts = [];
-    if (!empty($types[$config_pages_type])) {
-      $typeEntity = $types[$config_pages_type];
-      $contextData = $typeEntity->getContextData();
+    if (empty($typeEntity)) {
+      throw new NotFoundHttpException;
     }
+
+    $contextData = $typeEntity->getContextData();
 
     $config_page_ids = \Drupal::entityQuery('config_pages')->condition('context', $contextData)->execute();
 
@@ -137,4 +137,15 @@ class ConfigPagesController extends ControllerBase {
     }
     return $this->entityFormBuilder()->getForm($config_page);
   }
+
+  /**
+   * Presents the config page confiramtion form.
+   *
+   * @return array
+   *   A form array as expected by drupal_render().
+   */
+  public function clearConfirmation($config_pages) {
+    return \Drupal::formBuilder()->getForm('Drupal\config_pages\Form\ConfigPagesClearConfirmationForm', $config_pages);
+  }
+
 }
