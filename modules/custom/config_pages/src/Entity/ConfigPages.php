@@ -27,7 +27,7 @@ use Drupal\Core\Url;
  *     "storage" = "Drupal\Core\Entity\Sql\SqlContentEntityStorage",
  *     "access" = "Drupal\config_pages\ConfigPagesAccessControlHandler",
  *     "list_builder" = "Drupal\config_pages\ConfigPagesListBuilder",
- *     "view_builder" = "Drupal\config_pages\ConfigPagesViewBuilder",
+ *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
  *     "views_data" = "Drupal\config_pages\ConfigPagesViewsData",
  *     "form" = {
  *       "add" = "Drupal\config_pages\ConfigPagesForm",
