@@ -3,7 +3,9 @@
  * @File
  * Worthy theme hooks.
  */
-
+use Drupal\Core\Url;
+use Drupal\Component\Utility\UrlHelper;
+use Drupal\Core\Render\Element;
 /**
  * Override template_preprocess_html.
  */
@@ -33,6 +35,7 @@ function worthy_preprocess_page(&$variables) {
 function worthy_preprocess_textarea(&$variables) {
   $element = &$variables['element'];
   $variables['attributes']['class'][] = 'form-control';
+  $variables['appendix'] = $element['#_appendix'];
 }
 
 /**
@@ -69,11 +72,10 @@ function worthy_theme($existing, $type, $theme, $path) {
   $hooks['worthy_form'] = array(
     'render element' => 'element',
     'path' => $theme_path . '/templates/form',
-    'template' => 'worthy-form',
+/*      'template' => 'worthy-form',
     'preprocess functions' => array(
-      'template_preprocess',
-      'template_preprocess_form'
-    ),
+      'worthy_preprocess_worthy_form',
+    ),*/
   );
 
   $hooks += drupal_find_theme_templates($hooks, '.html.twig', $path);
@@ -122,4 +124,25 @@ function worthy_theme_suggestions_page_alter(array &$suggestions, array $variabl
   if ($term = \Drupal::routeMatch()->getParameter('taxonomy_term')) {
     $suggestions[] = 'page__term__' . $term->getVocabularyId();
   }
+}
+function worthy_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  $form['#theme'][] = 'worthy_form';
+  dpm($form, 'form');
+}
+/**
+ * Preprocess togo_form, threat forms like enteties.
+ */
+function worthy_preprocess_worthy_form(&$variables) {
+  $element = &$variables['element'];
+  if (isset($element['#action'])) {
+    $element['#attributes']['action'] = UrlHelper::stripDangerousProtocols($element['#action']);
+  }
+  Element::setAttributes($element, array('method', 'id'));
+  if (empty($element['#attributes']['accept-charset'])) {
+    $element['#attributes']['accept-charset'] = "UTF-8";
+  }
+
+  $element['message']['widget'][0]['value']['#_appendix'] = '<i class="fa fa-pencil form-control-feedback"></i>';
+  $variables['attributes'] = $element['#attributes'];
+  $variables['children'] = drupal_render_children($element);
 }
