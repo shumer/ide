@@ -34,8 +34,9 @@ class ConfigPagesBlock extends BlockBase implements BlockPluginInterface {
 
     if (!empty($config['config_page_type'])) {
       $config_page = ConfigPages::config($config['config_page_type']);
+      $view_mode = $config['config_page_view_mode'];
       $build = \Drupal::entityManager()->getViewBuilder('config_pages')
-        ->view($config_page, 'full', NULL);
+        ->view($config_page, $view_mode, NULL);
       return $build;
     }
 
@@ -47,10 +48,6 @@ class ConfigPagesBlock extends BlockBase implements BlockPluginInterface {
    */
   public function defaultConfiguration() {
     $settings = parent::defaultConfiguration();
-
-    if ($this->displaySet) {
-      $settings += $this->view->display_handler->blockSettings($settings);
-    }
 
     // Set custom cache settings.
     if (isset($this->pluginDefinition['cache'])) {
@@ -73,21 +70,34 @@ class ConfigPagesBlock extends BlockBase implements BlockPluginInterface {
   public function blockForm($form, FormStateInterface $form_state) {
     $form = parent::blockForm($form, $form_state);
 
+    // Get all available ConfigPages types and prepare options list.
     $config = $this->getConfiguration();
     $config_pages_types = ConfigPagesType::loadMultiple();
-    $options = array();
+    $options = [];
     foreach ($config_pages_types as $cp_type) {
       $id = $cp_type->id();
       $label = $cp_type->label();
       $options[$id] = $label;
     }
-    $form['config_page_type'] = array (
+    $form['config_page_type'] = [
       '#type' => 'select',
       '#title' => $this->t('Select ConfigPage type to show'),
-      '#description' => $this->t('Text to show in banner on front page.'),
       '#options' => $options,
       '#default_value' => isset($config['config_page_type']) ? $config['config_page_type'] : ''
-    );
+    ];
+
+    $view_modes = \Drupal::entityManager()->getViewModes('config_pages');
+    $options = [];
+    foreach ($view_modes as $id => $view_mode) {
+      $options[$id] = $view_mode['label'];
+    }
+    // Get view modes.
+    $form['config_page_view_mode'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Select view mode for ConfigPage to show'),
+      '#options' => $options,
+      '#default_value' => isset($config['config_page_view_mode']) ? $config['config_page_view_mode'] : ''
+    ];
 
     return $form;
   }
@@ -98,6 +108,7 @@ class ConfigPagesBlock extends BlockBase implements BlockPluginInterface {
    */
   public function blockSubmit($form, FormStateInterface $form_state) {
     $this->setConfigurationValue('config_page_type', $form_state->getValue('config_page_type'));
+    $this->setConfigurationValue('config_page_view_mode', $form_state->getValue('config_page_view_mode'));
   }
 
 }
