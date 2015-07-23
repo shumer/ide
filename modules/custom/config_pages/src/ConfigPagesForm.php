@@ -235,10 +235,10 @@ class ConfigPagesForm extends ContentEntityForm {
 
     $insert = $config_pages->isNew();
     $config_pages->save();
-    $context = array('@type' => $config_pages->bundle(), '%info' => $config_pages->label());
+    $context = ['@type' => $config_pages->bundle(), '%info' => $config_pages->label()];
     $logger = $this->logger('config_pages');
     $config_pages_type = $this->ConfigPagesTypeStorage->load($config_pages->bundle());
-    $t_args = array('@type' => $config_pages_type->label(), '%info' => $config_pages->label());
+    $t_args = ['@type' => $config_pages_type->label(), '%info' => $config_pages->label()];
 
     if ($insert) {
       $logger->notice('@type: added %info.', $context);
@@ -270,20 +270,20 @@ class ConfigPagesForm extends ContentEntityForm {
   protected function actions(array $form, FormStateInterface $form_state) {
 
     // Save ConfigPage entity.
-    $actions['submit'] = array(
+    $actions['submit'] = [
       '#type' => 'submit',
       '#value' => $this->t('Save'),
       '#validate' => array('::validate'),
       '#submit' => array('::submitForm', '::save'),
-    );
+    ];
 
     // Add button to reset values.
-    $actions['reset'] = array(
+    $actions['reset'] = [
       '#type' => 'submit',
       '#value' => t('Clear values'),
       '#submit' => array('::configPagesClearValues'),
       '#button_type' => "submit",
-    );
+    ];
 
     return $actions;
   }

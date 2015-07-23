@@ -55,7 +55,7 @@ function config_pages_form_field_storage_config_edit_form_alter(&$form, \Drupal\
   $element = &$form['settings']['target_type'];
 
   // Category title.
-  $category = t('Content', array(), array('context' => 'Entity type group'));
+  $category = t('Content', [], ['context' => 'Entity type group']);
   if (isset($element['#options'][$category]['config_pages'])) {
     unset($element['#options'][$category]['config_pages']);
   }

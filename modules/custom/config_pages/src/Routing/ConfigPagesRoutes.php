@@ -18,7 +18,7 @@ class ConfigPagesRoutes {
    * {@inheritdoc}
    */
   public function routes() {
-    $routes = array();
+    $routes = [];
 
     // Declare dinamic routes for config pages entities.
     $types = ConfigPagesType::loadMultiple();
@@ -31,16 +31,16 @@ class ConfigPagesRoutes {
       if (!$path) {
         continue;
       }
-      $routes['config_pages.test_content'] = new Route(
+      $routes['config_pages.' . $bundle] = new Route(
         $path,
-        array(
+        [
           '_controller' => '\Drupal\config_pages\Controller\ConfigPagesController::classInit',
           '_title' => "Edit config page $label",
           'config_pages_type' => $bundle,
-        ),
-        array(
+        ],
+        [
           '_permission'  => 'edit config_pages entity',
-        )
+        ]
       );
     }
     return $routes;

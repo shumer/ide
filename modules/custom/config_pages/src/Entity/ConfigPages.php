@@ -124,9 +124,9 @@ class ConfigPages extends ContentEntityBase implements ConfigPagesInterface {
       ->setDescription(t('A brief description of your config page.'))
       ->setRevisionable(FALSE)
       ->setTranslatable(FALSE)
-      ->setDisplayOptions('view', array(
+      ->setDisplayOptions('view', [
         'type' => 'hidden',
-      ))
+      ])
       ->setDisplayConfigurable('form', TRUE);
 
     $fields['type'] = BaseFieldDefinition::create('entity_reference')
@@ -206,7 +206,7 @@ class ConfigPages extends ContentEntityBase implements ConfigPagesInterface {
     $menu = $config_pages_type->get('menu');
     $path = isset($menu['path']) ? $menu['path'] : '';
 
-    return $path ? Url::fromUserInput($path) : Url::fromRoute('entity.config_pages.canonical', $this->id());
+    return $path ? Url::fromUserInput('/' . $path) : Url::fromRoute('entity.config_pages.canonical', ['config_pages' => $this->id()]);
   }
 
 }

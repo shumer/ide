@@ -36,31 +36,31 @@ class ConfigPagesTypeForm extends EntityForm {
     /* @var \Drupal\config_pages\ConfigPagesTypeInterface $config_pages_type */
     $config_pages_type = $this->entity;
 
-    $form['label'] = array(
+    $form['label'] = [
       '#type' => 'textfield',
       '#title' => t('Label'),
       '#maxlength' => 255,
       '#default_value' => $config_pages_type->label(),
       '#description' => t("Provide a label for this config page type to help identify it in the administration pages."),
       '#required' => TRUE,
-    );
-    $form['id'] = array(
+    ];
+    $form['id'] = [
       '#type' => 'machine_name',
       '#default_value' => $config_pages_type->id(),
-      '#machine_name' => array(
+      '#machine_name' => [
         'exists' => '\Drupal\config_pages\Entity\ConfigPagesType::load',
-      ),
+      ],
       '#maxlength' => EntityTypeInterface::BUNDLE_MAX_LENGTH,
       '#disabled' => !$config_pages_type->isNew(),
-    );
+    ];
 
-    $form['actions'] = array('#type' => 'actions');
-    $form['actions']['submit'] = array(
+    $form['actions'] = ['#type' => 'actions'];
+    $form['actions']['submit'] = [
       '#type' => 'submit',
       '#value' => t('Save'),
-    );
+    ];
 
-    $options = array();
+    $options = [];
     $items = \Drupal::service('plugin.manager.config_pages_context')->getDefinitions();
 
     foreach($items as $plugin_id => $item) {
@@ -68,35 +68,35 @@ class ConfigPagesTypeForm extends EntityForm {
     }
 
     // Menu.
-    $form['menu'] = array(
+    $form['menu'] = [
       '#type' => 'details',
       '#title' => t('Menu'),
       '#tree' => TRUE,
       '#open' => TRUE,
-    );
+    ];
 
-    $form['menu']['path'] = array(
+    $form['menu']['path'] = [
       '#type' => 'textfield',
       '#description' => t('Menu path which will be used for form display.'),
-      '#default_value' => !empty($config_pages_type->menu['path']) ? $config_pages_type->menu['path'] : array(),
+      '#default_value' => !empty($config_pages_type->menu['path']) ? $config_pages_type->menu['path'] : [],
       '#required' => FALSE,
-    );
+    ];
 
     // Context.
-    $form['context'] = array(
+    $form['context'] = [
       '#type' => 'details',
       '#title' => t('Context'),
       '#tree' => TRUE,
       '#open' => FALSE,
-    );
+    ];
 
-    $form['context']['group'] = array(
+    $form['context']['group'] = [
       '#type' => 'checkboxes',
       '#description' => t('Consider following context for this configuration'),
       '#options' => $options,
-      '#default_value' => !empty($config_pages_type->context['group']) ? $config_pages_type->context['group'] : array(),
+      '#default_value' => !empty($config_pages_type->context['group']) ? $config_pages_type->context['group'] : [],
       '#required' => FALSE,
-    );
+    ];
 
     return $form;
   }
@@ -139,12 +139,12 @@ class ConfigPagesTypeForm extends EntityForm {
     $edit_link = $this->entity->link($this->t('Edit'));
     $logger = $this->logger('config_pages');
     if ($status == SAVED_UPDATED) {
-      drupal_set_message(t('Custom config page type %label has been updated.', array('%label' => $config_pages_type->label())));
-      $logger->notice('Custom config page type %label has been updated.', array('%label' => $config_pages_type->label(), 'link' => $edit_link));
+      drupal_set_message(t('Custom config page type %label has been updated.', ['%label' => $config_pages_type->label()]));
+      $logger->notice('Custom config page type %label has been updated.', ['%label' => $config_pages_type->label(), 'link' => $edit_link]);
     }
     else {
-      drupal_set_message(t('Custom config page type %label has been added.', array('%label' => $config_pages_type->label())));
-      $logger->notice('Custom config page type %label has been added.', array('%label' => $config_pages_type->label(), 'link' => $edit_link));
+      drupal_set_message(t('Custom config page type %label has been added.', ['%label' => $config_pages_type->label()]));
+      $logger->notice('Custom config page type %label has been added.', ['%label' => $config_pages_type->label(), 'link' => $edit_link]);
     }
 
     // Check if we need to rebuild routes.

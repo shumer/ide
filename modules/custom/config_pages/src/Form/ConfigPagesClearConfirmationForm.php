@@ -26,7 +26,7 @@ class ConfigPagesClearConfirmationForm extends ConfirmFormBase{
    * {@inheritdoc}
    */
   public function getQuestion() {
-    return t('Do you want to delete %id?', array('%id' => $this->id));
+    return t('Do you want to delete %id?', ['%id' => $this->id]);
   }
 
   /**
