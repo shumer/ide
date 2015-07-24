@@ -72,10 +72,6 @@ function worthy_theme($existing, $type, $theme, $path) {
   $hooks['worthy_form'] = array(
     'render element' => 'element',
     'path' => $theme_path . '/templates/form',
-/*      'template' => 'worthy-form',
-    'preprocess functions' => array(
-      'worthy_preprocess_worthy_form',
-    ),*/
   );
 
   $hooks += drupal_find_theme_templates($hooks, '.html.twig', $path);
@@ -107,11 +103,6 @@ function worthy_preprocess_node(&$variables) {
 function worthy_preprocess_block(&$variables) {
   $preprocessor = new \Drupal\ide_themer\Preprocessor\BlockPreprocessor($variables);
   $preprocessor->preprocess();
-  /*
-  $preprocessor = new \Drupal\ide_themer\Preprocessor\BlockPreprocessor($variables);
-  $dispatcher = new \Drupal\ide_themer\Dispatcher\Dispatcher($preprocessor);
-  $dispatcher->dispatch();
-  */
 }
 
 /**
@@ -125,9 +116,12 @@ function worthy_theme_suggestions_page_alter(array &$suggestions, array $variabl
     $suggestions[] = 'page__term__' . $term->getVocabularyId();
   }
 }
+
+/**
+ * Implements hook_form_alter().
+ */
 function worthy_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
   $form['#theme'][] = 'worthy_form';
-  dpm($form, 'form');
 }
 /**
  * Preprocess togo_form, threat forms like enteties.
