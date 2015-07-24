@@ -55,7 +55,7 @@ function worthy_preprocess_input(&$variables) {
 /**
  * Implements hook_theme_suggestions_HOOK().
  */
-function worthy_theme_suggestions_form_alter(array &$suggestions, array $variables) {
+function worthy_theme_suggestions_worthy_form_alter(array &$suggestions, array $variables) {
   $form_id = $variables['element']['#form_id'];
   $suggestions[] = 'worthy_form';
   $suggestions[] = 'worthy_form__' . $form_id;
@@ -123,6 +123,7 @@ function worthy_theme_suggestions_page_alter(array &$suggestions, array $variabl
 function worthy_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
   $form['#theme'][] = 'worthy_form';
 }
+
 /**
  * Preprocess togo_form, threat forms like enteties.
  */
@@ -138,5 +139,6 @@ function worthy_preprocess_worthy_form(&$variables) {
 
   $element['message']['widget'][0]['value']['#_appendix'] = '<i class="fa fa-pencil form-control-feedback"></i>';
   $variables['attributes'] = $element['#attributes'];
-  $variables['children'] = drupal_render_children($element);
+
+  $variables['children'] = $element;
 }

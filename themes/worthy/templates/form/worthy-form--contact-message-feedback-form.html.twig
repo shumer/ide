@@ -12,6 +12,9 @@
  * @ingroup themeable
  */
 #}
-<form{{ attributes }} role="form">
-  {{ children }}
-</form>
+{{ children.subject }}
+{{ children.message }}
+{{ children.actions }}
+<div class="hidden">
+    {{ children|without('message', 'subject', 'actions')}}
+</div>
