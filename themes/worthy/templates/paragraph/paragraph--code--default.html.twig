@@ -3,4 +3,4 @@
  * @file
  */
 #}
-<pre><code class="{{ _data.class }}"><div></div>{{ content.field_paragraph_code|raw }}</code></pre>
+<pre><code class="{{ _data.class }}">{{ content.field_paragraph_code|trim|escape }}</code></pre>
