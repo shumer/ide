@@ -42,7 +42,8 @@
       {{ 'Skip to main content'|t }}
     </a>
     {{ page_top }}
-    {{ page }}
+    {% include "themes/worthy/templates/_partials/_header.html.twig" %}
+    {{ page|without('header', 'menu', 'footer') }}
     {{ page_bottom }}
     {{ scripts_bottom }}
   </body>

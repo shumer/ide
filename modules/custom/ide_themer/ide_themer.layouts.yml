@@ -1,0 +1,61 @@
+bootstrap_1col_frontpage:
+  label: 1 Column Frontpage Layout
+  category: Bootstrap
+  template: templates/bootstrap-1col-frontpage
+  regions:
+    top:
+      label: FP top
+    about:
+      label: FP About
+    feature1:
+      label: FP Feature 1
+    feature2:
+      label: FP Feature 2
+    feature3:
+      label: FP Feature 3
+    bottom:
+      label: FP Bottom
+
+bootstrap_2col_50x50:
+  label: 2 Column Layout 50x50
+  category: Bootstrap
+  template: templates/bootstrap-2col-50x50
+  regions:
+    top:
+      label: Top region
+    middle_right:
+      label: Middle right region
+    middle_left:
+      label: Middle left region
+    bottom:
+      label: Bottom region
+
+bootstrap_2col_66x33:
+  label: 2 Column Layout 66x33
+  category: Bootstrap
+  template: templates/bootstrap-2col-66x33
+  regions:
+    top:
+      label: Top region
+    middle_right:
+      label: Middle right region
+    middle_left:
+      label: Middle left region
+    bottom:
+      label: Bottom region
+
+bootstrap_3col:
+  label: 3 Column Layout
+  category: Bootstrap
+  template: templates/bootstrap-3col
+  regions:
+    top:
+      label: Top region
+    middle_right:
+      label: Middle right region
+    middle_center:
+      label: Middle center region
+    middle_left:
+      label: Middle left region
+    bottom:
+      label: Bottom region

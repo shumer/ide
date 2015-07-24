@@ -1,0 +1,33 @@
+<div class="scrollToTop">
+    <i class="icon-up-open-big"></i>
+</div>
+<header class="header fixed clearfix navbar navbar-fixed-top">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                {{ page.header }}
+            </div>
+            <div class="col-md-8">
+                <div class="header-right clearfix">
+                    <div class="main-navigation animated">
+                        <nav class="navbar navbar-default" role="navigation">
+                            <div class="container-fluid">
+                                <div class="navbar-header">
+                                    <button data-target="#navbar-collapse-1" data-toggle="collapse" class="navbar-toggle" type="button">
+                                        <span class="sr-only">Toggle navigation</span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </button>
+                                </div>
+                                <div id="navbar-collapse-1" class="collapse navbar-collapse scrollspy smooth-scroll">
+                                    {{ page.menu }}
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
